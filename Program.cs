@@ -1,6 +1,9 @@
-﻿using Microsoft.CSharp;
+﻿
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using System;
-using System.CodeDom.Compiler;
+using System.Linq;
+using System.Reflection;
 
 class LispMachine
 { 
@@ -17,13 +20,13 @@ class LispMachine
         }
         else
         {
-            CSharpCodeProvider codeProvider = new CSharpCodeProvider();
-            string fileName = "Out.exe"; //TODO: parse name from args
+            //CSharpCodeProvider codeProvider = new CSharpCodeProvider();
+            string fileName = "Out"; //TODO: parse name from args
 
-            System.CodeDom.Compiler.CompilerParameters parameters = new CompilerParameters();
+            //System.CodeDom.Compiler.CompilerParameters parameters = new CompilerParameters();
 
-            parameters.GenerateExecutable = true;
-            parameters.OutputAssembly = fileName;
+            //parameters.GenerateExecutable = true;
+            //parameters.OutputAssembly = fileName;
 
             string programText = @"
                 using System;
@@ -37,7 +40,7 @@ class LispMachine
                     }
                 }";
 
-            CompilerResults results = codeProvider.CompileAssemblyFromSource(parameters, programText);
+            /*CompilerResults results = codeProvider.CompileAssemblyFromSource(parameters, programText);
 
             if (results.Errors.Count > 0)
             {
@@ -46,7 +49,33 @@ class LispMachine
             }
 
             else
+                Console.WriteLine("Successfully compiled!");*/
+
+
+
+
+            var references = MetadataReference.CreateFromFile(typeof(object).GetTypeInfo().Assembly.Location);
+
+            Console.WriteLine(references.Display);
+
+            var compilation = CSharpCompilation.Create(fileName)
+                                .WithOptions(new CSharpCompilationOptions(OutputKind.ConsoleApplication))
+                                .AddReferences(references)
+                                .AddSyntaxTrees(CSharpSyntaxTree.ParseText(programText));
+            var compilationResult = compilation.Emit(fileName + ".exe");
+
+            if (compilationResult.Success)
+            {
                 Console.WriteLine("Successfully compiled!");
+            }
+            else
+            {
+                Console.Write(string.Join(
+                    Environment.NewLine,
+                    compilationResult.Diagnostics.Select(diagnostic => diagnostic.ToString())
+                ));
+            }
+
         }
 
         
