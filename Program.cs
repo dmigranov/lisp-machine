@@ -29,7 +29,9 @@ class LispMachine
 
             parameters.GenerateExecutable = true;
             parameters.OutputAssembly = fileName;
+            parameters.ReferencedAssemblies.Add(Assembly.GetEntryAssembly().Location);
 
+            //<TargetFramework>netcoreapp3.1</TargetFramework>
             string programText = @"
                 using System;
 
