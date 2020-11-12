@@ -31,11 +31,10 @@ class LispMachine
             parameters.OutputAssembly = fileName;
             parameters.ReferencedAssemblies.Add(Assembly.GetEntryAssembly().Location);
 
-            //<TargetFramework>netcoreapp3.1</TargetFramework>
             string programText = @"
                 using System;
 
-                class HelloWorldClass
+                class CompiledProgram
                 {
                     static void Main(string[] args)
                     {
@@ -48,7 +47,7 @@ class LispMachine
 
             if (results.Errors.Count > 0)
             {
-                Console.WriteLine("There were errors");
+                Console.WriteLine("There were errors:");
 
                 foreach (CompilerError CompErr in results.Errors)
                 {
@@ -59,8 +58,6 @@ class LispMachine
                     Console.WriteLine(errorText);
 
                 }
-
-                //https://docs.microsoft.com/en-us/troubleshoot/dotnet/csharp/compile-code-using-compiler
             }
 
             else
