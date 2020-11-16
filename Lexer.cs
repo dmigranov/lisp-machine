@@ -41,32 +41,34 @@ namespace LispMachine
             if(Char.IsDigit((char)currentCharAsInt))
             {
                 //значит, это цифра (имена переменных не могут начинаться с цифр)
-                StringBuilder builder = new StringBuilder();
-                while (Char.IsDigit((char)currentCharAsInt))
-                {
-                    builder.Append((char)currentCharAsInt);
-                    currentCharAsInt = reader.Read();
-                }
-                Console.WriteLine(builder.ToString());
+
             }
 
             switch (currentCharAsInt)
             {
                 case ('('):
                     Console.WriteLine("(");
+                    currentCharAsInt = reader.Read();
                     break;
                 case (')'):
                     Console.WriteLine(")");
+                    currentCharAsInt = reader.Read();
                     break;
                 //todo: quotes (') and unquotes? (,)
 
 
                 default:
-                    //имя
+                    StringBuilder builder = new StringBuilder();
+                    while (!Char.IsWhiteSpace((char)currentCharAsInt) && currentCharAsInt != '(' && currentCharAsInt != ')')
+                    {
+                        builder.Append((char)currentCharAsInt);
+                        currentCharAsInt = reader.Read();
+                    }
+                    var str = builder.ToString();
+                    Console.WriteLine(str);
                     break;
             }
 
-            currentCharAsInt = reader.Read();
             return 0;
 
         }

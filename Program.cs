@@ -13,15 +13,13 @@ namespace LispMachine
     {
         static void Main(string[] args)
         {
-            Lexer lexer = new Lexer(new StringReader(@"  (  
+            Lexer lexer = new Lexer(new StringReader(@"  (fgdg  
 dsfdfsdf
         fdfsdfdf
 445345
 5345
 
-5345.54
-
-)   "));
+5343345.54)   "));
 
             while (lexer.GetLexeme() >= 0);
 
