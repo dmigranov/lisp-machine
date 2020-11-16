@@ -1,6 +1,4 @@
-﻿
-
-namespace LispMachine
+﻿namespace LispMachine
 { 
     public abstract class Expression
     {

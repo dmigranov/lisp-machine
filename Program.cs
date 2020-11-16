@@ -1,11 +1,9 @@
-﻿
-using Microsoft.CSharp;
+﻿using Microsoft.CSharp;
 using System;
 using System.CodeDom.Compiler;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-
 
 namespace LispMachine
 {
