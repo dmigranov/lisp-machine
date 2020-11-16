@@ -16,6 +16,10 @@ namespace LispMachine
             Lexer lexer = new Lexer(new StringReader(@"  (  
 dsfdfsdf
         fdfsdfdf
+445345
+5345
+
+5345.54
 
 )   "));
 

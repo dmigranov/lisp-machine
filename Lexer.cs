@@ -12,7 +12,7 @@ namespace LispMachine
     public class Lexer
     {
         private TextReader reader;
-        private int currentChar;
+        private int currentCharAsInt;
 
 
         public Lexer(TextReader reader)
@@ -22,23 +22,35 @@ namespace LispMachine
             int temp;
             if ((temp = reader.Read()) == -1)
                 throw new Exception();
-            currentChar = Convert.ToChar(temp);
+            currentCharAsInt = temp;
         }
 
         public int GetLexeme()
         {
-            while (Char.IsWhiteSpace(currentChar))
+            while (Char.IsWhiteSpace((char)currentCharAsInt))
             {
-                currentChar = Convert.ToChar(reader.Read());
+                currentCharAsInt = reader.Read();
             }
 
-            if (currentChar == -1)
+            if (currentCharAsInt == -1)
             {
                 Console.WriteLine("EOF");
                 return -1;
             }
 
-            switch (currentChar)
+            if(Char.IsDigit((char)currentCharAsInt))
+            {
+                //значит, это цифра (имена переменных не могут начинаться с цифр)
+                StringBuilder builder = new StringBuilder();
+                while (Char.IsDigit((char)currentCharAsInt))
+                {
+                    builder.Append((char)currentCharAsInt);
+                    currentCharAsInt = reader.Read();
+                }
+                Console.WriteLine(builder.ToString());
+            }
+
+            switch (currentCharAsInt)
             {
                 case ('('):
                     Console.WriteLine("(");
@@ -46,12 +58,15 @@ namespace LispMachine
                 case (')'):
                     Console.WriteLine(")");
                     break;
+                //todo: quotes (') and unquotes? (,)
+
+
                 default:
-                    Console.Write(currentChar);
+                    //имя
                     break;
             }
 
-            currentChar = Convert.ToChar(reader.Read());
+            currentCharAsInt = reader.Read();
             return 0;
 
         }
