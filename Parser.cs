@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace LispMachine
@@ -12,6 +13,12 @@ namespace LispMachine
         {
             Console.WriteLine("Parser message");
         }
+
+        public Parser(TextReader reader)
+        {
+
+        }
+
     }
 
 }

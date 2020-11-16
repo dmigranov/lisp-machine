@@ -13,6 +13,14 @@ namespace LispMachine
     {
         static void Main(string[] args)
         {
+            Lexer lexer = new Lexer(new StringReader(@"  (  
+dsfdfsdf
+        fdfsdfdf
+
+)   "));
+
+            while (lexer.GetLexeme() >= 0);
+
             bool isREPL = false; //TODO: parse args: REPL or build
 
             if (isREPL)
