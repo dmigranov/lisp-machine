@@ -1,5 +1,9 @@
 ﻿
-public abstract class Expression
-{
 
+namespace LispMachine
+{ 
+    public abstract class Expression
+    {
+
+    }
 }

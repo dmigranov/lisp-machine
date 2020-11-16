@@ -2,10 +2,17 @@
 using System.Collections.Generic;
 using System.Text;
 
-public class Parser
-{ 
-    public static void TestMethod()
+namespace LispMachine
+{
+    public class Parser
     {
-        Console.WriteLine("Parser message");
+        //todo: построения синтаксического дерева
+
+        public static void TestMethod()
+        {
+            Console.WriteLine("Parser message");
+        }
     }
+
 }
+

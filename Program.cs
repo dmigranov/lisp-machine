@@ -6,33 +6,38 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
-class LispMachine
-{ 
-    static void Main(string[] args)
+
+namespace LispMachine
+{
+    class LispMachine
     {
-        bool isREPL = false; //TODO: parse args: REPL or build
-
-        if (isREPL)
+        static void Main(string[] args)
         {
-            for(; ; )
+            bool isREPL = false; //TODO: parse args: REPL or build
+
+            if (isREPL)
             {
-                break;
+                for (; ; )
+                {
+                    break;
+                }
+
             }
-            
-        }
-        else
-        {
-            CSharpCodeProvider codeProvider = new CSharpCodeProvider();
-            string fileName = "Out.exe"; //TODO: parse name from args
+            else
+            {
+                CSharpCodeProvider codeProvider = new CSharpCodeProvider();
+                string fileName = "Out.exe"; //TODO: parse name from args
 
-            System.CodeDom.Compiler.CompilerParameters parameters = new CompilerParameters();
+                System.CodeDom.Compiler.CompilerParameters parameters = new CompilerParameters();
 
-            parameters.GenerateExecutable = true;
-            parameters.OutputAssembly = fileName;
-            parameters.ReferencedAssemblies.Add(Assembly.GetEntryAssembly().Location);
+                parameters.GenerateExecutable = true;
+                parameters.OutputAssembly = fileName;
+                parameters.ReferencedAssemblies.Add(Assembly.GetEntryAssembly().Location);
 
-            string programText = @"
+                string programText = @"
                 using System;
+            
+                using LispMachine;
 
                 class CompiledProgram
                 {
@@ -43,56 +48,58 @@ class LispMachine
                     }
                 }";
 
-            CompilerResults results = codeProvider.CompileAssemblyFromSource(parameters, programText);
+                CompilerResults results = codeProvider.CompileAssemblyFromSource(parameters, programText);
 
-            if (results.Errors.Count > 0)
-            {
-                Console.WriteLine("There were errors:");
-
-                foreach (CompilerError CompErr in results.Errors)
+                if (results.Errors.Count > 0)
                 {
-                    string errorText = "Line number " + CompErr.Line +
-                                ", Error Number: " + CompErr.ErrorNumber +
-                                ", '" + CompErr.ErrorText + ";" +
-                                Environment.NewLine + Environment.NewLine;
-                    Console.WriteLine(errorText);
+                    Console.WriteLine("There were errors:");
 
+                    foreach (CompilerError CompErr in results.Errors)
+                    {
+                        string errorText = "Line number " + CompErr.Line +
+                                    ", Error Number: " + CompErr.ErrorNumber +
+                                    ", '" + CompErr.ErrorText + ";" +
+                                    Environment.NewLine + Environment.NewLine;
+                        Console.WriteLine(errorText);
+
+                    }
                 }
+
+                else
+                    Console.WriteLine("Successfully compiled!");
+
+
+
+
+                /*var refPaths = new[] {
+                    typeof(object).GetTypeInfo().Assembly.Location,
+                    typeof(Console).GetTypeInfo().Assembly.Location,
+                    Path.Combine(Path.GetDirectoryName(typeof(System.Runtime.GCSettings).GetTypeInfo().Assembly.Location), "System.Runtime.dll")
+                };
+                MetadataReference[] references = refPaths.Select(r => MetadataReference.CreateFromFile(r)).ToArray();
+
+                var compilation = CSharpCompilation.Create(fileName)
+                                    .WithOptions(new CSharpCompilationOptions(OutputKind.ConsoleApplication))
+                                    .AddReferences(references)
+                                    .AddSyntaxTrees(CSharpSyntaxTree.ParseText(programText));
+                var compilationResult = compilation.Emit(fileName + ".exe");
+
+                if (compilationResult.Success)
+                {
+                    Console.WriteLine("Successfully compiled!");
+                }
+                else
+                {
+                    Console.Write(string.Join(
+                        Environment.NewLine,
+                        compilationResult.Diagnostics.Select(diagnostic => diagnostic.ToString())
+                    ));
+                }*/
+
             }
 
-            else
-                Console.WriteLine("Successfully compiled!");
-
-
-
-
-            /*var refPaths = new[] {
-                typeof(object).GetTypeInfo().Assembly.Location,
-                typeof(Console).GetTypeInfo().Assembly.Location,
-                Path.Combine(Path.GetDirectoryName(typeof(System.Runtime.GCSettings).GetTypeInfo().Assembly.Location), "System.Runtime.dll")
-            };
-            MetadataReference[] references = refPaths.Select(r => MetadataReference.CreateFromFile(r)).ToArray();
-
-            var compilation = CSharpCompilation.Create(fileName)
-                                .WithOptions(new CSharpCompilationOptions(OutputKind.ConsoleApplication))
-                                .AddReferences(references)
-                                .AddSyntaxTrees(CSharpSyntaxTree.ParseText(programText));
-            var compilationResult = compilation.Emit(fileName + ".exe");
-
-            if (compilationResult.Success)
-            {
-                Console.WriteLine("Successfully compiled!");
-            }
-            else
-            {
-                Console.Write(string.Join(
-                    Environment.NewLine,
-                    compilationResult.Diagnostics.Select(diagnostic => diagnostic.ToString())
-                ));
-            }*/
 
         }
-
-        
     }
+
 }
