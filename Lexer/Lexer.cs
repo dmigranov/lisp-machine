@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace LispMachine
 {
 
-    // Lexer = Tokenizer
+    // Lexer === Tokenizer
     public class Lexer
     {
         private TextReader reader;
@@ -25,7 +25,7 @@ namespace LispMachine
             currentCharAsInt = temp;
         }
 
-        public int GetLexeme()
+        public Lexeme GetLexeme()
         {
             while (Char.IsWhiteSpace((char)currentCharAsInt))
             {
@@ -34,8 +34,7 @@ namespace LispMachine
 
             if (currentCharAsInt == -1)
             {
-                Console.WriteLine("EOF");
-                return -1;
+                return new Lexeme(LexemeType.EOF);
             }
 
             if(Char.IsDigit((char)currentCharAsInt))
@@ -47,13 +46,12 @@ namespace LispMachine
             switch (currentCharAsInt)
             {
                 case ('('):
-                    Console.WriteLine("(");
                     currentCharAsInt = reader.Read();
-                    break;
+                    return new Lexeme(LexemeType.LBRACE);
                 case (')'):
-                    Console.WriteLine(")");
                     currentCharAsInt = reader.Read();
-                    break;
+                    return new Lexeme(LexemeType.RBRACE);
+
                 //todo: quotes (') and unquotes? (,)
 
 
@@ -65,11 +63,12 @@ namespace LispMachine
                         currentCharAsInt = reader.Read();
                     }
                     var str = builder.ToString();
-                    Console.WriteLine(str);
-                    break;
+                    //todo: разделение между символами и числами? первые не могут начинаться с цифры
+
+                    return new Lexeme(str);
             }
 
-            return 0;
+
 
         }
 

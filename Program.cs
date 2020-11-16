@@ -19,9 +19,20 @@ dsfdfsdf
 445345
 5345
 
-5343345.54)   "));
+5343345.54)"));
 
-            while (lexer.GetLexeme() >= 0);
+            Lexeme lexeme;
+            while ((lexeme = lexer.GetLexeme()).Type != LexemeType.EOF)
+            {
+                if(lexeme.Type == LexemeType.LBRACE)
+                    Console.WriteLine('(');
+                else if (lexeme.Type == LexemeType.RBRACE)
+                    Console.WriteLine(')');
+                if (lexeme.Type == LexemeType.SYMBOL)
+                    Console.WriteLine(lexeme.Text);
+
+            }
+
 
             bool isREPL = false; //TODO: parse args: REPL or build
 
