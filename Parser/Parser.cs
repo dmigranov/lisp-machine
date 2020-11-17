@@ -35,8 +35,9 @@ namespace LispMachine
             {
                 SExprList list = new SExprList();
 
-                Lexeme listLexeme;
-                while ((listLexeme = lexer.GetLexeme()).Type != LexemeType.RBRACE)
+                Lexeme elemLexeme;
+                //понятно, где ошибка: тут делаем GetLexeme() и результат навсегда теряется
+                while ((elemLexeme = lexer.GetLexeme()).Type != LexemeType.RBRACE)
                 {
                     list.AddSExprToList(GetSExpression());
                 }
