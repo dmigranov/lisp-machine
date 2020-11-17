@@ -11,6 +11,9 @@ namespace LispMachine
             elements = new List<SExpr>();
         }
 
-
+        public void AddSExprToList(SExpr elem)
+        {
+            elements.Add(elem);
+        }
     }
 }

@@ -29,11 +29,12 @@ namespace LispMachine
             var lexeme = lexer.GetLexeme(); // first token === lexeme
             var lexemeType = lexeme.Type;
             if (lexemeType == LexemeType.RBRACE) 
-                throw new Exception("Unexpected '(' character");
+                throw new ParserException("Unexpected left brace");
 
             if (lexemeType == LexemeType.LBRACE)
             {
-                //todo
+                var list = new SExprList();
+
 
                 //return список ...
             }
@@ -53,6 +54,5 @@ namespace LispMachine
 
         public ParserException(string message, Exception innerException) : base(message, innerException) { }
     }
-
 }
 
