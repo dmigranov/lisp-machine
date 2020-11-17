@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace LispMachine
 {
@@ -14,6 +15,17 @@ namespace LispMachine
         public void AddSExprToList(SExpr elem)
         {
             elements.Add(elem);
+        }
+
+        public override void PrintSExpr()
+        {
+            Console.WriteLine("(");
+
+            foreach (var elem in elements)
+                elem.PrintSExpr();
+
+            Console.WriteLine(")");
+
         }
     }
 }

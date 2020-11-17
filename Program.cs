@@ -11,14 +11,16 @@ namespace LispMachine
     {
         static void Main(string[] args)
         {
-            Lexer lexer = new Lexer(new StringReader(@"  (fgdg  
+            string testString = @"  (fgdg  
 dsfdfsdf
         fdfsdfdf
 445345
 5345
 
-5343345.54)"));
+5343345.54)";
 
+
+            Lexer lexer = new Lexer(new StringReader(testString));
             Lexeme lexeme;
             while ((lexeme = lexer.GetLexeme()).Type != LexemeType.EOF)
             {
@@ -28,8 +30,11 @@ dsfdfsdf
                     Console.WriteLine(')');
                 if (lexeme.Type == LexemeType.SYMBOL)
                     Console.WriteLine(lexeme.Text);
-
             }
+
+            Parser parser = new Parser(new StringReader(testString));
+            SExpr expr = parser.GetSExpression();
+            expr.PrintSExpr();
 
 
             bool isREPL = false; //TODO: parse args: REPL or build

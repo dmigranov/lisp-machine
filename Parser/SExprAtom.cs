@@ -1,4 +1,5 @@
-﻿
+﻿using System;
+
 namespace LispMachine
 {
 
@@ -9,6 +10,11 @@ namespace LispMachine
         public SExprAtom(string symbol)
         {
             Symbol = symbol;
+        }
+
+        public override void PrintSExpr()
+        {
+            Console.WriteLine(Symbol);
         }
     }
 }
