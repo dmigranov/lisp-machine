@@ -24,7 +24,7 @@ namespace LispMachine
         /// The method reads and returns next S-Expression from reader passed to the constructor
         /// </summary>
         /// <returns>SExpr - next SExpression</returns>
-        public /*SExpr*/ void GetSExpression()
+        public SExpr GetSExpression()
         {
             var lexeme = lexer.GetLexeme(); // first token === lexeme
             var lexemeType = lexeme.Type;
@@ -39,7 +39,7 @@ namespace LispMachine
             }
 
             //Атомарное S-выражение
-            //return атомарное ...
+            return new SExprAtom(lexeme.Text);
         }
 
     }

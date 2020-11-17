@@ -7,9 +7,9 @@ namespace LispMachine
         public string Symbol { get; }
 
 
-        public SExprAtom()
+        public SExprAtom(string symbol)
         {
-
+            Symbol = symbol;
         }
     }
 }
