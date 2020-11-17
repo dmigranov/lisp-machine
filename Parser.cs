@@ -7,7 +7,7 @@ namespace LispMachine
     {
         //todo: построения синтаксического дерева
 
-        Lexer lexer;
+        private Lexer lexer;
 
         public static void TestMethod()
         {
