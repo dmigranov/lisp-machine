@@ -36,7 +36,7 @@ namespace LispMachine
             }
 
             Console.WriteLine("-----PARSER-----");
-            Parser parser = new Parser(new StringReader(testString));
+            SExprParser parser = new SExprParser(new StringReader(testString));
             SExpr expr;
             while ((expr = parser.GetSExpression()) != null) {
                 expr.PrintSExpr();
@@ -45,11 +45,11 @@ namespace LispMachine
 
 
 
-            bool isREPL = false; //TODO: parse args: REPL or build
+            bool isREPL = true; //TODO: parse args: REPL or build
 
             if (isREPL)
             {
-                for (; ; )
+                while (true)
                 {
                     break;
                 }

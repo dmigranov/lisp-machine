@@ -3,7 +3,7 @@ using System.IO;
 
 namespace LispMachine
 {
-    public class Parser
+    public class SExprParser
     {
         //todo: построения синтаксического дерева
 
@@ -14,7 +14,7 @@ namespace LispMachine
             Console.WriteLine("Parser message");
         }
 
-        public Parser(TextReader reader)
+        public SExprParser(TextReader reader)
         {
             lexer = new Lexer(reader);
         }
