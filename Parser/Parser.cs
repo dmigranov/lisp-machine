@@ -33,7 +33,7 @@ namespace LispMachine
 
             if (lexemeType == LexemeType.LBRACE)
             {
-                var list = new SExprList();
+                SExprList list = new SExprList();
 
                 Lexeme listLexeme;
                 while ((listLexeme = lexer.GetLexeme()).Type != LexemeType.RBRACE)

@@ -2,7 +2,7 @@
 
 namespace LispMachine
 {
-    class SExprList
+    class SExprList : SExpr
     {
         private List<SExpr> elements;
 
