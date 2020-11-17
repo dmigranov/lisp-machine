@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Runtime.Serialization;
 using System.Text;
 
 namespace LispMachine
@@ -61,16 +60,10 @@ namespace LispMachine
 
     public class LexerException : Exception
     {
-        public LexerException()
-        {
-        }
+        public LexerException() { }
 
-        public LexerException(string message) : base(message)
-        {
-        }
+        public LexerException(string message) : base(message) { }
 
-        public LexerException(string message, Exception innerException) : base(message, innerException)
-        {
-        }
+        public LexerException(string message, Exception innerException) : base(message, innerException) { }
     }
 }

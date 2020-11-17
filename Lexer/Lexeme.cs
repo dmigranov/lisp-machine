@@ -9,13 +9,13 @@ namespace LispMachine
 
         public Lexeme(LexemeType type)
         {
-            this.Type = type;
+            Type = type;
         }
 
         public Lexeme(String text)
         {
-            this.Type = LexemeType.SYMBOL;
-            this.Text = text;
+            Type = LexemeType.SYMBOL;
+            Text = text;
         }
 
         //todo: equals?
