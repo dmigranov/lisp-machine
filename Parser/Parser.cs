@@ -35,8 +35,13 @@ namespace LispMachine
             {
                 var list = new SExprList();
 
+                Lexeme listLexeme;
+                while ((listLexeme = lexer.GetLexeme()).Type != LexemeType.RBRACE)
+                {
+                    list.AddSExprToList(GetSExpression());
+                }
 
-                //return список ...
+                return list;
             }
 
             //Атомарное S-выражение
