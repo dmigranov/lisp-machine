@@ -41,7 +41,6 @@ namespace LispMachine
             //Атомарное S-выражение
             return new SExprAtom(lexeme.Text);
         }
-
     }
 
 

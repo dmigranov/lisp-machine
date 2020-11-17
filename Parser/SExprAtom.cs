@@ -6,7 +6,6 @@ namespace LispMachine
     {
         public string Symbol { get; }
 
-
         public SExprAtom(string symbol)
         {
             Symbol = symbol;
