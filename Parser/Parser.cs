@@ -19,20 +19,23 @@ namespace LispMachine
             lexer = new Lexer(reader);
         }
 
-
+        /// <summary>
+        /// The method reads and returns next S-Expression from the reader passed to the constructor
+        /// </summary>
+        /// <returns>SExpr - next SExpression</returns>
         public SExpr GetSExpression()
         {
             currentLexeme = lexer.GetLexeme(); // first token === lexeme
             return GetSExpressionRecursive();
         }
 
-        /// <summary>
-        /// The method reads and returns next S-Expression from reader passed to the constructor
-        /// </summary>
-        /// <returns>SExpr - next SExpression</returns>
-        public SExpr GetSExpressionRecursive()
+        private SExpr GetSExpressionRecursive()
         {
             var lexemeType = currentLexeme.Type;
+
+            if (lexemeType == LexemeType.EOF)
+                return null;
+
             if (lexemeType == LexemeType.RBRACE) 
                 throw new ParserException("Unexpected right brace!");
 
@@ -40,7 +43,6 @@ namespace LispMachine
             {
                 SExprList list = new SExprList();
 
-                //понятно, где ошибка: тут делаем GetLexeme() и результат навсегда теряется
                 while ((currentLexeme = lexer.GetLexeme()).Type != LexemeType.RBRACE)
                 {
                     if (currentLexeme.Type == LexemeType.EOF)
@@ -56,8 +58,6 @@ namespace LispMachine
             return new SExprAtom(text);
         }
     }
-
-
 
     public class ParserException : Exception
     {
