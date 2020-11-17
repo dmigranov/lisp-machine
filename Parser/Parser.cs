@@ -17,19 +17,24 @@ namespace LispMachine
         public Parser(TextReader reader)
         {
             lexer = new Lexer(reader);
-            currentLexeme = lexer.GetLexeme(); // first token === lexeme
         }
 
+
+        public SExpr GetSExpression()
+        {
+            currentLexeme = lexer.GetLexeme(); // first token === lexeme
+            return GetSExpressionRecursive();
+        }
 
         /// <summary>
         /// The method reads and returns next S-Expression from reader passed to the constructor
         /// </summary>
         /// <returns>SExpr - next SExpression</returns>
-        public SExpr GetSExpression()
+        public SExpr GetSExpressionRecursive()
         {
             var lexemeType = currentLexeme.Type;
             if (lexemeType == LexemeType.RBRACE) 
-                throw new ParserException("Unexpected left brace");
+                throw new ParserException("Unexpected right brace");
 
             if (lexemeType == LexemeType.LBRACE)
             {
@@ -38,7 +43,7 @@ namespace LispMachine
                 //понятно, где ошибка: тут делаем GetLexeme() и результат навсегда теряется
                 while ((currentLexeme = lexer.GetLexeme()).Type != LexemeType.RBRACE)
                 {
-                    list.AddSExprToList(GetSExpression());
+                    list.AddSExprToList(GetSExpressionRecursive());
                 }
 
                 return list;
@@ -48,8 +53,6 @@ namespace LispMachine
             string text = currentLexeme.Text;
             return new SExprAtom(text);
         }
-
-
     }
 
 

@@ -11,13 +11,16 @@ namespace LispMachine
     {
         static void Main(string[] args)
         {
-            string testString = @"  (fgdg  
-dsfdfsdf
-        fdfsdfdf
-445345
-5345
+            string testString = @"  (defn  
+                                    dsfdfsdf
+                                    fdfsdfdf
+                                    445345
+                                    5345
+                                    (ff fff ffff)
 
-5343345.54)";
+                                    5343345.54)
+
+                            (another other)";
 
 
             Lexer lexer = new Lexer(new StringReader(testString));
@@ -35,7 +38,8 @@ dsfdfsdf
             Parser parser = new Parser(new StringReader(testString));
             SExpr expr = parser.GetSExpression();
             expr.PrintSExpr();
-
+            expr = parser.GetSExpression();
+            expr.PrintSExpr();
 
             bool isREPL = false; //TODO: parse args: REPL or build
 
