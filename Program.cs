@@ -11,7 +11,7 @@ namespace LispMachine
     {
         static void Main(string[] args)
         {
-            string testString = @"  (defn  
+            string testString = @"  (defn ) 
                                     dsfdfsdf
                                     fdfsdfdf
                                     445345
@@ -22,7 +22,7 @@ namespace LispMachine
 
                             (another other)";
 
-
+            Console.WriteLine("Parser");
             Lexer lexer = new Lexer(new StringReader(testString));
             Lexeme lexeme;
             while ((lexeme = lexer.GetLexeme()).Type != LexemeType.EOF)
@@ -35,11 +35,14 @@ namespace LispMachine
                     Console.WriteLine(lexeme.Text);
             }
 
+            Console.WriteLine("Parser");
             Parser parser = new Parser(new StringReader(testString));
+            while (true) {
+                break;
+            };
             SExpr expr = parser.GetSExpression();
             expr.PrintSExpr();
-            expr = parser.GetSExpression();
-            expr.PrintSExpr();
+
 
             bool isREPL = false; //TODO: parse args: REPL or build
 

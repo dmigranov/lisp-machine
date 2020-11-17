@@ -34,7 +34,7 @@ namespace LispMachine
         {
             var lexemeType = currentLexeme.Type;
             if (lexemeType == LexemeType.RBRACE) 
-                throw new ParserException("Unexpected right brace");
+                throw new ParserException("Unexpected right brace!");
 
             if (lexemeType == LexemeType.LBRACE)
             {
@@ -43,6 +43,8 @@ namespace LispMachine
                 //понятно, где ошибка: тут делаем GetLexeme() и результат навсегда теряется
                 while ((currentLexeme = lexer.GetLexeme()).Type != LexemeType.RBRACE)
                 {
+                    if (currentLexeme.Type == LexemeType.EOF)
+                        throw new ParserException("Not enough right braces!");
                     list.AddSExprToList(GetSExpressionRecursive());
                 }
 
