@@ -8,7 +8,7 @@ namespace LispMachine
         //todo: построения синтаксического дерева
 
         private Lexer lexer;
-
+        private Lexeme currentLexeme;
         public static void TestMethod()
         {
             Console.WriteLine("Parser message");
@@ -16,7 +16,8 @@ namespace LispMachine
 
         public Parser(TextReader reader)
         {
-            lexer = new Lexer(reader); 
+            lexer = new Lexer(reader);
+            currentLexeme = lexer.GetLexeme(); // first token === lexeme
         }
 
 
@@ -26,8 +27,7 @@ namespace LispMachine
         /// <returns>SExpr - next SExpression</returns>
         public SExpr GetSExpression()
         {
-            var lexeme = lexer.GetLexeme(); // first token === lexeme
-            var lexemeType = lexeme.Type;
+            var lexemeType = currentLexeme.Type;
             if (lexemeType == LexemeType.RBRACE) 
                 throw new ParserException("Unexpected left brace");
 
@@ -35,9 +35,8 @@ namespace LispMachine
             {
                 SExprList list = new SExprList();
 
-                Lexeme elemLexeme;
                 //понятно, где ошибка: тут делаем GetLexeme() и результат навсегда теряется
-                while ((elemLexeme = lexer.GetLexeme()).Type != LexemeType.RBRACE)
+                while ((currentLexeme = lexer.GetLexeme()).Type != LexemeType.RBRACE)
                 {
                     list.AddSExprToList(GetSExpression());
                 }
@@ -46,8 +45,11 @@ namespace LispMachine
             }
 
             //Атомарное S-выражение
-            return new SExprAtom(lexeme.Text);
+            string text = currentLexeme.Text;
+            return new SExprAtom(text);
         }
+
+
     }
 
 
