@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace LispMachine
@@ -18,27 +19,17 @@ namespace LispMachine
 
             int temp;
             if ((temp = reader.Read()) == -1)
-                throw new Exception();
+                throw new LexerException("Can't initialize lexer: nothing to read");
             currentCharAsInt = temp;
         }
 
         public Lexeme GetLexeme()
         {
-            while (Char.IsWhiteSpace((char)currentCharAsInt))
-            {
+            while (Char.IsWhiteSpace((char)currentCharAsInt))   //пропускаем все пробелы, табуляции, переводы строк
                 currentCharAsInt = reader.Read();
-            }
 
             if (currentCharAsInt == -1)
-            {
                 return new Lexeme(LexemeType.EOF);
-            }
-
-            if(Char.IsDigit((char)currentCharAsInt))
-            {
-                //значит, это цифра (имена переменных не могут начинаться с цифр)
-
-            }
 
             switch (currentCharAsInt)
             {
@@ -64,10 +55,22 @@ namespace LispMachine
 
                     return new Lexeme(str);
             }
+        }
+    }
 
 
-
+    public class LexerException : Exception
+    {
+        public LexerException()
+        {
         }
 
+        public LexerException(string message) : base(message)
+        {
+        }
+
+        public LexerException(string message, Exception innerException) : base(message, innerException)
+        {
+        }
     }
 }
