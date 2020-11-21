@@ -19,6 +19,12 @@ namespace LispMachine
         //одни - лисповские
         //другие - внешние
 
+        private static void InitializeRootEnvironment()
+        {
+            //заполнить rootEnvironent?
+            IsInitialized = true;
+        }
+
         private Dictionary<string, SExpr> dict; //или не SExpr, а Expression?
         private EvaluationEnvironment parent;
 
@@ -26,9 +32,13 @@ namespace LispMachine
         {
             if(!IsInitialized)
             {
-                //заполнить rootEnvironent?
-                IsInitialized = true;
+                InitializeRootEnvironment();
             }
+        }
+
+        public EvaluationEnvironment(Dictionary<string, SExpr> currentScopr, EvaluationEnvironment parent)
+        {
+            //todo
         }
 
         public SExpr Get(string symbol)
