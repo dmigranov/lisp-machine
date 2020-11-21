@@ -16,7 +16,7 @@ namespace LispMachine
         private static bool IsInitialized = false;
 
 
-        private EvaluationEnvironment()
+        public EvaluationEnvironment()
         {
             if(!IsInitialized)
             {
