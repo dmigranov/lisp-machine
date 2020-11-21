@@ -6,10 +6,7 @@ using System.Threading.Tasks;
 
 namespace LispMachine
 {
-    /// <summary>
-    /// Environment === Context of Evaluation.
-    /// </summary>
-    class Environment
+    class Evaluator
     {
     }
 }
