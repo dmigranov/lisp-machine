@@ -12,7 +12,7 @@ namespace LispMachine
     /// </summary>
     public class EvaluationEnvironment
     {
-        public static EvaluationEnvironment rootEnvironment;
+        private static BuiltInEnvironment BuiltInEnv = new BuiltInEnvironment();
         private static bool IsInitialized = false;
 
         //хорошо бы тут иметь два типа констант:
@@ -22,11 +22,13 @@ namespace LispMachine
         private static void InitializeRootEnvironment()
         {
             //заполнить rootEnvironent?
+            Dictionary<string, object> lambdaDictionary;
+
             IsInitialized = true;
         }
 
         private Dictionary<string, SExpr> dict; //или не SExpr, а Expression?
-        private EvaluationEnvironment parent;
+        private EvaluationEnvironment parent = null;
 
         public EvaluationEnvironment()
         {
@@ -36,7 +38,13 @@ namespace LispMachine
             }
         }
 
-        public EvaluationEnvironment(Dictionary<string, SExpr> currentScopr, EvaluationEnvironment parent)
+        //конструктор только для Глобала
+        private EvaluationEnvironment(Dictionary<string, SExpr> currentScope)
+        {
+            dict = currentScope;
+        }
+
+        public EvaluationEnvironment(Dictionary<string, SExpr> currentScope, EvaluationEnvironment parent)
         {
             //todo
         }
