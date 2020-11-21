@@ -50,9 +50,16 @@ namespace LispMachine
                         currentCharAsInt = reader.Read();
                     }
                     var str = builder.ToString();
-                    //todo: разделение между символами и числами? первые не могут начинаться с цифры
 
-                    return new Lexeme(str);
+                    return new Lexeme(LexemeType.SYMBOL, str);
+
+
+                    //todo: разделение между символами и числами? первые не могут начинаться с цифры
+                    /*if (int.TryParse(str, out _) || double.TryParse(str, out _) || bool.TryParse(str, out _) || )
+                        return new Lexeme(LexemeType.LITERAL, str);
+                    else
+                        return new Lexeme(LexemeType.IDENTIFIER, str);*/
+
             }
         }
     }

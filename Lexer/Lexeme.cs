@@ -13,9 +13,9 @@ namespace LispMachine
             Type = type;
         }
 
-        public Lexeme(String text)
+        public Lexeme(LexemeType type, String text)
         {
-            Type = LexemeType.SYMBOL;
+            Type = type;
             Text = text;
         }
 

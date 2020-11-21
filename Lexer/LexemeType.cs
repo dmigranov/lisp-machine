@@ -2,7 +2,8 @@
 {
     public enum LexemeType
     {
-        SYMBOL,                 //including number?
+        SYMBOL,                
+        //IDENTIFIER, LITERAL,
         LBRACE, RBRACE,
         EOF
     }
