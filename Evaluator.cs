@@ -17,11 +17,22 @@ namespace LispMachine
         {
             if (expr is SExprAtom atom)
             {
-
+                //рассматриваем тут различные варианты:
+                //число, строка (начинается и кончается на кавычку), булева константа
+                //и в конце концов else - идентификатор переменой
             }
             else if (expr is SExprList list)
             {
+                var head = list[0];
 
+                if (head is SExprList firstElemList)
+                    ; //todo
+
+                var operation = head as SExprAtom;
+
+
+
+                //в конце, если ничего не найдено - вызов функции с именем operation.Symbol
             }
 
             return 0;

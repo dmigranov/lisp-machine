@@ -15,6 +15,12 @@ namespace LispMachine
         public static EvaluationEnvironment rootEnvironment;
         private static bool IsInitialized = false;
 
+        //хорошо бы тут иметь два типа констант:
+        //одни - лисповские
+        //другие - внешние
+
+        private Dictionary<string, SExpr> dict; //или не SExpr, а Expression?
+        private EvaluationEnvironment parent;
 
         public EvaluationEnvironment()
         {
@@ -23,6 +29,16 @@ namespace LispMachine
                 //заполнить rootEnvironent?
                 IsInitialized = true;
             }
+        }
+
+        public SExpr Get(string symbol)
+        {            
+            //todo
+
+            //возвращает значение из словаря
+            //сначала смотрим в локальном контексте, потом обращаеся к родителю
+
+            return null;
         }
     }
 }

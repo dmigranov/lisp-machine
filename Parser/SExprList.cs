@@ -27,5 +27,12 @@ namespace LispMachine
             Console.WriteLine(")");
 
         }
+
+        //indexer
+        public SExpr this[int index]
+        {
+            get { return elements[index]; }
+            //set { elements[index] = value }
+        }
     }
 }
