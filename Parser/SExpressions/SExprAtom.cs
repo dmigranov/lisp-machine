@@ -3,11 +3,11 @@
 namespace LispMachine
 {
 
-    public class SExprAtom : SExpr
+    public class SExprAtom<T> : SExpr
     {
-        public string Symbol { get; }
+        public T Symbol { get; }
 
-        public SExprAtom(string symbol)
+        protected SExprAtom(T symbol)
         {
             Symbol = symbol;
         }
