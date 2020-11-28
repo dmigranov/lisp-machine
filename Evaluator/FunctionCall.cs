@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace LispMachine
 {
@@ -24,33 +23,52 @@ namespace LispMachine
                 {
                     //все эти операторы много-арные
                     case "+":
-
                         return Sum();
                     case "-":
                         return null;
                     case "*":
-                        //ints = Arguments.Select(x => ((SExprInt)x).Value);
-                        //return new SExprFloat(ints.Sum());
                         return null;
                     case "/":
+                        return null;
+                    //вот в случае этих проверки надо как-то проводить, и в случае double выкидывать исключения?
+                    case "&":
+                        return null;
+                    case "|":
                         return null;
 
                     //а эти - бинарные!
                     case ">":
-                        break;
+                        return null;
                     case "<":
-                        break;
+                        return null; ;
                     case "<=":
-                        break;
+                        return null;
                     case ">=":
                         break;
                     case "=":
-                        break;
+                        return null;
+                    case "!=":
+                        return null;
 
+                    case "abs":
+                        return null;
+
+                    //операции над списками:
+                    case "cons":
+                        return null;
+                    case "conj":
+                        return null;
+                    case "length":
+                        return null;
+
+                    case "print":
+                        return null;
+                    case "println":
+                        return null;
 
 
                     default:
-                        break;
+                        return null; ;
                 }
 
             }
