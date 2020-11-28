@@ -15,16 +15,7 @@ namespace LispMachine
 
                 (+ (+ -10 20 100) (+ 10 23 5))
                 (if true 10 100)
-(func 
-                                    dsfdfsdf
-                                    fdfsdfdf
-                                    445345
-                                    5345
-                                    (ff fff ffff)
-
-                                    5343345.54)
-
-                            (another other)";
+";
 
             Console.WriteLine("-----LEXER-----");
             Lexer lexer = new Lexer(new StringReader(testString));
