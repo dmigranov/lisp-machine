@@ -55,7 +55,15 @@ namespace LispMachine
 
             //Атомарное S-выражение
             string text = currentLexeme.Text;
-            return new SExprAtom<string>(text);
+            int intRes;
+            if (int.TryParse(text, out intRes))
+                return new SExprInt(intRes);
+
+            double doubleRes;
+            if (double.TryParse(text, out doubleRes))
+                return new SExprFloat(doubleRes);
+
+            return new SExprSymbol(text);
         }
     }
 
