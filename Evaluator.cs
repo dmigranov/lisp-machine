@@ -15,7 +15,7 @@ namespace LispMachine
 
         public int Evaluate(SExpr expr, EvaluationEnvironment env)
         {
-            if (expr is SExprAtom atom)
+            /*if (expr is SExprAtom atom)
             {
                 //рассматриваем тут различные варианты:
                 //число, строка (начинается и кончается на кавычку), булева константа
@@ -33,7 +33,7 @@ namespace LispMachine
 
 
                 //в конце, если ничего не найдено - вызов функции с именем operation.Symbol
-            }
+            }*/
 
             return 0;
         }
