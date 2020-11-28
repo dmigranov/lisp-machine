@@ -2,7 +2,7 @@
 
 namespace LispMachine
 {
-    public class SExprValueAtom<T> : SExprAtom
+    public class SExprValueAtom<T> : SExprAbstractValueAtom
     {
         public T Value { get; }
 
@@ -15,6 +15,11 @@ namespace LispMachine
         {
             //Console.WriteLine(this.GetType() + " " + Value);
             Console.WriteLine(Value);
+        }
+
+        public override object GetCommonValue()
+        {
+            return Value;
         }
     }
 }

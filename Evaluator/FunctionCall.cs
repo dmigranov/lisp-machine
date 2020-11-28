@@ -24,20 +24,25 @@ namespace LispMachine
                 {
                     //все эти операторы много-арные
                     case "+":
-                        //todo: разобраться с типами (как можно сделать: если есть хоть один float, то суммируем так, иначе...
-                        var ints = Arguments.Select(x => ((SExprInt)x).Value);
-                        return new SExprFloat(ints.Sum());
+
+                        return Sum();
                     case "-":
                         return null;
                     case "*":
-                        ints = Arguments.Select(x => ((SExprInt)x).Value);
-                        return new SExprFloat(ints.Sum());
+                        //ints = Arguments.Select(x => ((SExprInt)x).Value);
+                        //return new SExprFloat(ints.Sum());
+                        return null;
                     case "/":
                         return null;
 
+                    //а эти - бинарные!
                     case ">":
                         break;
                     case "<":
+                        break;
+                    case "<=":
+                        break;
+                    case ">=":
                         break;
                     case "=":
                         break;
@@ -52,14 +57,29 @@ namespace LispMachine
 
 
 
-
-            //если ничего во встроенных функциях не нашли
+            //если же ничего во встроенных функциях не нашли, или это лямбда?
+            //то это "лисповская" функция
+            //включая встроенные - в глобальное (корневое) окружение при его создании в конструкторе
+            //тогда ищем в окружении такую функцию
             //var function = Evaluate(head, env);
             //var arguments = [eval(arg, env) for arg in x[1:]]
             //return proc(*args)
             //вызов функции реализуется через замыкание - добавляем все параметры в контекст
 
             return null;
+        }
+
+
+        private SExpr Sum()
+        {
+            //todo: может, ещё с выходным типом разобраться?
+
+            double sum = 0;
+            foreach (SExprAbstractValueAtom arg in Arguments)
+            {
+                sum += Convert.ToDouble(arg.GetCommonValue());
+            }
+            return new SExprFloat(sum);
         }
     }
 }
