@@ -12,23 +12,23 @@ namespace LispMachine
     /// </summary>
     public class EvaluationEnvironment
     {
-        private static BuiltInEnvironment BuiltInEnv = new BuiltInEnvironment();
-        private static bool IsInitialized = false;
+        //private static StandardEnvironment BuiltInEnv = new StandardEnvironment();
+        // static bool IsInitialized = false;
+
+        private Dictionary<string, SExpr> dict;
+        private EvaluationEnvironment parent = null;
 
         //хорошо бы тут иметь два типа констант:
         //одни - лисповские
         //другие - внешние
 
-        private static void InitializeRootEnvironment()
+        /*private static void InitializeRootEnvironment()
         {
             //заполнить rootEnvironent?
             Dictionary<string, object> lambdaDictionary;
 
             IsInitialized = true;
         }
-
-        private Dictionary<string, SExpr> dict; //или не SExpr, а Expression?
-        private EvaluationEnvironment parent = null;
 
         public EvaluationEnvironment()
         {
@@ -37,7 +37,7 @@ namespace LispMachine
                 InitializeRootEnvironment();
             }
         }
-
+        */
 
 
         //конструктор только для Глобала
