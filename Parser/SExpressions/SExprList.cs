@@ -5,7 +5,7 @@ namespace LispMachine
 {
     class SExprList : SExpr
     {
-        private List<SExpr> elements;
+        private List<SExpr> elements { get; }
 
         public SExprList()
         {
@@ -33,6 +33,13 @@ namespace LispMachine
         {
             get { return elements[index]; }
             //set { elements[index] = value }
+        }
+
+        public List<SExpr> GetArgs()
+        {
+            var list = new List<SExpr>(elements);
+            list.RemoveAt(0);
+            return list;
         }
     }
 }

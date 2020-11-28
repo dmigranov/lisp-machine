@@ -13,7 +13,8 @@ namespace LispMachine
 
         public override void PrintSExpr()
         {
-            Console.WriteLine(this.GetType() + " " + Value);
+            //Console.WriteLine(this.GetType() + " " + Value);
+            Console.WriteLine(Value);
         }
     }
 }

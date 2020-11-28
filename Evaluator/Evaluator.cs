@@ -6,7 +6,8 @@ namespace LispMachine
     {
         public SExpr Evaluate(SExpr expr)
         {
-            return Evaluate(expr, new EvaluationEnvironment());
+            //todo: создание EvaluationEnvironment
+            return Evaluate(expr, null);
         }
 
         public SExpr Evaluate(SExpr expr, EvaluationEnvironment env)
@@ -40,8 +41,7 @@ namespace LispMachine
                         var ifFalse = list[3];
 
                         SExpr condTrue = Evaluate(cond, env);
-                        Console.WriteLine("HERE");
-                        condTrue.PrintSExpr();
+                        //todo
                     }
                 }
 
@@ -49,10 +49,13 @@ namespace LispMachine
 
 
                 //в конце, если ничего не найдено - считаем, что на первом месте - функция
-                var function = Evaluate(head, env);
-                new FunctionCall(); //todo
-                //var arguments = [eval(arg, env) for arg in x[1:]]
-                //return proc(*args)
+                //todo: в будущем, тоже надо оценивать, если это лябмда, но пока закомментриую
+                
+                var args = list.GetArgs();
+                //todo: оценить args перед отправкой
+                var call = new FunctionCall(head, args); //todo
+                return call.Evaluate(env);
+
 
             }
 

@@ -12,6 +12,8 @@ namespace LispMachine
         static void Main(string[] args)
         {
             string testString = @"  
+
+                (+ 10 20)
                 (if true 10 100)
 (func 
                                     dsfdfsdf
@@ -44,7 +46,9 @@ namespace LispMachine
             Evaluator evaluator = new Evaluator();
             while ((expr = parser.GetSExpression()) != null) {
                 expr.PrintSExpr();
-                evaluator.Evaluate(expr);
+                var evald = evaluator.Evaluate(expr);
+                Console.Write("Evaluated: ");
+                evald.PrintSExpr();
             };
 
 
