@@ -22,10 +22,26 @@ namespace LispMachine
                 string operation = symbol.Value;
                 switch (operation)
                 {
-                    
+                    //все эти операторы много-арные
                     case "+":
+                        //todo: разобраться с типами (как можно сделать: если есть хоть один float, то суммируем так, иначе...
                         var ints = Arguments.Select(x => ((SExprInt)x).Value);
                         return new SExprFloat(ints.Sum());
+                    case "-":
+                        return null;
+                    case "*":
+                        ints = Arguments.Select(x => ((SExprInt)x).Value);
+                        return new SExprFloat(ints.Sum());
+                    case "/":
+                        return null;
+
+                    case ">":
+                        break;
+                    case "<":
+                        break;
+                    case "=":
+                        break;
+
 
 
                     default:

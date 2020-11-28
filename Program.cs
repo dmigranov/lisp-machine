@@ -13,7 +13,7 @@ namespace LispMachine
         {
             string testString = @"  
 
-                (+ 10 20)
+                (+ -10 20)
                 (if true 10 100)
 (func 
                                     dsfdfsdf
