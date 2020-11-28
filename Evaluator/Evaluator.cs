@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LispMachine
 {
@@ -40,9 +36,19 @@ namespace LispMachine
 
 
 
-                //в конце, если ничего не найдено - вызов функции с именем operation.Symbol
+                //в конце, если ничего не найдено - считаем, что на первом месте - функция
+                var function = Evaluate(head, env);
+                //var arguments = [eval(arg, env) for arg in x[1:]]
+                //return proc(*args)
+
             }
 
+            return null;
+        }
+
+        private SExpr EvaluateFunctionCall()
+        {
+            //вызов функции реализуется через замыкание - добавляем все параметры в контекст
             return null;
         }
     }
