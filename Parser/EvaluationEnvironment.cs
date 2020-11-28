@@ -38,6 +38,8 @@ namespace LispMachine
             }
         }
 
+
+
         //конструктор только для Глобала
         private EvaluationEnvironment(Dictionary<string, SExpr> currentScope)
         {
@@ -57,6 +59,11 @@ namespace LispMachine
             //сначала смотрим в локальном контексте, потом обращаеся к родителю
 
             return null;
+        }
+
+        public SExpr this[string index]
+        {
+            get => Get(index);
         }
     }
 }

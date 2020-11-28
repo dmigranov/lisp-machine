@@ -2,7 +2,7 @@
 
 namespace LispMachine
 {
-    public class SExprInt : SExprAtom<int>
+    public class SExprInt : SExprValueAtom<int>
     {
         public SExprInt(int symbol) : base(symbol)
         { }

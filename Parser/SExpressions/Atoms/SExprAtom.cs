@@ -3,18 +3,11 @@
 namespace LispMachine
 {
 
-    public class SExprAtom<T> : SExpr
+    public class SExprAtom : SExpr
     {
-        public T Symbol { get; }
-
-        protected SExprAtom(T symbol)
-        {
-            Symbol = symbol;
-        }
-
         public override void PrintSExpr()
         {
-            Console.WriteLine(Symbol);
+            Console.WriteLine("ATOM");
         }
     }
 }

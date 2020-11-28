@@ -2,11 +2,11 @@
 
 namespace LispMachine
 {
-    public class SExprSymbol : SExprAtom
+    public class SExprValueAtom<T> : SExprAtom
     {
-        public string Value { get; }
+        public T Value { get; }
 
-        public SExprSymbol(string value)
+        protected SExprValueAtom(T value)
         {
             Value = value;
         }
@@ -17,3 +17,4 @@ namespace LispMachine
         }
     }
 }
+

@@ -11,7 +11,7 @@ namespace LispMachine
     {
         static void Main(string[] args)
         {
-            string testString = @"  (defn 
+            string testString = @"  (func 
                                     dsfdfsdf
                                     fdfsdfdf
                                     445345
@@ -38,8 +38,11 @@ namespace LispMachine
             Console.WriteLine("-----PARSER-----");
             SExprParser parser = new SExprParser(new StringReader(testString));
             SExpr expr;
+
+            Evaluator evaluator = new Evaluator();
             while ((expr = parser.GetSExpression()) != null) {
                 expr.PrintSExpr();
+                evaluator.Evaluate(expr);
             };
 
 

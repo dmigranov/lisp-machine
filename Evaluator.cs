@@ -8,21 +8,29 @@ namespace LispMachine
 {
     public class Evaluator
     {
-        public int Evaluate(SExpr expr)
+        public SExpr Evaluate(SExpr expr)
         {
             return Evaluate(expr, new EvaluationEnvironment());
         }
 
-        public int Evaluate(SExpr expr, EvaluationEnvironment env)
+        public SExpr Evaluate(SExpr expr, EvaluationEnvironment env)
         {
-            /*if (expr is SExprAtom atom)
+            Console.WriteLine(expr.GetType());
+
+            if (expr is SExprSymbol symbol)
             {
-                //рассматриваем тут различные варианты:
-                //число, строка (начинается и кончается на кавычку), булева константа
-                //и в конце концов else - идентификатор переменой
+                return env[symbol.Value];
+            }
+            else if (expr.GetType().IsSubclassOf(typeof(SExprValueAtom<>)))
+            {
+                Console.WriteLine("HERE");
             }
             else if (expr is SExprList list)
             {
+                // тут мы рассматриваем различные специальные формы,
+                // которые НЕ являются функциями, так как 
+                // параметры в них оцениваются по другому, нежели в случае функций
+                // (простейший пример - if)
                 var head = list[0];
 
                 if (head is SExprList firstElemList)
@@ -33,9 +41,9 @@ namespace LispMachine
 
 
                 //в конце, если ничего не найдено - вызов функции с именем operation.Symbol
-            }*/
+            }
 
-            return 0;
+            return null;
         }
     }
 }

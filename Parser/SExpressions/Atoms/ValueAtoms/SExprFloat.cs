@@ -1,7 +1,7 @@
 ﻿
 namespace LispMachine
 {
-    public class SExprFloat : SExprAtom<double>
+    public class SExprFloat : SExprValueAtom<double>
     {
         public SExprFloat(double symbol) : base(symbol)
         {}
