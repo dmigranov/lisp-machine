@@ -11,7 +11,9 @@ namespace LispMachine
     {
         static void Main(string[] args)
         {
-            string testString = @"  (func 
+            string testString = @"  
+                (if true 10 100)
+(func 
                                     dsfdfsdf
                                     fdfsdfdf
                                     445345

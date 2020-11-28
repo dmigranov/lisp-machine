@@ -63,6 +63,10 @@ namespace LispMachine
             if (double.TryParse(text, out doubleRes))
                 return new SExprFloat(doubleRes);
 
+            bool boolRes;
+            if (bool.TryParse(text, out boolRes))
+                return new SExprBool(boolRes);
+
             return new SExprSymbol(text);
         }
     }

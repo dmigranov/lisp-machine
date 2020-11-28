@@ -29,15 +29,28 @@ namespace LispMachine
                 // (простейший пример - if)
                 var head = list[0];
 
-                if (head is SExprList firstElemList)
-                    ; //todo
+                if (head is SExprSymbol listHeadSymbol)
+                {
 
-                var operation = head as SExprAtom;
+                    var value = listHeadSymbol.Value;
+                    if (value == "if")
+                    {
+                        var cond = list[1];
+                        var ifTrue = list[2];
+                        var ifFalse = list[3];
+
+                        SExpr condTrue = Evaluate(cond, env);
+                        Console.WriteLine("HERE");
+                        condTrue.PrintSExpr();
+                    }
+                }
+
 
 
 
                 //в конце, если ничего не найдено - считаем, что на первом месте - функция
                 var function = Evaluate(head, env);
+                new FunctionCall(); //todo
                 //var arguments = [eval(arg, env) for arg in x[1:]]
                 //return proc(*args)
 
@@ -46,10 +59,5 @@ namespace LispMachine
             return null;
         }
 
-        private SExpr EvaluateFunctionCall()
-        {
-            //вызов функции реализуется через замыкание - добавляем все параметры в контекст
-            return null;
-        }
     }
 }
