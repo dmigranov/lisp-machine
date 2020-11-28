@@ -29,16 +29,12 @@ namespace LispMachine
 
             IsInitialized = true;
         }
-
+        */
         public EvaluationEnvironment()
         {
-            if(!IsInitialized)
-            {
-                InitializeRootEnvironment();
-            }
-        }
-        */
 
+        }
+        
 
         //конструктор только для Глобала
         private EvaluationEnvironment(Dictionary<string, SExpr> currentScope)
