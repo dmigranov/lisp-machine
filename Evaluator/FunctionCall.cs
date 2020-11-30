@@ -60,6 +60,8 @@ namespace LispMachine
                         return null;
                     case "length":
                         return null;
+                    case "list":
+                        return null;
 
                     case "print":
                         return null;
@@ -83,6 +85,7 @@ namespace LispMachine
             //var arguments = [eval(arg, env) for arg in x[1:]]
             //return proc(*args)
             //вызов функции реализуется через замыкание - добавляем все параметры в контекст
+            //если мы хотим реализовать переопределение встроенных функций, надо переместить код в начало
 
             return null;
         }

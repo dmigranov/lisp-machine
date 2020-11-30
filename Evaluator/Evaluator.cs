@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace LispMachine
@@ -23,7 +24,9 @@ namespace LispMachine
             }
             else if (expr is SExprList list)
             {
-                // тут мы рассматриваем различные специальные формы,
+                var args = list.GetArgs();
+
+                // тут мы рассматриваем различные специальные формы (!),
                 // которые НЕ являются функциями, так как 
                 // параметры в них оцениваются по другому, нежели в случае функций
                 // (простейший пример - if)
@@ -42,13 +45,25 @@ namespace LispMachine
                         SExpr condTrue = Evaluate(cond, env);
                         //todo
                     }
+                    else if (value == "lambda")
+                    {
+                        //синтаксис: (lambda (symbol...) exp)
+                        //пример (lambda (r) (* pi (* r r)))
+                        if (args[0] is SExprList lambdaArguments
+                            && lambdaArguments.GetElements().All(x => x is SExprSymbol))
+                        {
+                            args.RemoveAt(0);
+                        }
+                        else
+                            throw new EvaluationException("lambda definition should have a list of symbol parameters");
+                    }
                 }
 
 
                 //в конце, если ничего не найдено - считаем, что на первом месте - функция
                 //TODO: в будущем, голову тоже надо оценивать, если это лябмда, но пока закомментриую
                 
-                var args = list.GetArgs();
+                
                 
                 var call = new FunctionCall(head, args.Select(x => Evaluate(x, env)).ToList()); //todo
 
@@ -60,5 +75,14 @@ namespace LispMachine
             return null;
         }
 
+    }
+
+    public class EvaluationException : Exception
+    {
+        public EvaluationException() { }
+
+        public EvaluationException(string message) : base(message) { }
+
+        public EvaluationException(string message, Exception innerException) : base(message, innerException) { }
     }
 }
