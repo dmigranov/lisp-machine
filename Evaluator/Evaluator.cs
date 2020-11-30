@@ -6,12 +6,12 @@ namespace LispMachine
 {
     public class Evaluator
     {
-        public SExpr Evaluate(SExpr expr)
+        static public SExpr Evaluate(SExpr expr)
         {
             return Evaluate(expr, new EvaluationEnvironment());
         }
 
-        public SExpr Evaluate(SExpr expr, EvaluationEnvironment env)
+        static public SExpr Evaluate(SExpr expr, EvaluationEnvironment env)
         {
 
             if (expr is SExprSymbol symbol)
@@ -21,6 +21,10 @@ namespace LispMachine
             else if (expr is SExprAbstractValueAtom)
             {
                 return expr;
+            }
+            else if (expr is SExprLambda lamda)
+            {
+                Console.WriteLine("HEEEEEEEEEEEEEREEE");
             }
             else if (expr is SExprList list)
             {
@@ -53,6 +57,11 @@ namespace LispMachine
                             && lambdaArguments.GetElements().All(x => x is SExprSymbol))
                         {
                             args.RemoveAt(0);
+                            Console.WriteLine("We're here");
+
+                            //todo: правильно сформировать лямбду
+
+                            return new SExprLambda();
                         }
                         else
                             throw new EvaluationException("lambda definition should have a list of symbol parameters");
@@ -60,13 +69,9 @@ namespace LispMachine
                 }
 
 
-                //в конце, если ничего не найдено - считаем, что на первом месте - функция
-                //TODO: в будущем, голову тоже надо оценивать, если это лябмда, но пока закомментриую
                 
                 
-                
-                var call = new FunctionCall(head, args.Select(x => Evaluate(x, env)).ToList()); //todo
-
+                var call = new FunctionCall(head, args); 
                 return call.Evaluate(env);
 
 
