@@ -49,13 +49,25 @@ namespace LispMachine
 
 
 
-            bool isREPL = true; //TODO: parse args: REPL or build
+            bool isREPL = !(args.Length > 0 && args[0] == "-c"); //TODO: parse args: REPL or build
 
             if (isREPL)
             {
+                Console.WriteLine("HELLO M");
+                string line;
                 while (true)
                 {
-                    break;
+                    Console.WriteLine(line);
+                    SExprParser replParser = new SExprParser(new StringReader(line));
+                    SExpr replExpr;
+
+                    Evaluator replEvaluator = new Evaluator();
+                    while ((replExpr = replParser.GetSExpression()) != null) {
+                        var evaluated = replEvaluator.Evaluate(replExpr);
+                        if(evaluated != null)                   
+                            evaluated.PrintSExpr();
+
+                    }
                 }
 
             }
