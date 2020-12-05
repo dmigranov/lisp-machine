@@ -71,7 +71,7 @@ namespace LispMachine
                 }
 
             }
-            else
+            else    //todo: only net framework, not works in Core
             {
                 CSharpCodeProvider codeProvider = new CSharpCodeProvider();
                 string fileName = "Out.exe"; //TODO: parse name from args
