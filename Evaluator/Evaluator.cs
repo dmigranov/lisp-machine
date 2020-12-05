@@ -53,16 +53,24 @@ namespace LispMachine
                     {
                         //синтаксис: (lambda (symbol...) exp)
                         //пример (lambda (r) (* pi (* r r)))
-                        if (args[0] is SExprList lambdaArguments
-                            && lambdaArguments.GetElements().All(x => x is SExprSymbol))
+                        if (args[0] is SExprList lambdaArguments)
                         {
+                            List<SExprSymbol> symbolArguments = new List<SExprSymbol>();
+                            foreach (var arg in lambdaArguments.GetElements())
+                            {
+                                if(arg is SExprSymbol symbolArg) 
+                                    symbolArguments.Add(symbolArg);
+                                else
+                                    throw new EvaluationException("Parameter in lambda definition is not symbolic");
+                            } 
+
                             args.RemoveAt(0);
                             var body = args;
 
-                            return new SExprLambda(lambdaArguments.GetElements(), body);
+                            return new SExprLambda(symbolArguments, body);
                         }
                         else
-                            throw new EvaluationException("lambda definition should have a list of symbol parameters");
+                            throw new EvaluationException("Lambda definition should have a list of symbol parameters");
                     }
                 }
 

@@ -53,17 +53,17 @@ namespace LispMachine
 
             if (isREPL)
             {
-                Console.WriteLine("HELLO M");
                 string line;
-                while (true)
+                while ((line = Console.ReadLine()) != "exit")
                 {
+                    //todo: читать пока не будет пустой перенос строки, тогда оценивать строку сразу
                     Console.WriteLine(line);
                     SExprParser replParser = new SExprParser(new StringReader(line));
                     SExpr replExpr;
 
-                    Evaluator replEvaluator = new Evaluator();
+
                     while ((replExpr = replParser.GetSExpression()) != null) {
-                        var evaluated = replEvaluator.Evaluate(replExpr);
+                        var evaluated = Evaluator.Evaluate(replExpr);
                         if(evaluated != null)                   
                             evaluated.PrintSExpr();
 
