@@ -57,11 +57,9 @@ namespace LispMachine
                             && lambdaArguments.GetElements().All(x => x is SExprSymbol))
                         {
                             args.RemoveAt(0);
-                            Console.WriteLine("We're here");
+                            var body = args;
 
-                            //todo: правильно сформировать лямбду
-
-                            return new SExprLambda();
+                            return new SExprLambda(lambdaArguments.GetElements(), body);
                         }
                         else
                             throw new EvaluationException("lambda definition should have a list of symbol parameters");
