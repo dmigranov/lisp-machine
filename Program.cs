@@ -15,6 +15,7 @@ namespace LispMachine
 
                 (+ (+ -10 20 100) (+ 10 23 5))
                 (if true 10 100)
+                ((lambda (a) (+ a a a)) 3)
 ";
 
             Console.WriteLine("-----LEXER-----");
@@ -34,10 +35,9 @@ namespace LispMachine
             SExprParser parser = new SExprParser(new StringReader(testString));
             SExpr expr;
 
-            Evaluator evaluator = new Evaluator();
             while ((expr = parser.GetSExpression()) != null) {
                 expr.PrintSExpr();
-                var evald = evaluator.Evaluate(expr);
+                var evald = Evaluator.Evaluate(expr);
                 if(evald != null)
                 {
                     Console.Write("Evaluated: ");

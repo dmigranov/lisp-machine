@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace LispMachine
 {
@@ -8,6 +9,7 @@ namespace LispMachine
         private SExpr Function;
         private List<SExpr> Arguments;
 
+        //function и arguments - не-evaluated
         public FunctionCall(SExpr function, List<SExpr> arguments)
         {
             Function = function;
@@ -16,6 +18,8 @@ namespace LispMachine
 
         public SExpr Evaluate(EvaluationEnvironment env)
         {
+            Arguments = Arguments.Select(x => Evaluator.Evaluate(x, env)).ToList();
+
             if (Function is SExprSymbol symbol)
             {
                 string operation = symbol.Value;
@@ -60,6 +64,8 @@ namespace LispMachine
                         return null;
                     case "length":
                         return null;
+                    case "list":
+                        return null;
 
                     case "print":
                         return null;
@@ -78,11 +84,18 @@ namespace LispMachine
             //если же ничего во встроенных функциях не нашли, или это лямбда?
             //то это "лисповская" функция
             //включая встроенные - в глобальное (корневое) окружение при его создании в конструкторе
-            //тогда ищем в окружении такую функцию
+            //тогда сначала оцениваем нашу функцию (вдруг это лямбда), потом ищем в окружении такую функцию
             //var function = Evaluate(head, env);
             //var arguments = [eval(arg, env) for arg in x[1:]]
             //return proc(*args)
             //вызов функции реализуется через замыкание - добавляем все параметры в контекст
+            //если мы хотим реализовать переопределение встроенных функций, надо переместить код в начало
+
+
+            var evaluatedHead = Evaluator.Evaluate(Function, env);
+            //todo: вызвать функцию с evaluatedHead и аргументами и оценить её
+            //реализовать класс Closure?
+
 
             return null;
         }

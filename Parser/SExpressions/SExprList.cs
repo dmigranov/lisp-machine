@@ -5,23 +5,23 @@ namespace LispMachine
 {
     class SExprList : SExpr
     {
-        private List<SExpr> elements { get; }
+        private List<SExpr> Elements { get; }
 
         public SExprList()
         {
-            elements = new List<SExpr>();
+            Elements = new List<SExpr>();
         }
 
         public void AddSExprToList(SExpr elem)
         {
-            elements.Add(elem);
+            Elements.Add(elem);
         }
 
         public override void PrintSExpr()
         {
             Console.WriteLine("(");
 
-            foreach (var elem in elements)
+            foreach (var elem in Elements)
                 elem.PrintSExpr();
 
             Console.WriteLine(")");
@@ -31,14 +31,20 @@ namespace LispMachine
         //indexer
         public SExpr this[int index]
         {
-            get { return elements[index]; }
+            get { return Elements[index]; }
             //set { elements[index] = value }
         }
 
         public List<SExpr> GetArgs()
         {
-            var list = new List<SExpr>(elements);
+            var list = new List<SExpr>(Elements);
             list.RemoveAt(0);
+            return list;
+        }
+
+        public List<SExpr> GetElements()
+        {
+            var list = new List<SExpr>(Elements);
             return list;
         }
     }
