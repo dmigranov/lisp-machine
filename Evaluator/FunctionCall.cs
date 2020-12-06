@@ -60,13 +60,11 @@ namespace LispMachine
 
                     //операции над списками:
                     case "cons":
-                        return null;
                     case "conj":
-                        return null;
                     case "length":
-                        return null;
                     case "list":
                         return null;
+                    
 
                     case "print":
                         return null;
@@ -87,13 +85,9 @@ namespace LispMachine
             //включая встроенные - в глобальное (корневое) окружение при его создании в конструкторе
             //тогда сначала оцениваем нашу функцию (вдруг это лямбда), потом ищем в окружении такую функцию
             //var function = Evaluate(head, env);
-            //var arguments = [eval(arg, env) for arg in x[1:]]
-            //return proc(*args)
             //вызов функции реализуется через замыкание - добавляем все параметры в контекст
             //если мы хотим реализовать переопределение встроенных функций, надо переместить код в начало
             
-            //(define func (lambda (a) (+ a a a)))
-            Console.WriteLine("HEEEEEEEEEEEERE");
             var evaluatedHead = Evaluator.Evaluate(Function, env);
             
             if(evaluatedHead is SExprLambda lambda)
@@ -117,6 +111,7 @@ namespace LispMachine
 
                 return ret;
             }
+
 
             throw new EvaluationException("Not built-in function or lambda");
         }

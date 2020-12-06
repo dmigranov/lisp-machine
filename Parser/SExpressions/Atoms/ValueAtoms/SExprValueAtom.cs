@@ -19,7 +19,9 @@ namespace LispMachine
 
         public override string GetText()
         {
-            return Value.ToString();
+            if(Value != null)
+                return Value.ToString();
+            return "nullptr/void";
         }
 
         public override object GetCommonValue()

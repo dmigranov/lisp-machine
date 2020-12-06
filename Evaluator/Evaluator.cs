@@ -17,9 +17,11 @@ namespace LispMachine
         {
             if (expr is SExprSymbol symbol)
             {
-                var ret = env[symbol.Value]; 
+                string symbolValue = symbol.Value;
+
+                var ret = env[symbolValue]; 
                 if(ret == null)
-                    throw new EvaluationException($"Symbol {symbol.Value} not found");
+                    throw new EvaluationException($"Symbol {symbolValue} not found");
                 return ret;
             }
             else if (expr is SExprAbstractValueAtom)
@@ -48,6 +50,7 @@ namespace LispMachine
 
                         SExpr condTrue = Evaluate(cond, env);
                         //todo
+                        return null;
                     }
                     else if (value == "define")
                     {
@@ -126,6 +129,24 @@ namespace LispMachine
                         if(args.Count != 1)
                             throw new EvaluationException($"Wrong parameter count in quotation, should be 1 instead of {args.Count}");
                         return args[0];
+                    }
+                    else if(value.Contains('/'))
+                    {
+                        var splat = value.Split('/');
+                        var className = splat[0];
+                        var methodName = splat[1];
+
+                        var arguments = new List<object>();
+                        foreach(var arg in args)
+                        {
+                            if(arg is SExprAbstractValueAtom valueArg)
+                                arguments.Add(valueArg.GetCommonValue());
+                            else
+                                throw new EvaluationException("Wrong argument in native call");
+                        } 
+
+                        var obj = Type.GetType(className).GetMethod(methodName).Invoke(null, arguments.ToArray());
+                        return new SExprObject(obj);
                     }
                 }
 
