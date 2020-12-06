@@ -31,7 +31,7 @@ namespace LispMachine
 
         public override string GetText()
         {
-            string ret = String.Join(' ', Elements.Select(x => x.GetText()));
+            string ret = "( " + String.Join(' ', Elements.Select(x => x.GetText())) + " )";
             return ret;
         }
 
