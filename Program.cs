@@ -22,6 +22,9 @@ namespace LispMachine
 
                 (let (y 1) (define z (+ y x)))
                 (LispMachine.StandardLibrary/And false true)
+
+                (define apply (lambda (fn x y) (fn x y)))
+                
 ";
             Console.WriteLine("-----PARSER-----");
             SExprParser parser = new SExprParser(new StringReader(testString));

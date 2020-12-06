@@ -27,8 +27,8 @@ namespace LispMachine
                 switch (operation)
                 {
                     //все эти операторы много-арные
-                    case "+":
-                        return Sum();
+                    /*case "+":
+                        return Sum();*/
                     case "-":
                         return null;
                     case "*":
