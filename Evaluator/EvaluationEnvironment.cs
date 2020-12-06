@@ -31,8 +31,8 @@ namespace LispMachine
 
         public SExpr Get(string symbol)
         {            
-            SExpr ret = EnvDictionary[symbol];
-            if(ret == null)
+            SExpr ret;
+            if(!EnvDictionary.TryGetValue(symbol, out ret))
                 if(Parent != null)
                     ret = Parent[symbol];
 

@@ -44,7 +44,7 @@ namespace LispMachine
 
                 default:
                     StringBuilder builder = new StringBuilder();
-                    while (!Char.IsWhiteSpace((char)currentCharAsInt) && currentCharAsInt != '(' && currentCharAsInt != ')')
+                    while (!Char.IsWhiteSpace((char)currentCharAsInt) && currentCharAsInt != '(' && currentCharAsInt != ')' && currentCharAsInt != -1)
                     {
                         builder.Append((char)currentCharAsInt);
                         currentCharAsInt = reader.Read();

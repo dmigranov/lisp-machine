@@ -19,7 +19,7 @@ namespace LispMachine
                 ((lambda (a) (+ a a a)) 3)
 ";
 
-            Console.WriteLine("-----LEXER-----");
+            /*Console.WriteLine("-----LEXER-----");
             Lexer lexer = new Lexer(new StringReader(testString));
             Lexeme lexeme;
             while ((lexeme = lexer.GetLexeme()).Type != LexemeType.EOF)
@@ -46,7 +46,7 @@ namespace LispMachine
                 }
 
             };
-
+*/
 
 
 
@@ -57,16 +57,23 @@ namespace LispMachine
                 string line;
                 while ((line = Console.ReadLine()) != "exit")
                 {
+                    Console.WriteLine("Read line: " + line);
+
                     //todo: читать пока не будет пустой перенос строки, тогда оценивать строку сразу
-                    Console.WriteLine(line);
-                    SExprParser replParser = new SExprParser(new StringReader(line));
+                    string lineToParse = line;
+                    SExprParser replParser = new SExprParser(new StringReader(lineToParse));
                     SExpr replExpr;
 
 
                     while ((replExpr = replParser.GetSExpression()) != null) {
+
+                        replExpr.PrintSExpr();
+
                         var evaluated = Evaluator.Evaluate(replExpr);
-                        if(evaluated != null)                   
+                        if(evaluated != null)
+                        {
                             evaluated.PrintSExpr();
+                        }                   
 
                     }
                 }

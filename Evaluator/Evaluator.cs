@@ -6,9 +6,11 @@ namespace LispMachine
 {
     public class Evaluator
     {
+        static EvaluationEnvironment Env = new EvaluationEnvironment();
+
         static public SExpr Evaluate(SExpr expr)
         {
-            return Evaluate(expr, new EvaluationEnvironment());
+            return Evaluate(expr, Env);
         }
 
         static public SExpr Evaluate(SExpr expr, EvaluationEnvironment env)
@@ -16,7 +18,10 @@ namespace LispMachine
 
             if (expr is SExprSymbol symbol)
             {
-                return env[symbol.Value]; 
+                var ret = env[symbol.Value]; 
+                if(ret == null)
+                    throw new EvaluationException($"Symbol {symbol.Value} not found");
+                return ret;
             }
             else if (expr is SExprAbstractValueAtom)
             {
@@ -54,6 +59,12 @@ namespace LispMachine
                         //синтаксис: define symbol exp
                         if(args.Count != 2)
                             throw new EvaluationException($"Wrong parameter count in definintion, shold be 2 instead of {args.Count}");
+                        if(args[0] is SExprSymbol defineSymbol)
+                        {
+                            env[defineSymbol.Value] = args[1];
+                            //todo?
+                        }
+                        else throw new EvaluationException("First argument in definition should be a symbol!");
                     }
                     else if (value == "lambda")
                     {

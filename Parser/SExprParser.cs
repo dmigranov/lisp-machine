@@ -26,11 +26,13 @@ namespace LispMachine
         public SExpr GetSExpression()
         {
             currentLexeme = lexer.GetLexeme(); // first token === lexeme
+
             return GetSExpressionRecursive();
         }
 
         private SExpr GetSExpressionRecursive()
         {
+
             var lexemeType = currentLexeme.Type;
 
             if (lexemeType == LexemeType.EOF)
