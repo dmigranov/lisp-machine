@@ -93,6 +93,13 @@ namespace LispMachine
 
 
             var evaluatedHead = Evaluator.Evaluate(Function, env);
+            if(evaluatedHead is SExprLambda lambda)
+            {
+                Console.WriteLine("lambda!!!");
+                if(lambda.LambdaArguments.Count != Arguments.Count)
+                    throw new EvaluationException("Wrong argument count passed");
+            }
+
             //todo: вызвать функцию с evaluatedHead и аргументами и оценить её
             //реализовать класс Closure?
 

@@ -5,8 +5,8 @@ namespace LispMachine
 {
     public class SExprLambda : SExprAtom   //от кого он должен наслеоваться?
     {
-        private List<SExprSymbol> LambdaArguments;
-        private List<SExpr> Body; //тело может состоять из нескольких выражений, возвращаем последнее
+        public List<SExprSymbol> LambdaArguments { get; }
+        public List<SExpr> Body { get; } //тело может состоять из нескольких выражений, возвращаем последнее
         //но исполнить надо все (вдруг там принтлны или дефайны)
 
         public SExprLambda(List<SExprSymbol> lambdaArgs, List<SExpr> body)

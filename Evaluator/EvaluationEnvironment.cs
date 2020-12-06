@@ -18,9 +18,6 @@ namespace LispMachine
         private Dictionary<string, SExpr> dict;
         private EvaluationEnvironment parent = null;
 
-        //хорошо бы тут иметь два типа констант:
-        //одни - лисповские
-        //другие - внешние
 
         /*private static void InitializeRootEnvironment()
         {
