@@ -109,7 +109,6 @@ namespace LispMachine
                                 }
                                 else
                                     throw new EvaluationException($"Parameter №{i} in let is not a symbol");
-                            
                             }
 
                             args.RemoveAt(0);
@@ -120,11 +119,9 @@ namespace LispMachine
                                 ret = Evaluate(bodyExpr, letEnvironment);
                             }
                             return ret;
-                            
                         }
                         else
                             throw new EvaluationException("Second argument of let should be a list of bindings");
-                    
                     }
                     else if (value == "quote")
                     {

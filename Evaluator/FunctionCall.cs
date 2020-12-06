@@ -40,7 +40,7 @@ namespace LispMachine
                     case "|":
                         return null;
 
-                    //а эти - бинарные!
+                    //а эти - бинарные! return SExprBool
                     case ">":
                         return null;
                     case "<":
