@@ -6,11 +6,11 @@ namespace LispMachine
 {
     public class Evaluator
     {
-        static EvaluationEnvironment Env = new EvaluationEnvironment();
+        static EvaluationEnvironment GlobalEnv = new EvaluationEnvironment();
 
         static public SExpr Evaluate(SExpr expr)
         {
-            return Evaluate(expr, Env);
+            return Evaluate(expr, GlobalEnv);
         }
 
         static public SExpr Evaluate(SExpr expr, EvaluationEnvironment env)
@@ -96,6 +96,7 @@ namespace LispMachine
                         {
                             var letBindingsList = letBindings.GetElements();
                             //List<SExprSymbol> symbolArguments = new List<SExprSymbol>();
+                            var letEnvironment = new EvaluationEnvironment(env); 
                             for (int i = 0; i < letBindingsList.Count; i+=2)
                             {
                                 var symbolIndex = i;
@@ -106,8 +107,16 @@ namespace LispMachine
                                     throw new EvaluationException("Parameter in lambda definition is not symbolic");*/
                             
                                 return null;
-                            } 
+                            }
 
+                            args.RemoveAt(0);
+                            var body = args;
+                            SExpr ret;
+                            foreach (var bodyExpr in body)
+                            {
+                                ret = Evaluate(bodyExp, letEnvironment);
+                            }
+                            return ret;
                             
                         }
                         else
