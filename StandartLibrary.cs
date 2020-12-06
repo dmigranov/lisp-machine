@@ -6,9 +6,34 @@ namespace LispMachine
 {
     public class StandardLibrary
     {
-        public static double Sum(double x, double y)
+        public static double Plus2(double x, double y)
         {
             return x + y;
+        }
+
+        public static double Minus2(double x, double y)
+        {
+            return x - y;
+        }
+
+        public static bool More(double x, double y)
+        {
+            return x > y;
+        }
+
+        public static bool Equal(double x, double y)
+        {
+            return x == y;
+        }
+
+        public static bool Or(bool x, bool y)
+        {
+            return x || y;
+        }
+
+        public static bool And(bool x, bool y)
+        {
+            return x && y;
         }
     }
 }
