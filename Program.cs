@@ -57,17 +57,19 @@ namespace LispMachine
                 string line;
                 while ((line = Console.ReadLine()) != "exit")
                 {
-                    Console.WriteLine("Read line: " + line);
 
                     //todo: читать пока не будет пустой перенос строки, тогда оценивать строку сразу
                     string lineToParse = line;
-                    SExprParser replParser = new SExprParser(new StringReader(lineToParse));
+
+                    SExprParser replParser;
+                    try 
+                        { replParser = new SExprParser(new StringReader(lineToParse)); }
+                    catch (LexerException) 
+                        { continue; }
                     SExpr replExpr;
 
 
                     while ((replExpr = replParser.GetSExpression()) != null) {
-
-
                         var evaluated = Evaluator.Evaluate(replExpr);
                         if(evaluated != null)
                         {
