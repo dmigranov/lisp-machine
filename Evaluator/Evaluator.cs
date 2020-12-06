@@ -91,7 +91,28 @@ namespace LispMachine
                     }
                     else if (value == "let")
                     {
-                        
+                        //(let (bindings)* exprs*); //exprs* - это body
+                        if (args[0] is SExprList letBindings)
+                        {
+                            var letBindingsList = letBindings.GetElements();
+                            //List<SExprSymbol> symbolArguments = new List<SExprSymbol>();
+                            for (int i = 0; i < letBindingsList.Count; i+=2)
+                            {
+                                var symbolIndex = i;
+                                var valueIndex = i + 1;
+                                /*if(arg is SExprSymbol symbolArg) 
+                                    symbolArguments.Add(symbolArg);
+                                else
+                                    throw new EvaluationException("Parameter in lambda definition is not symbolic");*/
+                            
+                                return null;
+                            } 
+
+                            
+                        }
+                        else
+                            throw new EvaluationException("Second argument of let should be a list of bindings");
+                    
                     }
                     else if (value == "quote")
                     {
