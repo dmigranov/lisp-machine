@@ -15,43 +15,30 @@ namespace LispMachine
         //private static StandardEnvironment BuiltInEnv = new StandardEnvironment();
         // static bool IsInitialized = false;
 
-        private Dictionary<string, SExpr> dict;
-        private EvaluationEnvironment parent = null;
+        private Dictionary<string, SExpr> EnvDictionary;
+        private EvaluationEnvironment Parent = null;
 
-
-        /*private static void InitializeRootEnvironment()
-        {
-            //заполнить rootEnvironent?
-            Dictionary<string, object> lambdaDictionary;
-
-            IsInitialized = true;
-        }
-        */
         public EvaluationEnvironment()
         {
-
-        }
-        
-
-        //конструктор только для Глобала
-        private EvaluationEnvironment(Dictionary<string, SExpr> currentScope)
-        {
-            dict = currentScope;
+            EnvDictionary = new Dictionary<string, SExpr>();
         }
 
-        public EvaluationEnvironment(Dictionary<string, SExpr> currentScope, EvaluationEnvironment parent)
+
+
+        public EvaluationEnvironment(EvaluationEnvironment parent)
         {
-            //todo
+            EnvDictionary = new Dictionary<string, SExpr>();
+            Parent = parent;
         }
 
         public SExpr Get(string symbol)
         {            
-            //todo
+            SExpr ret = EnvDictionary[symbol];
+            if(ret == null)
+                if(Parent != null)
+                    ret = Parent[symbol];
 
-            //возвращает значение из словаря
-            //сначала смотрим в локальном контексте, потом обращаеся к родителю
-
-            return null;
+            return ret;
         }
 
         public SExpr this[string index]
