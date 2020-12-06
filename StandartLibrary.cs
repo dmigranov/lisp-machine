@@ -16,9 +16,24 @@ namespace LispMachine
             return x - y;
         }
 
+        public static double Multiply(double x, double y)
+        {
+            return x * y;
+        }
+
+        public static double Divide(double x, double y)
+        {
+            return x / y;
+        }
+
         public static bool More(double x, double y)
         {
             return x > y;
+        }
+
+        public static bool MoreEqual(double x, double y)
+        {
+            return x >= y;
         }
 
         public static bool Equal(double x, double y)

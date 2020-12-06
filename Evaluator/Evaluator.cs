@@ -58,8 +58,12 @@ namespace LispMachine
                         var ifFalse = list[3];
 
                         SExpr condTrue = Evaluate(cond, env);
-                        //todo
-                        return null;
+                        //всё, что не ложь - правда
+                        if(condTrue is SExprAbstractValueAtom atom && atom.GetCommonValue() is bool condTrueBool && !condTrueBool)
+                        {
+                            return Evaluate(ifFalse, env);
+                        }
+                        return Evaluate(ifTrue, env);
                     }
                     else if (value == "define")
                     {
