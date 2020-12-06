@@ -27,9 +27,16 @@ namespace LispMachine
             {
                 return expr;
             }
-            else if (expr is SExprLambda lamda)
+            else if (expr is SExprLambda lambda)
             {
                 Console.WriteLine("HEEEEEEEEEEEEEREEE");
+            
+                //Console.WriteLine("lambda!!!");
+                /*if(lambda.LambdaArguments.Count != Arguments.Count)
+                    throw new EvaluationException("Wrong argument count passed");
+*/
+                
+            
             }
             else if (expr is SExprList list)
             {
