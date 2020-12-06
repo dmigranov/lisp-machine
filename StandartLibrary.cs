@@ -6,12 +6,12 @@ namespace LispMachine
 {
     public class StandardLibrary
     {
-        public static double Plus2(double x, double y)
+        public static double Plus(double x, double y)
         {
             return x + y;
         }
 
-        public static double Minus2(double x, double y)
+        public static double Minus(double x, double y)
         {
             return x - y;
         }

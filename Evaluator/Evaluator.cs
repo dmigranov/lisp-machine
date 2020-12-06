@@ -6,12 +6,21 @@ namespace LispMachine
 {
     public class Evaluator
     {
-        static EvaluationEnvironment GlobalEnv = new EvaluationEnvironment();
+        private static StandardEvaluationEnvironment GlobalEnv = new StandardEvaluationEnvironment();
+
+        private static bool GlobalEnvInitialized = false;
 
         static public SExpr Evaluate(SExpr expr)
         {
+            if(!GlobalEnvInitialized)
+            {
+                GlobalEnv.Init();
+                GlobalEnvInitialized = true;
+            }
+
             return Evaluate(expr, GlobalEnv);
         }
+
 
         static public SExpr Evaluate(SExpr expr, EvaluationEnvironment env)
         {

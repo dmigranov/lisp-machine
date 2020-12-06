@@ -13,14 +13,15 @@ namespace LispMachine
         {
             string testString = @"  
 
-                (+ (+ -10 20 100) (+ 10 23 5))
+                (+ (+ -10 20) (+ 10 23))
                 (if true 10 100)
                 (define x 5)
-                ((lambda (a) (+ a a a)) 3)
-                (let (y 4 z (+ y 1)) (+ x y z))
+                ((lambda (a) (+ a a)) 3)
+                (let (y 4 z (+ y 1)) (+ x z))
                 (let (y 1) (let (z (+ y 1)) (+ z 1)))
 
                 (let (y 1) (define z (+ y x)))
+                (LispMachine.StandardLibrary/And false true)
 ";
             Console.WriteLine("-----PARSER-----");
             SExprParser parser = new SExprParser(new StringReader(testString));
