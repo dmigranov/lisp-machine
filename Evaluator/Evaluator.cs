@@ -111,10 +111,10 @@ namespace LispMachine
 
                             args.RemoveAt(0);
                             var body = args;
-                            SExpr ret;
+                            SExpr ret = null;
                             foreach (var bodyExpr in body)
                             {
-                                ret = Evaluate(bodyExp, letEnvironment);
+                                ret = Evaluate(bodyExpr, letEnvironment);
                             }
                             return ret;
                             
