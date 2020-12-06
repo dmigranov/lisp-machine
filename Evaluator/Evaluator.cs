@@ -49,6 +49,12 @@ namespace LispMachine
                         SExpr condTrue = Evaluate(cond, env);
                         //todo
                     }
+                    else if (value == "define")
+                    {
+                        //синтаксис: define symbol exp
+                        if(args.Count != 2)
+                            throw new EvaluationException($"Wrong parameter count in definintion, shold be 2 instead of {args.Count}");
+                    }
                     else if (value == "lambda")
                     {
                         //синтаксис: (lambda (symbol...) exp)

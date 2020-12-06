@@ -23,8 +23,6 @@ namespace LispMachine
             EnvDictionary = new Dictionary<string, SExpr>();
         }
 
-
-
         public EvaluationEnvironment(EvaluationEnvironment parent)
         {
             EnvDictionary = new Dictionary<string, SExpr>();

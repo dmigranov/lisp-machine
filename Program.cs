@@ -15,6 +15,7 @@ namespace LispMachine
 
                 (+ (+ -10 20 100) (+ 10 23 5))
                 (if true 10 100)
+                (define x 5)
                 ((lambda (a) (+ a a a)) 3)
 ";
 
