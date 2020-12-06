@@ -19,7 +19,7 @@ namespace LispMachine
                 ((lambda (a) (+ a a a)) 3)
 ";
 
-            /*Console.WriteLine("-----LEXER-----");
+            Console.WriteLine("-----LEXER-----");
             Lexer lexer = new Lexer(new StringReader(testString));
             Lexeme lexeme;
             while ((lexeme = lexer.GetLexeme()).Type != LexemeType.EOF)
@@ -46,7 +46,7 @@ namespace LispMachine
                 }
 
             };
-*/
+
 
 
 
