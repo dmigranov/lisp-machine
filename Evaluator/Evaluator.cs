@@ -95,14 +95,17 @@ namespace LispMachine
                         if (args[0] is SExprList letBindings)
                         {
                             var letBindingsList = letBindings.GetElements();
+                            if(letBindingsList.Count % 2 != 0)
+                                throw new EvaluationException("There should be an even number of elements in list of bindings");
+
                             var letEnvironment = new EvaluationEnvironment(env); 
                             for (int i = 0; i < letBindingsList.Count; i+=2)
                             {
                                 var symbolIndex = i;
                                 var valueIndex = i + 1;
-                                if(letBindingsList[0] is SExprSymbol symbolArg) 
+                                if(letBindingsList[i] is SExprSymbol symbolArg) 
                                 {
-                                    //todo: добавить в окружение значение с именем
+                                    //letEnvironment[symbolArg] = Evaluate(letBindingsList[letEnvironment]);
                                 }
                                 else
                                     throw new EvaluationException($"Parameter №{i} in let is not a symbol");

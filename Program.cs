@@ -17,7 +17,7 @@ namespace LispMachine
                 (if true 10 100)
                 (define x 5)
                 ((lambda (a) (+ a a a)) 3)
-                (let (y 4) y)
+                (let (y 4) (x + y))
 ";
 
             Console.WriteLine("-----LEXER-----");
