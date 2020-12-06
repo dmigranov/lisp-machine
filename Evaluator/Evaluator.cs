@@ -61,10 +61,12 @@ namespace LispMachine
                             throw new EvaluationException($"Wrong parameter count in definintion, should be 2 instead of {args.Count}");
                         if(args[0] is SExprSymbol defineSymbol)
                         {
-                            env[defineSymbol.Value] = args[1];
-                            //todo?
+                            var ret = Evaluate(args[1], env);
+                            GlobalEnv[defineSymbol.Value] = ret;
+                            return ret;
                         }
-                        else throw new EvaluationException("First argument in definition should be a symbol!");
+                        else 
+                            throw new EvaluationException("First argument in definition should be a symbol!");
                     }
                     else if (value == "lambda")
                     {
