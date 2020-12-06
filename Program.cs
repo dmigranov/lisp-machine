@@ -25,6 +25,7 @@ namespace LispMachine
 
                 (define apply (lambda (fn x y) (fn x y)))
                 
+                (define arithm (lambda (x) (if (> x 0) (+ x (func (- x 1))) 0)))
 ";
             Console.WriteLine("-----PARSER-----");
             SExprParser parser = new SExprParser(new StringReader(testString));

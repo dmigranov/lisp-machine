@@ -53,6 +53,7 @@ namespace LispMachine
                     var value = listHeadSymbol.Value;
                     if (value == "if")
                     {
+                        //todo: проверка на правильное число аргументов
                         var cond = list[1];
                         var ifTrue = list[2];
                         var ifFalse = list[3];
