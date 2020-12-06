@@ -24,19 +24,20 @@ namespace LispMachine
                 (LispMachine.StandardLibrary/And false true)
 
                 (define apply (lambda (fn x y) (fn x y)))
-                
-                (define arithm (lambda (x) (if (> x 0) (+ x (func (- x 1))) 0)))
+                (apply * 5 (apply * 2 2))
+                (define arithm (lambda (x) (if (> x 0) (+ x (arithm (- x 1))) 0)))
 ";
             Console.WriteLine("-----PARSER-----");
             SExprParser parser = new SExprParser(new StringReader(testString));
             SExpr expr;
 
             while ((expr = parser.GetSExpression()) != null) {
-                expr.PrintSExpr();
+                //Console.WriteLine($"Expression {expr.GetText()}:");
                 var evald = Evaluator.Evaluate(expr);
                 if(evald != null)
                 {
-                    evald.PrintSExpr();
+                    if(evald != null)
+                        Console.WriteLine("Evaluated: " + evald.GetText());
                 }
             };
 
@@ -157,7 +158,11 @@ namespace LispMachine
                     //Console.WriteLine($"Can't evaluate: {e}");
                     Console.WriteLine($"Can't evaluate: {e.Message}");
                 }
-                
+                catch (Exception e)
+                {
+                    //Console.WriteLine($"Can't evaluate: {e}");
+                    Console.WriteLine($"Some other error: {e.Message}");
+                }
             }
         }
 

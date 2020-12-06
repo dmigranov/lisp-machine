@@ -13,7 +13,6 @@ namespace LispMachine
         public FunctionCall(SExpr function, List<SExpr> arguments)
         {
             Function = function;
-            Console.WriteLine(function.GetText());
             Arguments = arguments;
         }
 
