@@ -20,6 +20,7 @@ namespace LispMachine
                 (let (y 4 z (+ y 1)) (+ x y z))
 ";
 
+            /*
             Console.WriteLine("-----LEXER-----");
             Lexer lexer = new Lexer(new StringReader(testString));
             Lexeme lexeme;
@@ -32,6 +33,7 @@ namespace LispMachine
                 if (lexeme.Type == LexemeType.SYMBOL)
                     Console.WriteLine(lexeme.Text);
             }
+            */
 
             Console.WriteLine("-----PARSER-----");
             SExprParser parser = new SExprParser(new StringReader(testString));
@@ -44,45 +46,15 @@ namespace LispMachine
                 {
                     evald.PrintSExpr();
                 }
-
-
             };
 
 
 
 
-            bool isREPL = !(args.Length > 0 && args[0] == "-c"); //TODO: parse args: REPL or build
-
+            bool isREPL = !(args.Length > 0 && args[0] == "-c");
             if (isREPL)
-            {
-                string line;
-                while ((line = Console.ReadLine()) != "exit")
-                {
-
-                    //todo: читать пока не будет пустой перенос строки, тогда оценивать строку сразу
-                    string lineToParse = line;
-
-                    SExprParser replParser;
-                    try 
-                        { replParser = new SExprParser(new StringReader(lineToParse)); }
-                    catch (LexerException) 
-                        { continue; }
-                    SExpr replExpr;
-
-
-                    while ((replExpr = replParser.GetSExpression()) != null) {
-                        var evaluated = Evaluator.Evaluate(replExpr);
-                        if(evaluated != null)
-                        {
-                            Console.WriteLine("Evaluated: " + evaluated.GetText());
-                        }         
-                        else
-                            Console.WriteLine("Can't evaluate (yet)");            
-
-                    }
-                }
-
-            }
+                StartREPL();
+            
             else    //todo: only net framework, not works in Core
             {
                 CSharpCodeProvider codeProvider = new CSharpCodeProvider();
@@ -159,6 +131,36 @@ namespace LispMachine
             }
 
 
+        }
+
+
+        private static void StartREPL()
+        {
+            string line;
+            while ((line = Console.ReadLine()) != "exit")
+            {
+
+                //todo: читать пока не будет пустой перенос строки, тогда оценивать строку сразу
+                string lineToParse = line;
+
+                SExprParser replParser;
+                try 
+                    { replParser = new SExprParser(new StringReader(lineToParse)); }
+                catch (LexerException) 
+                    { continue; }
+                SExpr replExpr;
+
+                while ((replExpr = replParser.GetSExpression()) != null) {
+                    var evaluated = Evaluator.Evaluate(replExpr);
+                    if(evaluated != null)
+                    {
+                        Console.WriteLine("Evaluated: " + evaluated.GetText());
+                    }         
+                    else
+                        Console.WriteLine("Can't evaluate (yet)");            
+
+                }
+            }
         }
     }
 
