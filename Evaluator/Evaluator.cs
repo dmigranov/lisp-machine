@@ -95,16 +95,17 @@ namespace LispMachine
                         if (args[0] is SExprList letBindings)
                         {
                             var letBindingsList = letBindings.GetElements();
-                            //List<SExprSymbol> symbolArguments = new List<SExprSymbol>();
                             var letEnvironment = new EvaluationEnvironment(env); 
                             for (int i = 0; i < letBindingsList.Count; i+=2)
                             {
                                 var symbolIndex = i;
                                 var valueIndex = i + 1;
-                                /*if(arg is SExprSymbol symbolArg) 
-                                    symbolArguments.Add(symbolArg);
+                                if(letBindingsList[0] is SExprSymbol symbolArg) 
+                                {
+                                    //todo: добавить в окружение значение с именем
+                                }
                                 else
-                                    throw new EvaluationException("Parameter in lambda definition is not symbolic");*/
+                                    throw new EvaluationException($"Parameter №{i} in let is not a symbol");
                             
                                 return null;
                             }
