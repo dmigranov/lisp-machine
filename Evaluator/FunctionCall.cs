@@ -29,8 +29,6 @@ namespace LispMachine
                     //все эти операторы много-арные
                     /*case "+":
                         return Sum();*/
-                    case "-":
-                        return null;
                     case "*":
                         return null;
                     case "/":

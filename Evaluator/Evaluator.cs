@@ -148,10 +148,13 @@ namespace LispMachine
                         var arguments = new List<object>();
                         foreach(var arg in args)
                         {
-                            if(arg is SExprAbstractValueAtom valueArg)
+                            //todo: переделать: сначала всё эвалуэйт
+                            if (arg is SExprAbstractValueAtom valueArg)
                                 arguments.Add(valueArg.GetCommonValue());
-                            else if(arg is SExprSymbol symbolArg && Evaluator.Evaluate(symbolArg, env) is SExprAbstractValueAtom evaluatedArg)
+                            else if (arg is SExprSymbol symbolArg && Evaluator.Evaluate(symbolArg, env) is SExprAbstractValueAtom evaluatedArg)
                                 arguments.Add(evaluatedArg.GetCommonValue());
+                            else if (arg is SExprList listArg)
+                                ; //todo: просто возвращать список
                             else
                                 throw new EvaluationException("Wrong argument in native call");
                         } 
@@ -161,8 +164,6 @@ namespace LispMachine
                     }
                 }
 
-
-                
                 
                 var call = new FunctionCall(head, args); 
                 return call.Evaluate(env);

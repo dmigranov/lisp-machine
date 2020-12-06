@@ -10,6 +10,8 @@ namespace LispMachine
 
             (define + (lambda (x y) (LispMachine.StandardLibrary/Plus x y)))
 
+            
+            (define - (lambda (x y) (LispMachine.StandardLibrary/Minus x y)))
             ";
 
         public StandardEvaluationEnvironment() : base()
