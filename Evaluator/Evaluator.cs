@@ -103,14 +103,13 @@ namespace LispMachine
                             {
                                 var symbolIndex = i;
                                 var valueIndex = i + 1;
-                                if(letBindingsList[i] is SExprSymbol symbolArg) 
+                                if(letBindingsList[symbolIndex] is SExprSymbol symbolArg) 
                                 {
-                                    //letEnvironment[symbolArg] = Evaluate(letBindingsList[letEnvironment]);
+                                    letEnvironment[symbolArg.Value] = Evaluate(letBindingsList[valueIndex], letEnvironment);
                                 }
                                 else
                                     throw new EvaluationException($"Parameter №{i} in let is not a symbol");
                             
-                                return null;
                             }
 
                             args.RemoveAt(0);
