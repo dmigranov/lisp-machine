@@ -41,9 +41,15 @@ namespace LispMachine
             return ret;
         }
 
+        public void Set(string symbol, SExpr value)
+        {
+            EnvDictionary[symbol] = value;
+        }
+
         public SExpr this[string index]
         {
             get => Get(index);
+            set => Set(index, value);
         }
     }
 }
