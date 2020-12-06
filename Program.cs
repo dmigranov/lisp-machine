@@ -11,7 +11,7 @@ namespace LispMachine
     {
         static void Main(string[] args)
         {
-            string testString = @"  
+            /*string testString = @"  
 
                 (+ (+ -10 20 100) (+ 10 23 5))
                 (if true 10 100)
@@ -37,7 +37,7 @@ namespace LispMachine
 
 
 
-
+*/
             bool isREPL = !(args.Length > 0 && args[0] == "-c");
             if (isREPL)
                 StartREPL();

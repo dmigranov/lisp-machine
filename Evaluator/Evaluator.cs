@@ -15,7 +15,6 @@ namespace LispMachine
 
         static public SExpr Evaluate(SExpr expr, EvaluationEnvironment env)
         {
-
             if (expr is SExprSymbol symbol)
             {
                 var ret = env[symbol.Value]; 
@@ -26,11 +25,6 @@ namespace LispMachine
             else if (expr is SExprAbstractValueAtom)
             {
                 return expr;
-            }
-            else if (expr is SExprLambda lambda)
-            {
-                Console.WriteLine("expr is SExprLambda lambda");
-                //todo: is it neccessary really?            
             }
             else if (expr is SExprList list)
             {

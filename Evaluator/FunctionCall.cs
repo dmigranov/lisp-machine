@@ -13,6 +13,7 @@ namespace LispMachine
         public FunctionCall(SExpr function, List<SExpr> arguments)
         {
             Function = function;
+            Console.WriteLine(function.GetText());
             Arguments = arguments;
         }
 
@@ -74,14 +75,14 @@ namespace LispMachine
 
 
                     default:
-                        return null; ;
+                        break;
                 }
 
             }
 
 
 
-            //если же ничего во встроенных функциях не нашли, или это лямбда?
+            //если же ничего во встроенных функциях не нашли (default), или это вообще сразу лямбда?
             //то это "лисповская" функция
             //включая встроенные - в глобальное (корневое) окружение при его создании в конструкторе
             //тогда сначала оцениваем нашу функцию (вдруг это лямбда), потом ищем в окружении такую функцию
@@ -90,8 +91,9 @@ namespace LispMachine
             //return proc(*args)
             //вызов функции реализуется через замыкание - добавляем все параметры в контекст
             //если мы хотим реализовать переопределение встроенных функций, надо переместить код в начало
-
-
+            
+            //(define func (lambda (a) (+ a a a)))
+            Console.WriteLine("HEEEEEEEEEEEERE");
             var evaluatedHead = Evaluator.Evaluate(Function, env);
             
             if(evaluatedHead is SExprLambda lambda)
