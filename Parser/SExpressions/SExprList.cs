@@ -19,7 +19,7 @@ namespace LispMachine
 
         public override void PrintSExpr()
         {
-            Console.WriteLine("(");
+            Console.Write("( ");
 
             foreach (var elem in Elements)
                 elem.PrintSExpr();

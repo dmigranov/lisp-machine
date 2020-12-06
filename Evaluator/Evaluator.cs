@@ -58,7 +58,7 @@ namespace LispMachine
                     {
                         //синтаксис: define symbol exp
                         if(args.Count != 2)
-                            throw new EvaluationException($"Wrong parameter count in definintion, shold be 2 instead of {args.Count}");
+                            throw new EvaluationException($"Wrong parameter count in definintion, should be 2 instead of {args.Count}");
                         if(args[0] is SExprSymbol defineSymbol)
                         {
                             env[defineSymbol.Value] = args[1];
@@ -88,6 +88,17 @@ namespace LispMachine
                         }
                         else
                             throw new EvaluationException("Lambda definition should have a list of symbol parameters");
+                    }
+                    else if (value == "let")
+                    {
+                        
+                    }
+                    else if (value == "quote")
+                    {
+                        //(quote exp)
+                        if(args.Count != 1)
+                            throw new EvaluationException($"Wrong parameter count in quotation, should be 1 instead of {args.Count}");
+                        return args[0];
                     }
                 }
 

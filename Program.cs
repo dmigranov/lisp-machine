@@ -41,9 +41,9 @@ namespace LispMachine
                 var evald = Evaluator.Evaluate(expr);
                 if(evald != null)
                 {
-                    Console.Write("Evaluated: ");
                     evald.PrintSExpr();
                 }
+
 
             };
 
@@ -67,13 +67,15 @@ namespace LispMachine
 
                     while ((replExpr = replParser.GetSExpression()) != null) {
 
-                        replExpr.PrintSExpr();
 
                         var evaluated = Evaluator.Evaluate(replExpr);
                         if(evaluated != null)
                         {
+                            Console.Write("Evaluated: ");
                             evaluated.PrintSExpr();
-                        }                   
+                        }         
+                        else
+                            Console.WriteLine("Can't evaluate (yet)");            
 
                     }
                 }
