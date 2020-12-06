@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace LispMachine
 {
@@ -14,9 +15,14 @@ namespace LispMachine
             LambdaArguments = lambdaArgs;
             Body = body;
 
-            Console.WriteLine("Lambda body:");
+            /*Console.WriteLine("Lambda body:");
             foreach (var elem in Body)
-                elem.PrintSExpr();
+                elem.PrintSExpr();*/
+        }
+
+        public override string GetText()
+        {
+            return $"Lambda of arguments {String.Join(", ", LambdaArguments.Select(x => x.GetText()))}";
         }
     }
 }

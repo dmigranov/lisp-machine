@@ -96,8 +96,6 @@ namespace LispMachine
             
             if(evaluatedHead is SExprLambda lambda)
             {
-                Console.WriteLine("lamdda!");
-
                 var lambdaSymbolArguments = lambda.LambdaArguments;
 
                 if(lambdaSymbolArguments.Count != Arguments.Count)
@@ -118,7 +116,7 @@ namespace LispMachine
                 return ret;
             }
 
-            return null;
+            throw new EvaluationException("Not built-in function or lambda");
         }
 
 
