@@ -94,13 +94,31 @@ namespace LispMachine
 
             var evaluatedHead = Evaluator.Evaluate(Function, env);
             
-            SExprList func = new SExprList();
-            func.AddSExprToList(evaluatedHead);
-            foreach (var arg in Arguments)
-                func.AddSExprToList(arg);
-        
+            if(evaluatedHead is SExprLambda lambda)
+            {
+                Console.WriteLine("lamdda!");
 
-            return Evaluator.Evaluate(func, env);
+                var lambdaSymbolArguments = lambda.LambdaArguments;
+
+                if(lambdaSymbolArguments.Count != Arguments.Count)
+                    throw new EvaluationException("Wrong argument count passed");
+
+                EvaluationEnvironment lambdaEnv = new EvaluationEnvironment(env);
+                for (int i = 0; i < Arguments.Count; i++)
+                {
+                    lambdaEnv[lambdaSymbolArguments[i].Value] = Arguments[i];
+                }
+
+                SExpr ret = null;
+                foreach (var bodyExpr in lambda.Body)
+                {
+                    ret = Evaluator.Evaluate(bodyExpr, lambdaEnv);
+                }
+
+                return ret;
+            }
+
+            return null;
         }
 
 
