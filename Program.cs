@@ -19,22 +19,6 @@ namespace LispMachine
                 ((lambda (a) (+ a a a)) 3)
                 (let (y 4 z (+ y 1)) (+ x y z))
 ";
-
-            /*
-            Console.WriteLine("-----LEXER-----");
-            Lexer lexer = new Lexer(new StringReader(testString));
-            Lexeme lexeme;
-            while ((lexeme = lexer.GetLexeme()).Type != LexemeType.EOF)
-            {
-                if(lexeme.Type == LexemeType.LBRACE)
-                    Console.WriteLine('(');
-                else if (lexeme.Type == LexemeType.RBRACE)
-                    Console.WriteLine(')');
-                if (lexeme.Type == LexemeType.SYMBOL)
-                    Console.WriteLine(lexeme.Text);
-            }
-            */
-
             Console.WriteLine("-----PARSER-----");
             SExprParser parser = new SExprParser(new StringReader(testString));
             SExpr expr;
@@ -100,9 +84,6 @@ namespace LispMachine
                 else
                     Console.WriteLine("Successfully compiled!");
 
-
-
-
                 /*var refPaths = new[] {
                     typeof(object).GetTypeInfo().Assembly.Location,
                     typeof(Console).GetTypeInfo().Assembly.Location,
@@ -127,10 +108,7 @@ namespace LispMachine
                         compilationResult.Diagnostics.Select(diagnostic => diagnostic.ToString())
                     ));
                 }*/
-
             }
-
-
         }
 
 
@@ -151,16 +129,31 @@ namespace LispMachine
 
                 SExpr replExpr;
 
-                while ((replExpr = replParser.GetSExpression()) != null) {
-                    var evaluated = Evaluator.Evaluate(replExpr);
-                    if(evaluated != null)
-                        Console.WriteLine("Evaluated: " + evaluated.GetText());
-                    else
-                        Console.WriteLine("Can't evaluate (yet)");            
-
+                try
+                {
+                    while ((replExpr = replParser.GetSExpression()) != null) {
+                        var evaluated = Evaluator.Evaluate(replExpr);
+                        if(evaluated != null)
+                            Console.WriteLine("Evaluated: " + evaluated.GetText());
+                        else
+                            Console.WriteLine("Can't evaluate (yet)");            
+                    }
                 }
+                catch (ParserException e)
+                {
+                    Console.WriteLine($"Can't parse: {e}");
+                }
+                catch (EvaluationException e)
+                {
+                    Console.WriteLine($"Can't evaluate: {e}");
+                }
+                
             }
         }
+
+
+
+
     }
 
 }
