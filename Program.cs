@@ -18,6 +18,7 @@ namespace LispMachine
                 (define x 5)
                 ((lambda (a) (+ a a a)) 3)
                 (let (y 4 z (+ y 1)) (+ x y z))
+                (let (y 1) (let (z (+ y 1)) (+ z 1)))
 ";
             Console.WriteLine("-----PARSER-----");
             SExprParser parser = new SExprParser(new StringReader(testString));
@@ -141,11 +142,13 @@ namespace LispMachine
                 }
                 catch (ParserException e)
                 {
-                    Console.WriteLine($"Can't parse: {e}");
+                    //Console.WriteLine($"Can't parse: {e}");
+                    Console.WriteLine($"Can't parse: {e.Message}");
                 }
                 catch (EvaluationException e)
                 {
-                    Console.WriteLine($"Can't evaluate: {e}");
+                    //Console.WriteLine($"Can't evaluate: {e}");
+                    Console.WriteLine($"Can't evaluate: {e.Message}");
                 }
                 
             }
