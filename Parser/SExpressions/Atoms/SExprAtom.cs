@@ -9,5 +9,10 @@ namespace LispMachine
         {
             Console.WriteLine("ATOM");
         }
+
+        public override string GetText()
+        {
+            return "ATOM";
+        }
     }
 }

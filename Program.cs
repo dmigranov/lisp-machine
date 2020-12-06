@@ -71,8 +71,7 @@ namespace LispMachine
                         var evaluated = Evaluator.Evaluate(replExpr);
                         if(evaluated != null)
                         {
-                            Console.Write("Evaluated: ");
-                            evaluated.PrintSExpr();
+                            Console.WriteLine("Evaluated: " + evaluated.GetText());
                         }         
                         else
                             Console.WriteLine("Can't evaluate (yet)");            

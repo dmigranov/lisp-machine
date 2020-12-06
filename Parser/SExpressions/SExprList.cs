@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+
 
 namespace LispMachine
 {
@@ -19,13 +21,18 @@ namespace LispMachine
 
         public override void PrintSExpr()
         {
-            Console.Write("( ");
+            Console.WriteLine("(");
 
             foreach (var elem in Elements)
                 elem.PrintSExpr();
 
             Console.WriteLine(")");
+        }
 
+        public override string GetText()
+        {
+            string ret = String.Join(' ', Elements.Select(x => x.GetText()));
+            return ret;
         }
 
         //indexer

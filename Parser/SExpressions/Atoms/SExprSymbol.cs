@@ -15,5 +15,10 @@ namespace LispMachine
         {
             Console.WriteLine(Value);
         }
+
+        public override string GetText()
+        {
+            return Value;
+        }
     }
 }
