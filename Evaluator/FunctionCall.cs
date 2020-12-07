@@ -94,17 +94,16 @@ namespace LispMachine
                 if(lambdaSymbolArguments.Count != Arguments.Count)
                     throw new EvaluationException("Wrong argument count passed");
 
-                EvaluationEnvironment lambdaEnv = new EvaluationEnvironment(env);
+                //EvaluationEnvironment lambdaEnv = new EvaluationEnvironment(env);
+                //todo: переименовать лямбда в Closure?
+                EvaluationEnvironment lambdaEnv = new EvaluationEnvironment(lambda.Environment);    //для замыканий
+
                 for (int i = 0; i < Arguments.Count; i++)
                 {
                     lambdaEnv[lambdaSymbolArguments[i].Value] = Arguments[i];
                 }
 
-                //todo: переделать покрасивее
-                foreach (var elem in lambda.Environment.EnvDictionary)
-                {
-                    lambdaEnv[elem.Key] = elem.Value;
-                }
+
 
                 SExpr ret = null;
                 foreach (var bodyExpr in lambda.Body)
