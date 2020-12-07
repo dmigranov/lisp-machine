@@ -98,10 +98,9 @@ namespace LispMachine
 
                             args.RemoveAt(0);
                             //сюда мы пришли с некоторым окружением, возможно неглобальным. Но мы ничего с ним не делаем, мы его теряем
-                            //var body = args;
-                            var body = args.Select(x => Evaluate(x, env)).ToList();
+                            var body = args;
 
-                            return new SExprLambda(symbolArguments, body);
+                            return new SExprLambda(symbolArguments, body, env);
 
                         }
                         else
