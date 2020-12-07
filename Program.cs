@@ -31,7 +31,7 @@ namespace LispMachine
                 (define dec (addA -1)) 
                 
 ";
-            Console.WriteLine("-----PARSER-----");
+            Console.WriteLine("-----PARSER TEST-----");
             SExprParser parser = new SExprParser(new StringReader(testString));
             SExpr expr;
 
