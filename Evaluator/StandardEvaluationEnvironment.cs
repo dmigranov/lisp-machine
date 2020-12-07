@@ -8,26 +8,26 @@ namespace LispMachine
     {
         private string predefined = @"
 
-            (define + (lambda (x y) (LispMachine.StandardLibrary/Plus x y)))
+            (define + (lambda (x y) (LispMachine.StandardLibrary\Plus x y)))
 
 
-            (define - (lambda (x y) (LispMachine.StandardLibrary/Minus x y)))
+            (define - (lambda (x y) (LispMachine.StandardLibrary\Minus x y)))
 
 
-            (define * (lambda (x y) (LispMachine.StandardLibrary/Multiply x y)))
+            (define * (lambda (x y) (LispMachine.StandardLibrary\Multiply x y)))
 
     
-            (define \ (lambda (x y) (LispMachine.StandardLibrary/Divide x y)))
+            (define / (lambda (x y) (LispMachine.StandardLibrary\Divide x y)))
 
 
-            (define > (lambda (x y) (LispMachine.StandardLibrary/More x y)))
-            (define < (lambda (x y) (LispMachine.StandardLibrary/More y x)))
-            (define <= (lambda (x y) (LispMachine.StandardLibrary/MoreEqual y x)))
-            (define >= (lambda (x y) (LispMachine.StandardLibrary/MoreEqual x y)))
-            (define = (lambda (x y) (LispMachine.StandardLibrary/Equal x y)))
+            (define > (lambda (x y) (LispMachine.StandardLibrary\More x y)))
+            (define < (lambda (x y) (LispMachine.StandardLibrary\More y x)))
+            (define <= (lambda (x y) (LispMachine.StandardLibrary\MoreEqual y x)))
+            (define >= (lambda (x y) (LispMachine.StandardLibrary\MoreEqual x y)))
+            (define = (lambda (x y) (LispMachine.StandardLibrary\Equal x y)))
 
-            (define & (lambda (x y) (LispMachine.StandardLibrary/And x y)))
-            (define | (lambda (x y) (LispMachine.StandardLibrary/Or x y)))
+            (define & (lambda (x y) (LispMachine.StandardLibrary\And x y)))
+            (define | (lambda (x y) (LispMachine.StandardLibrary\Or x y)))
 
             ";
 

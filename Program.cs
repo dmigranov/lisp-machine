@@ -21,11 +21,15 @@ namespace LispMachine
                 (let (y 1) (let (z (+ y 1)) (+ z 1)))
 
                 (let (y 1) (define z (+ y x)))
-                (LispMachine.StandardLibrary/And false true)
+                (LispMachine.StandardLibrary\And false true)
 
                 (define apply (lambda (fn x y) (fn x y)))
                 (apply * 5 (apply * 2 2))
                 (define arithm (lambda (x) (if (> x 0) (+ x (arithm (- x 1))) 0)))
+
+
+                (define addA (lambda (a) (lambda (y) (+ a y)))) 
+                
 ";
             Console.WriteLine("-----PARSER-----");
             SExprParser parser = new SExprParser(new StringReader(testString));

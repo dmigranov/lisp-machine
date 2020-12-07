@@ -144,9 +144,9 @@ namespace LispMachine
                             throw new EvaluationException($"Wrong parameter count in quotation, should be 1 instead of {args.Count}");
                         return args[0];
                     }
-                    else if(value.Contains('/'))
+                    else if(value.Contains('\\'))
                     {
-                        var splat = value.Split('/');
+                        var splat = value.Split('\\');
                         var className = splat[0];
                         var methodName = splat[1];
 
