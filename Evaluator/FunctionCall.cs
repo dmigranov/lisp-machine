@@ -100,11 +100,16 @@ namespace LispMachine
                     lambdaEnv[lambdaSymbolArguments[i].Value] = Arguments[i];
                 }
 
+                //todo: переделать покрасивее
+                foreach (var elem in lambda.Environment.EnvDictionary)
+                {
+                    lambdaEnv[elem.Key] = elem.Value;
+                }
+
                 SExpr ret = null;
                 foreach (var bodyExpr in lambda.Body)
                 {
                     ret = Evaluator.Evaluate(bodyExpr, lambdaEnv);
-
                 }
 
                 return ret;

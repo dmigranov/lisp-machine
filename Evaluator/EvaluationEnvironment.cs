@@ -15,7 +15,7 @@ namespace LispMachine
         //private static StandardEnvironment BuiltInEnv = new StandardEnvironment();
         // static bool IsInitialized = false;
 
-        private Dictionary<string, SExpr> EnvDictionary;
+        public Dictionary<string, SExpr> EnvDictionary { get; }
         private EvaluationEnvironment Parent = null;
 
         public EvaluationEnvironment()

@@ -83,7 +83,7 @@ namespace LispMachine
                     else if (value == "lambda")
                     {
                         //синтаксис: (lambda (symbol...) exp)
-                        //пример (lambda (r) (* pi (* r r)))
+                        //пример (lambda (r) (* r (* r r)))
                         if (args[0] is SExprList lambdaArguments)
                         {
                             List<SExprSymbol> symbolArguments = new List<SExprSymbol>();
@@ -97,7 +97,7 @@ namespace LispMachine
 
 
                             args.RemoveAt(0);
-                            //сюда мы пришли с некоторым окружением, возможно неглобальным. Но мы ничего с ним не делаем, мы его теряем
+                            //todo: сюда мы пришли с некоторым окружением, возможно неглобальным. Но мы ничего с ним не делаем, мы его теряем
                             var body = args;
 
                             return new SExprLambda(symbolArguments, body, env);
