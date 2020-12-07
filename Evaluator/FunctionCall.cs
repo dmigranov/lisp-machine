@@ -104,11 +104,11 @@ namespace LispMachine
                 foreach (var bodyExpr in lambda.Body)
                 {
                     ret = Evaluator.Evaluate(bodyExpr, lambdaEnv);
+
                 }
 
                 return ret;
             }
-
 
             throw new EvaluationException("Not built-in function or lambda");
         }

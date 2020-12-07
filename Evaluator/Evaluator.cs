@@ -95,10 +95,14 @@ namespace LispMachine
                                     throw new EvaluationException("Parameter in lambda definition is not symbolic");
                             } 
 
+
                             args.RemoveAt(0);
-                            var body = args;
+                            //сюда мы пришли с некоторым окружением, возможно неглобальным. Но мы ничего с ним не делаем, мы его теряем
+                            //var body = args;
+                            var body = args.Select(x => Evaluate(x, env)).ToList();
 
                             return new SExprLambda(symbolArguments, body);
+
                         }
                         else
                             throw new EvaluationException("Lambda definition should have a list of symbol parameters");

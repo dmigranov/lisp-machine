@@ -50,5 +50,12 @@ namespace LispMachine
         {
             return x && y;
         }
+
+        public static string Println(object x)
+        {
+            string ret = "Not implemented";
+            Console.WriteLine(ret);
+            return ret;
+        }
     }
 }
