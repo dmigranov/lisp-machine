@@ -27,7 +27,8 @@ namespace LispMachine
                 (apply * 5 (apply * 2 2))
                 (define arithm (lambda (x) (if (> x 0) (+ x (arithm (- x 1))) 0)))
 
-                (define addA (lambda (a) (lambda (y) (+ a y)))) 
+                (define addA (lambda (a) (lambda (y) (+ a y))))
+                (define dec (addA -1)) 
                 
 ";
             Console.WriteLine("-----PARSER-----");
