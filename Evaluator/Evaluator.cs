@@ -204,12 +204,16 @@ namespace LispMachine
 
         private static SExpr CreateSExprFromObject(object obj)
         {
-            //todo: recursively
-            if(obj is List<object> list)
-                ;
-            
-            //if(isarray)
-            //    ;
+            //recursive;
+            if (obj is IEnumerable enumerable)
+            {
+                SExprList ret = new SExprList();
+                foreach (var elem in enumerable)
+                {
+
+                }
+            }
+
             return new SExprObject(obj);
         }
 
