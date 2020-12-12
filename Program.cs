@@ -47,10 +47,16 @@ namespace LispMachine
 
 
 
-
+            int mode = 0; //0 - REPL, 1 - from file, 2 - compile?.. 
             bool isREPL = !(args.Length > 0 && args[0] == "-c");
-            if (isREPL)
+            bool fromFile = false;
+
+            if (mode == 0)
                 StartREPL();
+            else if (mode == 1)
+            {
+                
+            }
             
             else    //todo: only net framework, not works in Core
             {
