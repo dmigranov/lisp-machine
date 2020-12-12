@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -192,14 +193,23 @@ namespace LispMachine
             return null;
         }
 
+        private static bool IsList(object obj)
+        {
+            if (obj == null)
+                return false;
+            var objType = obj.GetType();
+            return obj is IList && objType.IsGenericType && objType.GetGenericTypeDefinition().IsAssignableFrom(typeof(List<>));
+
+        }
+
         private static SExpr CreateSExprFromObject(object obj)
         {
             //todo: recursively
             if(obj is List<object> list)
                 ;
-            auto objType = obj.GetType();
-            if(Ty)
-                ;
+            
+            //if(isarray)
+            //    ;
             return new SExprObject(obj);
         }
 
