@@ -4,6 +4,7 @@ using System.CodeDom.Compiler;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 
 namespace LispMachine
 {
@@ -128,11 +129,16 @@ namespace LispMachine
         private static void StartREPL()
         {
             string line;
+            StringBuilder builder = new StringBuilder();
             while ((line = Console.ReadLine()) != "exit")
-            {
-                //todo: читать пока не будет пустой перенос строки, тогда оценивать строку сразу
-                string lineToParse = line;
-
+            {                
+                if(line != "")
+                {
+                    builder.Append(line);
+                    continue;
+                }
+                string lineToParse = builder.ToString();
+                builder.Clear();
 
                 SExprParser replParser;
                 try 
