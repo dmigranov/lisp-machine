@@ -67,7 +67,7 @@ namespace LispMachine
                 string fileName = args[1];
                 StreamReader fileReader = new StreamReader(fileName);
 
-                Console.WriteLine("here");
+                ParseAndPrintFromReader(fileReader);
             }
             else    //todo: only net framework, not works in Core
             {
