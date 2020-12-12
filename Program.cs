@@ -37,7 +37,6 @@ namespace LispMachine
             SExpr expr;
 
             while ((expr = parser.GetSExpression()) != null) {
-                //Console.WriteLine($"Expression {expr.GetText()}:");
                 var evald = Evaluator.Evaluate(expr);
                 if(evald != null)
                 {
@@ -150,13 +149,22 @@ namespace LispMachine
 
                 try
                 {
+                    SExpr evaluated = null;
                     while ((replExpr = replParser.GetSExpression()) != null) {
-                        var evaluated = Evaluator.Evaluate(replExpr);
+                        evaluated = Evaluator.Evaluate(replExpr);
+                        /*
                         if(evaluated != null)
                             Console.WriteLine("Evaluated: " + evaluated.GetText());
                         else
-                            Console.WriteLine("Can't evaluate (yet)");            
+                            Console.WriteLine("Can't evaluate (yet)");
+                        */        
                     }
+                    //оцениваем только последнее выражение из серии
+                    if(evaluated != null)
+                        Console.WriteLine("Evaluated: " + evaluated.GetText());
+                    else
+                        Console.WriteLine("null");
+
                 }
                 catch (ParserException e)
                 {
@@ -175,11 +183,6 @@ namespace LispMachine
                 }
             }
         }
-
-
-//                (define addA (lambda (a) (lambda (y) (+ a y)))) 
-
-
     }
 
 }
