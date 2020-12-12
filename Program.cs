@@ -50,12 +50,12 @@ namespace LispMachine
             int mode = 0; //0 - REPL, 1 - from file, 2 - compile?..
             if(args.Length > 0)
             {
-                if(args[0] = "-f")
+                if(args[0] == "-f")
                     mode = 1;
                 else if(args[0] == "-c")
                     mode = 2;
                 else
-                    Console.Error("Wrong first argument, running in an interactive REPL mode");
+                    Console.Error.WriteLine("Wrong first argument, running in an interactive REPL mode");
             }
 
             if (mode == 0)
@@ -66,6 +66,8 @@ namespace LispMachine
                     throw new ArgumentException("Wrong argument count, second argument should be a file name/location");
                 string fileName = args[1];
                 StreamReader fileReader = new StreamReader(fileName);
+
+                Console.WriteLine("here");
             }
             else    //todo: only net framework, not works in Core
             {
