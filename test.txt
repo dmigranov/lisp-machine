@@ -2,4 +2,4 @@
 (println x)
 )
 
-(+ 5 9)
+(println (+ 5 9))

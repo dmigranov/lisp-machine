@@ -51,7 +51,7 @@ namespace LispMachine
                         return null;
                     case "!=":
                         return null;
-*/
+
                     case "abs":
                         return null;
 
@@ -68,7 +68,7 @@ namespace LispMachine
                     case "println":
                         return null;
 
-
+*/
                     default:
                         break;
                 }

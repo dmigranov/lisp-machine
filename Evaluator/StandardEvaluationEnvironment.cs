@@ -29,6 +29,9 @@ namespace LispMachine
             (define & (lambda (x y) (LispMachine.StandardLibrary\And x y)))
             (define | (lambda (x y) (LispMachine.StandardLibrary\Or x y)))
 
+            (define println (lambda (x) (LispMachine.StandardLibrary\Println x)))
+
+
             ";
 
 //деление: / пока нельзя, надо исправить в евалуэйт
