@@ -155,6 +155,17 @@ namespace LispMachine
                     else if (value[0] == '.')
                     {
                         //todo: вызов метода объекта
+                        var methodName = value.Substring(1);
+
+                        var arguments = new List<object>();
+                        foreach(var arg in args)
+                        {
+                            var evaluatedArg = Evaluate(arg, env);
+                            arguments.Add(CreateObjectFromSExpr(evaluatedArg));
+                        }
+
+                        //var obj = null; //todo
+                        //return CreateSExprFromObject(obj);                      
                     }
                     else if (value.Contains('\\'))
                     {
@@ -184,7 +195,6 @@ namespace LispMachine
 
         private static SExpr CreateSExprFromObject(object obj)
         {
-            //recursive;
             if (obj is IEnumerable enumerable)
             {
                 SExprList ret = new SExprList();
@@ -202,10 +212,8 @@ namespace LispMachine
             if (expr is SExprAbstractValueAtom value)
                 return value.GetCommonValue();
                 //дополнительно можно лоцировать встроенные типы типа int и приводить
-            throw new EvaluationException("Wrong argument in native call");
-                        
+            throw new EvaluationException("Wrong argument in native call");        
         }
-
     }
 
     public class EvaluationException : Exception
