@@ -178,7 +178,7 @@ namespace LispMachine
 
                         var obj = Type.GetType(className).GetMethod(methodName).Invoke(null, arguments.ToArray());
                         
-                        return  CreateSExprFromObject(obj);                      
+                        return CreateSExprFromObject(obj);                      
                         
                     }
                 }
@@ -201,6 +201,7 @@ namespace LispMachine
                 SExprList ret = new SExprList();
                 foreach (var elem in enumerable)
                     ret.AddSExprToList(CreateSExprFromObject(elem));
+                return ret;
             }
 
             return new SExprObject(obj);
