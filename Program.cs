@@ -48,7 +48,15 @@ namespace LispMachine
 
 
             int mode = 0; //0 - REPL, 1 - from file, 2 - compile?..
-            //todo
+            if(args.Length > 0)
+            {
+                if(args[0] = "")
+                    ;
+                else if(args[0] == "")
+                    ;
+                else
+                    Console.Error("Wrong first argument, running in an interactive REPL mode");
+            }
 
             bool isREPL = !(args.Length > 0 && args[0] == "-c");
 
@@ -148,15 +156,9 @@ namespace LispMachine
             {
                 SExpr evaluated = null;
                 while ((replExpr = replParser.GetSExpression()) != null) {
-                    evaluated = Evaluator.Evaluate(replExpr);
-                    /*
-                    if(evaluated != null)
-                        Console.WriteLine("Evaluated: " + evaluated.GetText());
-                    else
-                        Console.WriteLine("Can't evaluate (yet)");
-                    */        
+                    evaluated = Evaluator.Evaluate(replExpr);  
                 }
-                //оцениваем только последнее выражение из серии
+                //оцениваем только последнее выражение из серии, если надо все - внести в цикл
                 if(evaluated != null)
                     Console.WriteLine("Evaluated: " + evaluated.GetText());
                 else
