@@ -148,7 +148,15 @@ namespace LispMachine
                             throw new EvaluationException($"Wrong parameter count in quotation, should be 1 instead of {args.Count}");
                         return args[0];
                     }
-                    else if(value.Contains('\\'))
+                    else if (value == "try")
+                    {
+                        
+                    }
+                    else if (value[0] == '.')
+                    {
+                        //todo: вызов метода объекта
+                    }
+                    else if (value.Contains('\\'))
                     {
                         var splat = value.Split('\\');
                         var className = splat[0];
@@ -164,15 +172,11 @@ namespace LispMachine
                         var obj = Type.GetType(className).GetMethod(methodName).Invoke(null, arguments.ToArray());
                         
                         return CreateSExprFromObject(obj);                      
-                        
                     }
                 }
 
-                
                 var call = new FunctionCall(head, args); 
                 return call.Evaluate(env);
-
-
             }
 
             return null;
@@ -193,11 +197,10 @@ namespace LispMachine
 
         private static object CreateObjectFromSExpr(SExpr expr)
         {
-            //todo: recursive
+            if (expr is SExprList list)
+                return list.GetElements().Cast<object>().ToList();  //todo: recursive
             if (expr is SExprAbstractValueAtom value)
                 return value.GetCommonValue();
-            else if (expr is SExprList list)
-                return list.GetElements().Cast<object>().ToList();  //todo: неправильно
             else
                 throw new EvaluationException("Wrong argument in native call");
                         
