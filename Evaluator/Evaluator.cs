@@ -203,8 +203,12 @@ namespace LispMachine
                     ret.AddSExprToList(CreateSExprFromObject(elem));
                 return ret;
             }
-
             return new SExprObject(obj);
+        }
+
+        private static object CreateObjectFromSExpr(SExpr expr)
+        {
+            
         }
 
     }
