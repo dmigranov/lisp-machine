@@ -165,15 +165,6 @@ namespace LispMachine
                             else
                                 throw new EvaluationException("Wrong argument in native call");
                         
-                            /*//todo: переделать: сначала всё эвалуэйт
-                            if (arg is SExprAbstractValueAtom valueArg)
-                                arguments.Add(valueArg.GetCommonValue());
-                            else if (arg is SExprSymbol symbolArg && Evaluator.Evaluate(symbolArg, env) is SExprAbstractValueAtom evaluatedArg)
-                                arguments.Add(evaluatedArg.GetCommonValue());
-                            else if (arg is SExprList listArg)
-                                ; //todo: просто возвращать список
-                            else
-                                throw new EvaluationException("Wrong argument in native call");*/
                         } 
 
                         var obj = Type.GetType(className).GetMethod(methodName).Invoke(null, arguments.ToArray());
