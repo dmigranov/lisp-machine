@@ -158,13 +158,7 @@ namespace LispMachine
                         foreach(var arg in args)
                         {
                             var evaluatedArg = Evaluate(arg, env);
-                            if (evaluatedArg is SExprAbstractValueAtom valueArg)
-                                arguments.Add(valueArg.GetCommonValue());
-                            else if (evaluatedArg is SExprList listArg)
-                                arguments.Add(listArg.GetElements().Cast<object>().ToList());
-                            else
-                                throw new EvaluationException("Wrong argument in native call");
-                        
+                            arguments.Add(CreateObjectFromSExpr(evaluatedArg));
                         } 
 
                         var obj = Type.GetType(className).GetMethod(methodName).Invoke(null, arguments.ToArray());
@@ -199,7 +193,14 @@ namespace LispMachine
 
         private static object CreateObjectFromSExpr(SExpr expr)
         {
-            
+            //todo: recursive
+            if (expr is SExprAbstractValueAtom value)
+                return value.GetCommonValue();
+            else if (expr is SExprList list)
+                return list.GetElements().Cast<object>().ToList();  //todo: неправильно
+            else
+                throw new EvaluationException("Wrong argument in native call");
+                        
         }
 
     }
