@@ -134,6 +134,50 @@ namespace LispMachine
         }
 
 
+        private static void ParseAndPrintFromReader(TextReader reader)
+        {
+            SExprParser replParser;
+            try 
+                { replParser = new SExprParser(reader); }
+            catch (LexerException) 
+                { return; }
+
+            SExpr replExpr;
+
+            try
+            {
+                SExpr evaluated = null;
+                while ((replExpr = replParser.GetSExpression()) != null) {
+                    evaluated = Evaluator.Evaluate(replExpr);
+                    /*
+                    if(evaluated != null)
+                        Console.WriteLine("Evaluated: " + evaluated.GetText());
+                    else
+                        Console.WriteLine("Can't evaluate (yet)");
+                    */        
+                }
+                //оцениваем только последнее выражение из серии
+                if(evaluated != null)
+                    Console.WriteLine("Evaluated: " + evaluated.GetText());
+                else
+                    Console.WriteLine("null");
+
+            }
+            catch (ParserException e)
+            {
+                Console.WriteLine($"Can't parse: {e.Message}");
+            }
+            catch (EvaluationException e)
+            {
+                Console.WriteLine($"Can't evaluate: {e.Message}");
+            }
+            catch (Exception e)
+            {
+                //Console.WriteLine($"Can't evaluate: {e}");
+                Console.WriteLine($"Some other error: {e.Message}");
+            }
+        }
+
         private static void StartREPL()
         {
             string line;
@@ -148,48 +192,7 @@ namespace LispMachine
                 string lineToParse = builder.ToString();
                 builder.Clear();
 
-                SExprParser replParser;
-                try 
-                    { replParser = new SExprParser(new StringReader(lineToParse)); }
-                catch (LexerException) 
-                    { continue; }
-
-                SExpr replExpr;
-
-                try
-                {
-                    SExpr evaluated = null;
-                    while ((replExpr = replParser.GetSExpression()) != null) {
-                        evaluated = Evaluator.Evaluate(replExpr);
-                        /*
-                        if(evaluated != null)
-                            Console.WriteLine("Evaluated: " + evaluated.GetText());
-                        else
-                            Console.WriteLine("Can't evaluate (yet)");
-                        */        
-                    }
-                    //оцениваем только последнее выражение из серии
-                    if(evaluated != null)
-                        Console.WriteLine("Evaluated: " + evaluated.GetText());
-                    else
-                        Console.WriteLine("null");
-
-                }
-                catch (ParserException e)
-                {
-                    //Console.WriteLine($"Can't parse: {e}");
-                    Console.WriteLine($"Can't parse: {e.Message}");
-                }
-                catch (EvaluationException e)
-                {
-                    //Console.WriteLine($"Can't evaluate: {e}");
-                    Console.WriteLine($"Can't evaluate: {e.Message}");
-                }
-                catch (Exception e)
-                {
-                    //Console.WriteLine($"Can't evaluate: {e}");
-                    Console.WriteLine($"Some other error: {e.Message}");
-                }
+                ParseAndPrintFromReader(new StringReader(lineToParse));
             }
         }
     }
