@@ -150,7 +150,7 @@ namespace LispMachine
                     }
                     else if (value == "try")
                     {
-                        
+                        //todo: try catch...
                     }
                     else if (value[0] == '.')
                     {
@@ -198,11 +198,11 @@ namespace LispMachine
         private static object CreateObjectFromSExpr(SExpr expr)
         {
             if (expr is SExprList list)
-                return list.GetElements().Cast<object>().ToList();  //todo: recursive
+                return list.GetElements().Select(x => CreateObjectFromSExpr(x)).Cast<object>().ToList();  //todo: recursive
             if (expr is SExprAbstractValueAtom value)
                 return value.GetCommonValue();
-            else
-                throw new EvaluationException("Wrong argument in native call");
+                //дополнительно можно лоцировать встроенные типы типа int и приводить
+            throw new EvaluationException("Wrong argument in native call");
                         
         }
 
