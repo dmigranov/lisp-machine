@@ -62,9 +62,15 @@ namespace LispMachine
             return ret;
         }
 
-        public static int Count(object[] arr)
+        public static int Count(List<object> arr)
         {
-            return arr.Length;
+            return arr.Count;
+        }
+
+        public static List<object> Cons(object x, List<object> list)
+        {
+            //todo: implemetn
+            return null;
         }
     }
 }

@@ -33,6 +33,7 @@ namespace LispMachine
 
             (define count (lambda (x) (LispMachine.StandardLibrary\Count x)))
 
+            (define cons (lambda (x seq) (LispMachine.StandardLibrary\Cons x seq)))
             ";
 
 //деление: / пока нельзя, надо исправить в евалуэйт
