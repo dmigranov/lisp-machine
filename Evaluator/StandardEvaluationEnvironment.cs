@@ -32,8 +32,10 @@ namespace LispMachine
             (define println (lambda (x) (LispMachine.StandardLibrary\Println x)))
 
             (define count (lambda (x) (LispMachine.StandardLibrary\Count x)))
-
             (define cons (lambda (x seq) (LispMachine.StandardLibrary\Cons x seq)))
+            (define conj (lambda (seq x) (LispMachine.StandardLibrary\Conj seq x)))
+
+            
             ";
 
 //деление: / пока нельзя, надо исправить в евалуэйт

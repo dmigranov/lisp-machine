@@ -72,5 +72,11 @@ namespace LispMachine
             list.Insert(0, x);
             return list;
         }
+
+        public static List<object> Conj(List<object> list, object x)
+        {
+            list.Add(x);
+            return list;
+        }
     }
 }
