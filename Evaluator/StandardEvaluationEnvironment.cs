@@ -31,6 +31,7 @@ namespace LispMachine
 
             (define println (lambda (x) (LispMachine.StandardLibrary\Println x)))
 
+            (define count (lambda (x) (LispMachine.StandardLibrary\Count x)))
 
             ";
 

@@ -160,7 +160,7 @@ namespace LispMachine
                             if (evaluatedArg is SExprAbstractValueAtom valueArg)
                                 arguments.Add(valueArg.GetCommonValue());
                             else if (evaluatedArg is SExprList listArg)
-                                throw new EvaluationException("Not implemented"); //todo: просто возвращать список
+                                arguments.Add(listArg.GetElements().ToArray());
                             else
                                 throw new EvaluationException("Wrong argument in native call");
                         

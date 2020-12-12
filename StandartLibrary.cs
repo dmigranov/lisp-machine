@@ -61,5 +61,10 @@ namespace LispMachine
             Console.WriteLine(ret);
             return ret;
         }
+
+        public static int Count(object[] arr)
+        {
+            return arr.Length;
+        }
     }
 }
