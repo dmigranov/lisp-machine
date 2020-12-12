@@ -53,7 +53,11 @@ namespace LispMachine
 
         public static string Println(object x)
         {
-            string ret = "Not implemented";
+            string ret;
+            if(x != null)
+                ret =  x.ToString();
+            else 
+                ret = "nullptr/void";
             Console.WriteLine(ret);
             return ret;
         }
