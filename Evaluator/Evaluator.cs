@@ -193,15 +193,6 @@ namespace LispMachine
             return null;
         }
 
-        private static bool IsList(object obj)
-        {
-            if (obj == null)
-                return false;
-            var objType = obj.GetType();
-            return obj is IList && objType.IsGenericType && objType.GetGenericTypeDefinition().IsAssignableFrom(typeof(List<>));
-
-        }
-
         private static SExpr CreateSExprFromObject(object obj)
         {
             //recursive;
