@@ -176,7 +176,9 @@ namespace LispMachine
                         } 
 
                         var obj = Type.GetType(className).GetMethod(methodName).Invoke(null, arguments.ToArray());
-                        return new SExprObject(obj);
+                        
+                        return  CreateSExprFromObject(obj);                      
+                        
                     }
                 }
 
@@ -188,6 +190,13 @@ namespace LispMachine
             }
 
             return null;
+        }
+
+        private static SExpr CreateSExprFromObject(object obj)
+        {
+            //todo: check if obj is array or list and create SExprList recursively
+
+            return new SExprObject(obj);
         }
 
     }
