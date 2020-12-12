@@ -1,5 +1,7 @@
-(let (x (+ 6 7)) 
-(println x)
-)
+(define myfunc (
+    lambda (x) 
+        (println x)
+        (+ x x)
+))
 
-(println (+ 5 9))
+(myfunc 10)
