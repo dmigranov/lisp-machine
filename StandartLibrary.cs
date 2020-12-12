@@ -69,8 +69,8 @@ namespace LispMachine
 
         public static List<object> Cons(object x, List<object> list)
         {
-            //todo: implemetn
-            return null;
+            list.Insert(0, x);
+            return list;
         }
     }
 }

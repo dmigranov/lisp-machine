@@ -200,9 +200,7 @@ namespace LispMachine
             {
                 SExprList ret = new SExprList();
                 foreach (var elem in enumerable)
-                {
-
-                }
+                    ret.AddSExprToList(CreateSExprFromObject(elem));
             }
 
             return new SExprObject(obj);
