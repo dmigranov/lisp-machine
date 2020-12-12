@@ -47,17 +47,20 @@ namespace LispMachine
 
 
 
-            int mode = 0; //0 - REPL, 1 - from file, 2 - compile?.. 
+            int mode = 0; //0 - REPL, 1 - from file, 2 - compile?..
+            //todo
+
             bool isREPL = !(args.Length > 0 && args[0] == "-c");
-            bool fromFile = false;
 
             if (mode == 0)
                 StartREPL();
             else if (mode == 1)
             {
-                
+                if(args.Length < 2)
+                    throw new ArgumentException("Wrong argument count, second argument should be a file name/location");
+                string fileName = args[1];
+                StreamReader fileReader = new StreamReader(fileName);
             }
-            
             else    //todo: only net framework, not works in Core
             {
                 CSharpCodeProvider codeProvider = new CSharpCodeProvider();
