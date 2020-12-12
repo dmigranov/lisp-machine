@@ -194,8 +194,12 @@ namespace LispMachine
 
         private static SExpr CreateSExprFromObject(object obj)
         {
-            //todo: check if obj is array or list and create SExprList recursively
-
+            //todo: recursively
+            if(obj is List<object> list)
+                ;
+            auto objType = obj.GetType();
+            if(Ty)
+                ;
             return new SExprObject(obj);
         }
 
