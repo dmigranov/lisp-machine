@@ -182,7 +182,12 @@ namespace LispMachine
                     {
                         // (try expr* catches* finally?)
                         // catch is (catch Exception e exprs*)
-                        //todo: try catch...
+                        int i;
+                        for (i = 0; i < args.Count; i++)
+                        {
+                            var expr = args[i];
+                            if(expr )
+                        }
                         return null;
                     }
                     else if (value == "new")
