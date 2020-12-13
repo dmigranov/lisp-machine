@@ -218,9 +218,13 @@ namespace LispMachine
                                         throw new EvaluationException($"{exceptionClassName} is not an exception type!");
 
                                     List<SExpr> catchBody = new List<SExpr>();
-                                    /*catchBody.Add();
+                                    if(catchArgs[1] is SExprSymbol exceptionSymbol)
+                                        catchBody.Add(exceptionSymbol);
+                                    else
+                                        throw new EvaluationException("Exception name in catch clause is not a symbol");
 
-                                    for ()
+
+                                    /*for ()
                                     {
 
                                     }*/
