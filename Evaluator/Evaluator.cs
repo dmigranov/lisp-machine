@@ -193,8 +193,9 @@ namespace LispMachine
                             else
                                 body.Add(tryExpr);
                         }
-                        //todo: тут мы запоминаем все catch'и (список/словарь?)
                         //после этого должны быть только catch (может, 0?) и, опционально, finally  
+                        Dictionary<Type, List<SExpr>> exceptionDict;
+                        //список имеет особый вид: первый элемент - SExprSymbol - имя переменной (для нее создадим контекст внутренний)
 
                         for (; i < args.Count; i++)
                         {
@@ -231,7 +232,7 @@ namespace LispMachine
                         }
                         finally
                         {
-
+                            //todo
                         }
 
                         return null;

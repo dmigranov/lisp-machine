@@ -85,6 +85,20 @@ namespace LispMachine
             return list;
         }
 
+        public static object First(List<object> list)
+        {
+            return list[0];
+        }
+
+        public static object Second(List<object> list)
+        {
+            return list[1];
+        }
+
+
+
+
+        
         public static string GetExampleString()
         {
             return "some text";
@@ -95,14 +109,9 @@ namespace LispMachine
             return "some text " + x;
         }
 
-        public static object First(List<object> list)
+        public static void ThrowsException()
         {
-            return list[0];
-        }
-
-        public static object Second(List<object> list)
-        {
-            return list[1];
+            throw new ApplicationException();
         }
 
     }
