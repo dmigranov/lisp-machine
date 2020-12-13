@@ -175,7 +175,7 @@ namespace LispMachine
                     }
                     else if (value == "throw")
                     {
-                        //(throw expr), where expr should evaluate to throwable
+                        //(throw expr), where expr should evaluate to Exception (analogue of Throwable in Java)
                         return null;
                     }
                     else if (value == "try")
@@ -194,7 +194,20 @@ namespace LispMachine
                                 body.Add(tryExpr);
                         }
                         Console.WriteLine("Here!");
+
+                        //todo: тут мы запоминаем все catch'и (список/словарь?)
+
                         //после этого должны быть только catch (может, 0?) и, опционально, finally  
+
+                        try
+                        {
+
+                        }
+                        catch (Exception e)
+                        {
+                            //тут мы итерируемся по всем catch'ам (или смотрим в словаре?) и проверяем
+                            //ничё нет - смотрим default
+                        }
 
                         return null;
                     }
