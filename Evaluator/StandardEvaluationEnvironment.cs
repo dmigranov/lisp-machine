@@ -35,6 +35,8 @@ namespace LispMachine
             (define count (lambda (x) (LispMachine.StandardLibrary\Count x)))
             (define cons (lambda (x seq) (LispMachine.StandardLibrary\Cons x seq)))
             (define conj (lambda (seq x) (LispMachine.StandardLibrary\Conj seq x)))
+            (define first (lambda (seq) (LispMachine.StandardLibrary\First seq)))
+            (define second (lambda (seq) (LispMachine.StandardLibrary\Second seq)))
 
             
             ";

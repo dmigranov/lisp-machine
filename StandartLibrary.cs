@@ -68,9 +68,9 @@ namespace LispMachine
             return ret;
         }
 
-        public static int Count(List<object> arr)
+        public static int Count(List<object> list)
         {
-            return arr.Count;
+            return list.Count;
         }
 
         public static List<object> Cons(object x, List<object> list)
@@ -94,5 +94,16 @@ namespace LispMachine
         {
             return "some text " + x;
         }
+
+        public static object First(List<object> list)
+        {
+            return list[0];
+        }
+
+        public static object Second(List<object> list)
+        {
+            return list[1];
+        }
+
     }
 }
