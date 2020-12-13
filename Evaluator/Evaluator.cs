@@ -146,11 +146,18 @@ namespace LispMachine
                         //(quote exp)
                         if(args.Count != 1)
                             throw new EvaluationException($"Wrong parameter count in quotation, should be 1 instead of {args.Count}");
+                        //todo: check unquote?
                         return args[0];
                     }
                     else if (value == "try")
                     {
                         //todo: try catch...
+                        return null;
+                    }
+                    else if (value == "new")
+                    {
+                        //todo
+                        return null;
                     }
                     else if (value[0] == '.')
                     {

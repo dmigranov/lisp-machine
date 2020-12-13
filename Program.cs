@@ -30,6 +30,8 @@ namespace LispMachine
 
                 (define addA (lambda (a) (lambda (y) (+ a y))))
                 (define dec (addA -1)) 
+
+                (.CompareTo 55 67)
                 
 ";
             Console.WriteLine("-----PARSER TEST-----");
