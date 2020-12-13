@@ -193,20 +193,28 @@ namespace LispMachine
                             else
                                 body.Add(tryExpr);
                         }
-                        Console.WriteLine("Here!");
 
                         //todo: тут мы запоминаем все catch'и (список/словарь?)
-
-                        //после этого должны быть только catch (может, 0?) и, опционально, finally  
-
-                        try
+                        for (; i < args.Count; i++)
                         {
 
+                        }
+                        //после этого должны быть только catch (может, 0?) и, опционально, finally  
+
+                        SExpr ret = null;
+                        try
+                        {
+                            foreach (var bodyExpr in body)
+                                ret = Evaluate(bodyExpr, env);
                         }
                         catch (Exception e)
                         {
                             //тут мы итерируемся по всем catch'ам (или смотрим в словаре?) и проверяем
                             //ничё нет - смотрим default
+                        }
+                        finally
+                        {
+
                         }
 
                         return null;
