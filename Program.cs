@@ -62,6 +62,8 @@ namespace LispMachine
 
             if (mode == 0)
                 StartREPL();
+                //ParseAndPrintFromReader(new StreamReader(Console.OpenStandardInput()));
+
             else if (mode == 1)
             {
                 if(args.Length < 2)
