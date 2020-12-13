@@ -194,7 +194,7 @@ namespace LispMachine
                                 body.Add(tryExpr);
                         }
                         //после этого должны быть только catch (может, 0?) и, опционально, finally  
-                        Dictionary<Type, List<SExpr>> exceptionDict;
+                        Dictionary<Type, List<SExpr>> exceptionDict = new  Dictionary<Type, List<SExpr>>();
                         //список имеет особый вид: первый элемент - SExprSymbol - имя переменной (для нее создадим контекст внутренний)
 
                         for (; i < args.Count; i++)
@@ -216,6 +216,16 @@ namespace LispMachine
 
                                     if(!isExceptionType)
                                         throw new EvaluationException($"{exceptionClassName} is not an exception type!");
+
+                                    List<SExpr> catchBody = new List<SExpr>();
+                                    /*catchBody.Add();
+
+                                    for ()
+                                    {
+
+                                    }*/
+
+                                    exceptionDict[exceptionType] = catchBody;
 
                                     continue;
                                 }
