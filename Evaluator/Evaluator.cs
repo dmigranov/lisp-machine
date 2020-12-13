@@ -149,8 +149,15 @@ namespace LispMachine
                         //todo: check unquote?
                         return args[0];
                     }
+                    else if (value == "throw")
+                    {
+                        //(throw expr), where expr should evaluate to throwable
+                        return null;
+                    }
                     else if (value == "try")
                     {
+                        // (try expr* catches* finally?)
+                        // catch is (catch Exception e exprs*)
                         //todo: try catch...
                         return null;
                     }
