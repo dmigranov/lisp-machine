@@ -78,5 +78,10 @@ namespace LispMachine
             list.Add(x);
             return list;
         }
+
+        public static string GetString()
+        {
+            return "string";
+        }
     }
 }

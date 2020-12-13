@@ -159,8 +159,9 @@ namespace LispMachine
                             throw new EvaluationException($"Wrong parameter count in native method call: an instance should be provided after method name");
                         var methodName = value.Substring(1);
                         var instance = args[0]; //todo: надо Evaluate
-                        args.RemoveAt(0);
+                        var evaluatedInstance = Evaluate(instance);
 
+                        args.RemoveAt(0);
                         var arguments = new List<object>();
                         foreach(var arg in args)
                         {
@@ -168,8 +169,8 @@ namespace LispMachine
                             arguments.Add(CreateObjectFromSExpr(evaluatedArg));
                         }
 
-                        //var obj = null; //todo
-                        //return CreateSExprFromObject(obj);                      
+                        var returnedObj = evaluatedInstance.GetType().GetMethod(methodName).Invoke(evaluatedInstance, arguments.ToArray()); 
+                        return CreateSExprFromObject(returnedObj);                      
                     }
                     else if (value.Contains('\\'))
                     {
@@ -184,9 +185,8 @@ namespace LispMachine
                             arguments.Add(CreateObjectFromSExpr(evaluatedArg));
                         } 
 
-                        var obj = Type.GetType(className).GetMethod(methodName).Invoke(null, arguments.ToArray());
-                        
-                        return CreateSExprFromObject(obj);                      
+                        var returnedObj = Type.GetType(className).GetMethod(methodName).Invoke(null, arguments.ToArray());
+                        return CreateSExprFromObject(returnedObj);                      
                     }
                 }
 
