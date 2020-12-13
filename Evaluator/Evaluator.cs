@@ -204,14 +204,17 @@ namespace LispMachine
                             {
                                 if (trySymbol.Value == "catch")
                                 {
+                                    //(catch ExceptionType e expr * )
+
                                     var catchArgs = tryList.GetArgs();
                                     if (catchArgs.Count < 2)
                                         throw new EvaluationException("Not enough elements in catch clause");
                                     
                                     var exceptionClassName = catchArgs[0].GetText();
                                     var exceptionType = Type.GetType(exceptionClassName);
-                                    Console.WriteLine(exceptionType);
-                                    //(catch ExceptionType e expr * )
+                                    if(!exceptionType.IsSubclassOf(typeof(Exception)))
+                                        throw new EvaluationException($"{exceptionClassName} is not an exception type!");
+
                                     continue;
                                 }
                                 else if (trySymbol.Value == "finally")
