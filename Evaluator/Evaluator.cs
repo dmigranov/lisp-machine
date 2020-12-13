@@ -72,9 +72,13 @@ namespace LispMachine
                         //(cond (cond expr)*)
                         if(args.Count % 2 != 0)
                             throw new EvaluationException("There should be an even number of arguments in cond statement");
-                        for (int i = 0; i < letBindingsList.Count; i+=2)
+                        for (int i = 0; i < args.Count; i += 2)
                         {
-                            
+                            var cond = args[i];
+                            var expr = args[i + 1];
+
+                            SExpr evaluatedCond = Evaluate(cond, env);
+
                         }
 
                         return null;
