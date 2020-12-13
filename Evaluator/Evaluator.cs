@@ -173,6 +173,8 @@ namespace LispMachine
                         foreach(var arg in args)
                         {
                             var evaluatedArg = Evaluate(arg, env);
+                            if(evaluatedArg is SExprLambda)
+                                throw new EvaluationException("Wrong parameter in native call, lambdas can't be passed");
                             arguments.Add(CreateObjectFromSExpr(evaluatedArg));
                         }
 
@@ -192,6 +194,8 @@ namespace LispMachine
                         foreach(var arg in args)
                         {
                             var evaluatedArg = Evaluate(arg, env);
+                            if(evaluatedArg is SExprLambda)
+                                throw new EvaluationException("Wrong parameter in native call, lambdas can't be passed");
                             arguments.Add(CreateObjectFromSExpr(evaluatedArg));
                         } 
 
