@@ -204,7 +204,7 @@ namespace LispMachine
                             {
                                 if (trySymbol.Value == "catch")
                                 {
-                                    //todo
+                                    //(catch ExceptionType e )
                                     continue;
                                 }
                                 else if (trySymbol.Value == "finally")
@@ -228,7 +228,9 @@ namespace LispMachine
                         catch (Exception e)
                         {
                             //тут мы итерируемся по всем catch'ам (или смотрим в словаре?) и проверяем
-                            //ничё нет - смотрим default
+                            //ничё нет - смотрим default и бросаем искоючение
+                            //todo: если бросали из внешнего метода, то там System.Reflection.TargetInvocationException
+                            //поэтому в этом случае надо брать InnerException
                         }
                         finally
                         {
