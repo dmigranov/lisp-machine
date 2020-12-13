@@ -75,13 +75,17 @@ namespace LispMachine
                         for (int i = 0; i < args.Count; i += 2)
                         {
                             var cond = args[i];
-                            var expr = args[i + 1];
+                            var condexpr = args[i + 1];
 
                             SExpr evaluatedCond = Evaluate(cond, env);
 
+                            if(evaluatedCond is SExprAbstractValueAtom atom && atom.GetCommonValue() is bool condBool && !condBool)
+                                continue;
+                            return Evaluate(condexpr, env);
+                            
                         }
 
-                        return null;
+                        return new SExprObject(null);
                     }
                     else if (value == "define")
                     {
