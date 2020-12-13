@@ -212,7 +212,9 @@ namespace LispMachine
                                     
                                     var exceptionClassName = catchArgs[0].GetText();
                                     var exceptionType = Type.GetType(exceptionClassName);
-                                    if(!exceptionType.IsSubclassOf(typeof(Exception)))
+                                    bool isExceptionType = exceptionType.IsSubclassOf(typeof(Exception)) || exceptionType == typeof(Exception);
+
+                                    if(!isExceptionType)
                                         throw new EvaluationException($"{exceptionClassName} is not an exception type!");
 
                                     continue;
