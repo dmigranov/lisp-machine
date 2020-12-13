@@ -185,9 +185,16 @@ namespace LispMachine
                         int i;
                         for (i = 0; i < args.Count; i++)
                         {
-                            var expr = args[i];
-                            if(expr )
+                            var tryExpr = args[i];
+                            if (tryExpr is SExprList tryList && tryList[0] is SExprSymbol trySymbol
+                                 && trySymbol.Value == "catch")
+                                break;
+                            else
+                                Console.WriteLine(":("); //todo: evaluate
                         }
+                        Console.WriteLine("Here!");
+                        //после этого должны быть только catch (может, 0?) и, опционально, finally  
+
                         return null;
                     }
                     else if (value == "new")
