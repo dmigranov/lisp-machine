@@ -212,27 +212,20 @@ namespace LispMachine
                                     
                                     var exceptionClassName = catchArgs[0].GetText();
                                     var exceptionType = Type.GetType(exceptionClassName);
+                                    if (exceptionType == null)
+                                        throw new EvaluationException("Exception type not found. Perhaps you should specify the namespace.");
+
                                     bool isExceptionType = exceptionType.IsSubclassOf(typeof(Exception)) || exceptionType == typeof(Exception);
 
                                     if(!isExceptionType)
                                         throw new EvaluationException($"{exceptionClassName} is not an exception type!");
 
-                                    List<SExpr> catchBody = new List<SExpr>();
-                                    if(catchArgs[1] is SExprSymbol exceptionSymbol)
-                                        catchBody.Add(exceptionSymbol);
-                                    else
+                                    if(!(catchArgs[1] is SExprSymbol))
                                         throw new EvaluationException("Exception name in catch clause is not a symbol");
 
-                                    tryList.RemoveAt(0);
-                                    tryList.RemoveAt(0);
-
-                                    for ()
-                                    {
-
-                                    }
-
+                                    catchArgs.RemoveAt(0);
+                                    var catchBody = catchArgs;
                                     exceptionDict[exceptionType] = catchBody;
-
                                     continue;
                                 }
                                 else if (trySymbol.Value == "finally")
