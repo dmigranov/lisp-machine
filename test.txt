@@ -6,4 +6,12 @@
 
 (myfunc 10)
 
-(+ 45.2 (System.Double\Parse (readln)))
+(println (+ 45.2 (System.Double\Parse (readln))))
+
+(define sgn (lambda (x) (cond 
+    (> x 0) 1         
+    (< x 0) -1
+    (= x 0) 0
+)))
+
+(sgn -64)

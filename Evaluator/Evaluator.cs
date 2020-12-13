@@ -81,8 +81,7 @@ namespace LispMachine
 
                             if(evaluatedCond is SExprAbstractValueAtom atom && atom.GetCommonValue() is bool condBool && !condBool)
                                 continue;
-                            return Evaluate(condexpr, env);
-                            
+                            return Evaluate(condexpr, env); 
                         }
 
                         return new SExprObject(null);
