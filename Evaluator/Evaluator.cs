@@ -171,7 +171,7 @@ namespace LispMachine
 
                         var type = CreateObjectFromSExpr(evaluatedInstance).GetType();
 
-                        var returnedObj = type.GetMethod(methodName).Invoke(evaluatedInstance, arguments.ToArray()); 
+                        var returnedObj = type.GetMethod(methodName, arguments.Select (x => x.GetType()).ToArray()).Invoke(evaluatedInstance, arguments.ToArray()); 
                         return CreateSExprFromObject(returnedObj);                      
                     }
                     else if (value.Contains('\\'))
