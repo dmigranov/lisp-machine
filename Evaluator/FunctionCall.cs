@@ -25,50 +25,9 @@ namespace LispMachine
                 string operation = symbol.Value;
                 switch (operation)
                 {
-                    //все эти операторы много-арные
+                    //изначально операции были релизованы тут, но такой способ на давал им быть объектами первого класса
                     /*case "+":
-                        return Sum();
-                    case "*":
-                        return null;
-                    case "/":
-                        return null;
-                    //вот в случае этих проверки надо как-то проводить, и в случае double выкидывать исключения?
-                    case "&":
-                        return null;
-                    case "|":
-                        return null;
-
-                    //а эти - бинарные! return SExprBool
-                    case ">":
-                        return null;
-                    case "<":
-                        return null; ;
-                    case "<=":
-                        return null;
-                    case ">=":
-                        break;
-                    case "=":
-                        return null;
-                    case "!=":
-                        return null;
-
-                    case "abs":
-                        return null;
-
-                    //операции над списками:
-                    case "cons":
-                    case "conj":
-                    case "length":
-                    case "list":
-                        return null;
-                    
-
-                    case "print":
-                        return null;
-                    case "println":
-                        return null;
-
-*/
+                        return Sum();   */
                     default:
                         break;
                 }
