@@ -149,6 +149,11 @@ namespace LispMachine
                         //todo: check unquote?
                         return args[0];
                     }
+                    else if (value == "new")
+                    {
+                        //(new Classname args*)
+                        return null;
+                    }
                     else if (value == "throw")
                     {
                         //(throw expr), where expr should evaluate to throwable
