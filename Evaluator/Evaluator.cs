@@ -193,13 +193,30 @@ namespace LispMachine
                             else
                                 body.Add(tryExpr);
                         }
-
                         //todo: тут мы запоминаем все catch'и (список/словарь?)
+                        //после этого должны быть только catch (может, 0?) и, опционально, finally  
+
                         for (; i < args.Count; i++)
                         {
-
+                            var tryExpr = args[i];
+                            if (tryExpr is SExprList tryList && tryList[0] is SExprSymbol trySymbol)
+                            {
+                                if (trySymbol.Value == "catch")
+                                {
+                                    //todo
+                                    continue;
+                                }
+                                else if (trySymbol.Value == "finally")
+                                {
+                                    //todo
+                                }
+                                else
+                                    throw new EvaluationException("After first catch, only catch and finally clauses are allowed in try-catch");
+                            }
+                            else
+                                throw new EvaluationException("After first catch, only catch and finally clauses are allowed in try-catch");
                         }
-                        //после этого должны быть только catch (может, 0?) и, опционально, finally  
+
 
                         SExpr ret = null;
                         try
