@@ -30,6 +30,7 @@ namespace LispMachine
             (define | (lambda (x y) (LispMachine.StandardLibrary\Or x y)))
 
             (define println (lambda (x) (LispMachine.StandardLibrary\Println x)))
+            (define readln (lambda () (LispMachine.StandardLibrary\Readln)))
 
             (define count (lambda (x) (LispMachine.StandardLibrary\Count x)))
             (define cons (lambda (x seq) (LispMachine.StandardLibrary\Cons x seq)))
@@ -37,8 +38,6 @@ namespace LispMachine
 
             
             ";
-
-//деление: / пока нельзя, надо исправить в евалуэйт
 
         public StandardEvaluationEnvironment() : base()
         {
@@ -59,7 +58,5 @@ namespace LispMachine
                 }
             };
         }
-
-
     }
 }

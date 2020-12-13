@@ -62,6 +62,12 @@ namespace LispMachine
             return ret;
         }
 
+        public static string Readln()
+        {
+            string ret = Console.ReadLine();
+            return ret;
+        }
+
         public static int Count(List<object> arr)
         {
             return arr.Count;

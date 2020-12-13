@@ -5,3 +5,5 @@
 ))
 
 (myfunc 10)
+
+(+ 45.2 (System.Double\Parse (readln)))
