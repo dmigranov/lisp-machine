@@ -83,5 +83,10 @@ namespace LispMachine
         {
             return "some text";
         }
+
+        public static string GetExampleString(int x)
+        {
+            return "some text " + x;
+        }
     }
 }
