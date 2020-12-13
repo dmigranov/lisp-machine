@@ -154,8 +154,12 @@ namespace LispMachine
                     }
                     else if (value[0] == '.')
                     {
-                        //todo: вызов метода объекта
+                        //(.methodName instance parameters*)
+                        if(args.Count < 1)
+                            throw new EvaluationException($"Wrong parameter count in native method call: an instance should be provided after method name");
                         var methodName = value.Substring(1);
+                        var instance = args[0]; //todo: надо Evaluate
+                        args.RemoveAt(0);
 
                         var arguments = new List<object>();
                         foreach(var arg in args)
