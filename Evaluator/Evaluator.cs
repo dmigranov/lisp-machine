@@ -223,11 +223,13 @@ namespace LispMachine
                                     else
                                         throw new EvaluationException("Exception name in catch clause is not a symbol");
 
+                                    tryList.RemoveAt(0);
+                                    tryList.RemoveAt(0);
 
-                                    /*for ()
+                                    for ()
                                     {
 
-                                    }*/
+                                    }
 
                                     exceptionDict[exceptionType] = catchBody;
 
