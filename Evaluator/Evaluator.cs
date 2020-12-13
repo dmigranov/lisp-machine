@@ -204,7 +204,13 @@ namespace LispMachine
                             {
                                 if (trySymbol.Value == "catch")
                                 {
-                                    //(catch ExceptionType e )
+                                    var catchArgs = tryList.GetArgs();
+                                    if (catchArgs.Count < 2)
+                                    {
+                                        throw new EvaluationException("Not enough elements in catch clause");
+                                    }
+                                    Console.WriteLine(tryList[1].GetText());
+                                    //(catch ExceptionType e expr * )
                                     continue;
                                 }
                                 else if (trySymbol.Value == "finally")
