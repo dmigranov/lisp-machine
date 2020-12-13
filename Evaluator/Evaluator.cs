@@ -169,7 +169,9 @@ namespace LispMachine
                             arguments.Add(CreateObjectFromSExpr(evaluatedArg));
                         }
 
-                        var returnedObj = evaluatedInstance.GetType().GetMethod(methodName).Invoke(evaluatedInstance, arguments.ToArray()); 
+                        var type = CreateObjectFromSExpr(evaluatedInstance).GetType();
+
+                        var returnedObj = type.GetMethod(methodName).Invoke(evaluatedInstance, arguments.ToArray()); 
                         return CreateSExprFromObject(returnedObj);                      
                     }
                     else if (value.Contains('\\'))
@@ -199,7 +201,7 @@ namespace LispMachine
 
         private static SExpr CreateSExprFromObject(object obj)
         {
-            if (obj is IEnumerable enumerable)
+            if (!(obj is string) && obj is IEnumerable enumerable)
             {
                 SExprList ret = new SExprList();
                 foreach (var elem in enumerable)

@@ -81,7 +81,7 @@ namespace LispMachine
 
         public static string GetString()
         {
-            return "string";
+            return "some text";
         }
     }
 }

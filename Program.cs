@@ -175,7 +175,7 @@ namespace LispMachine
             }
             catch (Exception e)
             {
-                //Console.WriteLine($"Can't evaluate: {e}");
+                Console.WriteLine($"Can't evaluate: {e}");
                 Console.WriteLine($"Some other error: {e.Message}");
             }
         }
