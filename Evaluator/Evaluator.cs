@@ -67,6 +67,18 @@ namespace LispMachine
                         }
                         return Evaluate(ifTrue, env);
                     }
+                    else if (value == "cond")
+                    {
+                        //(cond (cond expr)*)
+                        if(args.Count % 2 != 0)
+                            throw new EvaluationException("There should be an even number of arguments in cond statement");
+                        for (int i = 0; i < letBindingsList.Count; i+=2)
+                        {
+                            
+                        }
+
+                        return null;
+                    }
                     else if (value == "define")
                     {
                         //синтаксис: define symbol exp
