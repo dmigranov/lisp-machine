@@ -183,6 +183,7 @@ namespace LispMachine
                         // (try expr* catches* finally?)
                         // catch is (catch Exception e exprs*)
                         int i;
+                        List<SExpr> body = new List<SExpr>();
                         for (i = 0; i < args.Count; i++)
                         {
                             var tryExpr = args[i];
@@ -190,7 +191,7 @@ namespace LispMachine
                                  && trySymbol.Value == "catch")
                                 break;
                             else
-                                Console.WriteLine(":("); //todo: evaluate
+                                body.Add(tryExpr);
                         }
                         Console.WriteLine("Here!");
                         //после этого должны быть только catch (может, 0?) и, опционально, finally  
