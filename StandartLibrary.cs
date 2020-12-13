@@ -79,7 +79,7 @@ namespace LispMachine
             return list;
         }
 
-        public static string GetString()
+        public static string GetExampleString()
         {
             return "some text";
         }

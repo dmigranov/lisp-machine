@@ -199,7 +199,8 @@ namespace LispMachine
                             arguments.Add(CreateObjectFromSExpr(evaluatedArg));
                         } 
 
-                        var returnedObj = Type.GetType(className).GetMethod(methodName).Invoke(null, arguments.ToArray());
+                        var method = Type.GetType(className).GetMethod(methodName);
+                        var returnedObj = method.Invoke(null, arguments.ToArray());
                         return CreateSExprFromObject(returnedObj);                      
                     }
                 }
