@@ -265,10 +265,16 @@ namespace LispMachine
 
                                 var catchEnvironment = new EvaluationEnvironment(env); 
                                 catchEnvironment[exceptionSymbol.Value] = new SExprObject(e);
+                            
+                                foreach (var bodyExpr in body)
+                                {
+                                    ret = Evaluate(bodyExpr, catchEnvironment);
+                                }
+                                return ret; //goes to finally
                             }
                             else
                                 throw e;
-                            //так нельзя: подклассы не распознаются! 
+
                             //(try (LispMachine.StandardLibrary\ThrowsException) (catch System.Exception e))
 
                         
