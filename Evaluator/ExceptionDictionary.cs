@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 
@@ -11,7 +12,7 @@ namespace LispMachine
     {
 
         //private Dictionary<Type, List<SExpr>> Dict = new Dictionary<Type, List<SExpr>>();
-        private List<Tuple<Type, List<SExpr>>> Exceptions = new List<Tuple<Type, List<SExpr>>>();
+        private OrderedDictionary Dict = new OrderedDictionary();
 
 
         private List<SExpr> Get(Type type)
@@ -25,8 +26,7 @@ namespace LispMachine
 
         private void Set(Type type, List<SExpr> value)
         {
-            //Exceptions[type] = value;
-            Exceptions.Add(new Tuple<Type, List<SExpr>>(type, value));
+            Dict.Add(type, value);
         }
     
 
