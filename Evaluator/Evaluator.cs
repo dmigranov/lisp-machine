@@ -266,22 +266,27 @@ namespace LispMachine
                                 var catchEnvironment = new EvaluationEnvironment(env); 
                                 catchEnvironment[exceptionSymbol.Value] = new SExprObject(e);
                             
-                                foreach (var bodyExpr in body)
+                                foreach (var bodyExpr in bodyForExceptionType)
                                 {
                                     ret = Evaluate(bodyExpr, catchEnvironment);
                                 }
+
                                 return ret; //goes to finally
                             }
                             else
                                 throw e;
 
-                            //(try (LispMachine.StandardLibrary\ThrowsException) (catch System.Exception e))
+                            //(try (LispMachine.StandardLibrary\ThrowsException) (catch System.ApplicationException e (.ToUpper (.ToString e))))
 
                         
                         }
                         finally
                         {
-                            //тут плохо тем, что после исключений "внутренних" тоже выполнится
+                            //тут плохо тем, что после "внутренних" исключений (EvaluationException) тоже выполнится
+                            //todo: проверять на EvaluationException И если это оно, то ничего не делать
+                            //или как вариант можно все выше сделать, без finally,
+                            //но тогда EvaluateException может выкинуться и finally не выполнится?
+                            //это правильное поведение?
                         }
 
                         return null;
@@ -298,7 +303,7 @@ namespace LispMachine
                             throw new EvaluationException($"Wrong parameter count in native method call: an instance should be provided after method name");
                         var methodName = value.Substring(1);
                         var instance = args[0]; //todo: надо Evaluate
-                        var evaluatedInstance = Evaluate(instance);
+                        var evaluatedInstance = Evaluate(instance, env);
 
                         args.RemoveAt(0);
                         var arguments = new List<object>();
