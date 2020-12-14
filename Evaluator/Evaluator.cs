@@ -250,8 +250,7 @@ namespace LispMachine
                         {
                             //тут мы итерируемся по всем catch'ам (или смотрим в словаре?) и проверяем
                             //ничё нет - смотрим default и бросаем искоючение
-                            //todo: если бросали из внешнего метода, то там System.Reflection.TargetInvocationException
-                            //поэтому в этом случае надо брать InnerException
+                            //если бросали из внешнего метода, то там System.Reflection.TargetInvocationException, но это решается в коде для вызова методов C#
                         }
                         finally
                         {
@@ -287,8 +286,14 @@ namespace LispMachine
                         var evaluatedInstanceObject = CreateObjectFromSExpr(evaluatedInstance);
                         var type = evaluatedInstanceObject.GetType();
                         var method = type.GetMethod(methodName, arguments.Select (x => x.GetType()).ToArray());
-                        var returnedObj = method.Invoke(evaluatedInstanceObject, arguments.ToArray()); 
-                        return CreateSExprFromObject(returnedObj);                      
+                        try {
+                            var returnedObj = method.Invoke(evaluatedInstanceObject, arguments.ToArray()); 
+                            return CreateSExprFromObject(returnedObj);     
+                        }
+                        catch (System.Reflection.TargetInvocationException e) {
+                            throw e.InnerException;
+                        }
+                 
                     }
                     else if (value.Contains('\\'))
                     {
@@ -310,8 +315,7 @@ namespace LispMachine
                             var returnedObj = method.Invoke(null, arguments.ToArray());
                             return CreateSExprFromObject(returnedObj);  
                         }
-                        catch (System.Reflection.TargetInvocationException e)
-                        {
+                        catch (System.Reflection.TargetInvocationException e) {
                             throw e.InnerException;
                         }
                     
