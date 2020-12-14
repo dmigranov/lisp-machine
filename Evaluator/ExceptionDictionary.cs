@@ -17,9 +17,15 @@ namespace LispMachine
 
         private List<SExpr> Get(Type type)
         {            
-            List<SExpr> ret;
+            
             //todo: сначала обращаемся непосредственно к словарю, нашли - возвращаем
             //иначе проверка на наследование: итерируемся по всем и проверяем, не наследуется ли
+
+            List<SExpr> ret = (List<SExpr>)Dict[type];
+            if(ret != null)
+                return ret;
+            
+            //проверка наслеования
 
             return null;
         }
@@ -28,7 +34,6 @@ namespace LispMachine
         {
             Dict.Add(type, value);
         }
-    
 
         public List<SExpr> this[Type index]
         {
