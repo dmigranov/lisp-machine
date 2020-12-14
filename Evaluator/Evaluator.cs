@@ -232,6 +232,8 @@ namespace LispMachine
                                 {
                                     //(finally expr*); expr* is body
                                     finallyBody = tryList.GetArgs();
+                                    if(i != args.Count - 1)
+                                        throw new EvaluationException("There shouldn't be any other clauses after finally in try-catch");
                                     break; //после finally ничего нет
                                 }
                                 else
