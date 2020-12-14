@@ -263,6 +263,8 @@ namespace LispMachine
                                 var exceptionSymbol = (SExprSymbol)bodyForExceptionType[0];
                                 bodyForExceptionType.RemoveAt(0);
 
+                                var catchEnvironment = new EvaluationEnvironment(env); 
+                                catchEnvironment[exceptionSymbol.Value] = new SExprObject(e);
                             }
                             else
                                 throw e;
