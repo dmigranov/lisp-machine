@@ -281,7 +281,7 @@ namespace LispMachine
                         }
                         finally
                         {
-                            //todo
+                            //тут плохо тем, что после исключений "внутренних" тоже выполнится
                         }
 
                         return null;
