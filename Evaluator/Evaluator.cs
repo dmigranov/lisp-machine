@@ -243,7 +243,6 @@ namespace LispMachine
                                 throw new EvaluationException("After first catch, only catch and finally clauses are allowed in try-catch");
                         }
 
-
                         SExpr ret = null;
                         try
                         {
@@ -255,6 +254,9 @@ namespace LispMachine
                             //тут мы итерируемся по всем catch'ам (или смотрим в словаре?) и проверяем
                             //ничё нет - смотрим default и бросаем искоючение
                             //если бросали из внешнего метода, то там System.Reflection.TargetInvocationException, но это решается в коде для вызова методов C#
+                            var exceptionType = e.GetType();
+                            Console.WriteLine(exceptionType);
+                        
                         }
                         finally
                         {
