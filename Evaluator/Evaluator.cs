@@ -306,8 +306,15 @@ namespace LispMachine
                         } 
 
                         var method = Type.GetType(className).GetMethod(methodName, arguments.Select(x => x.GetType()).ToArray());
-                        var returnedObj = method.Invoke(null, arguments.ToArray());
-                        return CreateSExprFromObject(returnedObj);                      
+                        try {
+                            var returnedObj = method.Invoke(null, arguments.ToArray());
+                            return CreateSExprFromObject(returnedObj);  
+                        }
+                        catch (System.Reflection.TargetInvocationException e)
+                        {
+                            throw e.InnerException;
+                        }
+                    
                     }
                 }
 
