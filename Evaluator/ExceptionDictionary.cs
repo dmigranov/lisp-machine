@@ -6,10 +6,14 @@ using System.Text;
 namespace LispMachine
 {
     
+
     public class ExceptionDictionary 
     {
-        private Dictionary<Type, List<SExpr>> Dict = new Dictionary<Type, List<SExpr>>();
-    
+
+        //private Dictionary<Type, List<SExpr>> Dict = new Dictionary<Type, List<SExpr>>();
+        private List<Tuple<Type, List<SExpr>>> Exceptions = new List<Tuple<Type, List<SExpr>>>();
+
+
         private List<SExpr> Get(Type type)
         {            
             List<SExpr> ret;
@@ -21,7 +25,8 @@ namespace LispMachine
 
         private void Set(Type type, List<SExpr> value)
         {
-            Dict[type] = value;
+            //Exceptions[type] = value;
+            Exceptions.Add(new Tuple<Type, List<SExpr>>(type, value));
         }
     
 
