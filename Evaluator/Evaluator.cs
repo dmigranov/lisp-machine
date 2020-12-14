@@ -195,7 +195,8 @@ namespace LispMachine
                         }
                         //после этого должны быть только catch (может, 0?) и, опционально, finally  
                         //словарь для типов Exception, здесь список имеет особый вид: первый элемент - SExprSymbol - имя переменной (для нее создадим контекст внутренний)
-                        Dictionary<Type, List<SExpr>> exceptionDict = new Dictionary<Type, List<SExpr>>();
+                        //Dictionary<Type, List<SExpr>> exceptionDict = new Dictionary<Type, List<SExpr>>();
+                        ExceptionDictionary exceptionDict = new ExceptionDictionary();
                         List<SExpr> finallyBody;
                         for (; i < args.Count; i++)
                         {
