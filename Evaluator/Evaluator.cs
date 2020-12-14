@@ -194,9 +194,9 @@ namespace LispMachine
                                 body.Add(tryExpr);
                         }
                         //после этого должны быть только catch (может, 0?) и, опционально, finally  
-                        Dictionary<Type, List<SExpr>> exceptionDict = new  Dictionary<Type, List<SExpr>>();
-                        //список имеет особый вид: первый элемент - SExprSymbol - имя переменной (для нее создадим контекст внутренний)
-
+                        //словарь для типов Exception, здесь список имеет особый вид: первый элемент - SExprSymbol - имя переменной (для нее создадим контекст внутренний)
+                        Dictionary<Type, List<SExpr>> exceptionDict = new Dictionary<Type, List<SExpr>>();
+                        List<SExpr> finallyBody;
                         for (; i < args.Count; i++)
                         {
                             var tryExpr = args[i];
@@ -230,7 +230,9 @@ namespace LispMachine
                                 }
                                 else if (trySymbol.Value == "finally")
                                 {
-                                    //todo
+                                    //(finally expr*); expr* is body
+                                    finallyBody = tryList.GetArgs();
+                                    break; //после finally ничего нет
                                 }
                                 else
                                     throw new EvaluationException("After first catch, only catch and finally clauses are allowed in try-catch");
