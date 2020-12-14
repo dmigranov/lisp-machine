@@ -256,13 +256,15 @@ namespace LispMachine
                             //если бросали из внешнего метода, то там System.Reflection.TargetInvocationException, но это решается в коде для вызова методов C#
                             var exceptionType = e.GetType();
                             
-                            var bodyForExceptionType = null;
-                            if(exceptionDict.TryGetValue(exceptionType, out bodyForExceptionType))
+                            List<SExpr> bodyForExceptionType = null;
+                            /*if(exceptionDict.TryGetValue(exceptionType, out bodyForExceptionType))
                             {
                                 
                             }
                             else
-                                throw e;
+                                throw e;*/
+                            //так нельзя: подклассы не распознаются! 
+                            //(try (LispMachine.StandardLibrary\ThrowsException) (catch System.Exception e))
 
                         
                         }
