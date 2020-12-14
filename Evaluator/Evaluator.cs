@@ -255,7 +255,15 @@ namespace LispMachine
                             //ничё нет - смотрим default и бросаем искоючение
                             //если бросали из внешнего метода, то там System.Reflection.TargetInvocationException, но это решается в коде для вызова методов C#
                             var exceptionType = e.GetType();
-                            Console.WriteLine(exceptionType);
+                            
+                            var bodyForExceptionType = null;
+                            if(exceptionDict.TryGetValue(exceptionType, out bodyForExceptionType))
+                            {
+                                
+                            }
+                            else
+                                throw e;
+
                         
                         }
                         finally
