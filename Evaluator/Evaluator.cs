@@ -260,8 +260,9 @@ namespace LispMachine
                             List<SExpr> bodyForExceptionType = exceptionDict[exceptionType];
                             if(bodyForExceptionType != null)
                             {
-                                //todo: evaluate в контексте
-                                Console.WriteLine("here!");
+                                var exceptionSymbol = (SExprSymbol)bodyForExceptionType[0];
+                                bodyForExceptionType.RemoveAt(0);
+
                             }
                             else
                                 throw e;
