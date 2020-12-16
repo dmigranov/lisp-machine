@@ -6,7 +6,7 @@
 
 (myfunc 10)
 
-(println (+ 45.2 (System.Double\Parse (readln))))
+
 
 (define sgn (lambda (x) (cond 
     (> x 0) 1         
@@ -14,4 +14,16 @@
     (= x 0) 0
 )))
 
-(sgn -64)
+(let (a -64)
+    (println (System.String\Concat "sgn of " a)) 
+    (println (sgn -64)) 
+)
+
+(println "Please enter a number:")
+(println (+ 45.2 (System.Double\Parse (readln))))
+
+(try (LispMachine.StandardLibrary\ThrowsException) (catch System.Exception e (println "catch message!") (System.String\Concat "Caught exception: " (.ToString e))) (finally (println "finally message!"))) 
+
+
+
+

@@ -32,6 +32,8 @@ namespace LispMachine
                 (define dec (addA -1)) 
 
                 (.CompareTo 55 67)
+
+                
                 
 ";
             Console.WriteLine("-----PARSER TEST-----");
