@@ -204,7 +204,7 @@ namespace LispMachine
                         //словарь для типов Exception, здесь список имеет особый вид: первый элемент - SExprSymbol - имя переменной (для нее создадим контекст внутренний)
                         //Dictionary<Type, List<SExpr>> exceptionDict = new Dictionary<Type, List<SExpr>>();
                         ExceptionDictionary exceptionDict = new ExceptionDictionary();
-                        List<SExpr> finallyBody;
+                        List<SExpr> finallyBody = new List<SExpr>();
                         for (; i < args.Count; i++)
                         {
                             var tryExpr = args[i];
