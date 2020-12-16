@@ -176,6 +176,13 @@ namespace LispMachine
                     else if (value == "throw")
                     {
                         //(throw expr), where expr should evaluate to Exception (analogue of Throwable in Java)
+
+                        if(args.Count != 1)
+                            throw new EvaluationException($"Throw should only have one argument, not {args.Count}");
+
+                        var throwExpr = args[0];
+                        var evaluatedThrowExpr = Evaluate(throwExpr, env);
+ 
                         return null;
                     }
                     else if (value == "try")
