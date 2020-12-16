@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
@@ -24,7 +25,12 @@ namespace LispMachine
             List<SExpr> ret = (List<SExpr>)Dict[type];
             if(ret != null)
                 return ret;
-            
+            foreach (DictionaryEntry pair in Dict)
+            {
+                var key = (Type)pair.Key;
+                var value = (List<SExpr>)pair.Value;
+            }
+
             //проверка наслеования
 
             return null;
