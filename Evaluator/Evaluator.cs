@@ -298,8 +298,6 @@ namespace LispMachine
                             //оцениваются (вдруг сайд эффекты), но не возвращаются
 
                         }
-
-                        return null;
                     }
                     else if (value == "new")
                     {

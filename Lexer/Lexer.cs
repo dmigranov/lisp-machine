@@ -40,10 +40,22 @@ namespace LispMachine
                     return new Lexeme(LexemeType.RBRACE);
 
                 //todo: quotes (') and unquotes? (,)
+                case ('"'):
+                    StringBuilder builder = new StringBuilder();
+                    
+                    do
+                    {
+                        builder.Append((char)currentCharAsInt);
+                        currentCharAsInt = reader.Read();
+                    } while (currentCharAsInt != '"');
+                    builder.Append((char)currentCharAsInt);
 
+                    var stringLiteral = builder.ToString();
+                    Console.WriteLine(stringLiteral);
+                    return new Lexeme(LexemeType.SYMBOL, stringLiteral);
 
                 default:
-                    StringBuilder builder = new StringBuilder();
+                    builder = new StringBuilder();
                     while (!Char.IsWhiteSpace((char)currentCharAsInt) && currentCharAsInt != '(' && currentCharAsInt != ')' && currentCharAsInt != -1)
                     {
                         builder.Append((char)currentCharAsInt);
