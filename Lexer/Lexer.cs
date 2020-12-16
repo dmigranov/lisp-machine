@@ -42,16 +42,16 @@ namespace LispMachine
                 //todo: quotes (') and unquotes? (,)
                 case ('"'):
                     StringBuilder builder = new StringBuilder();
-                    
+
                     do
                     {
                         builder.Append((char)currentCharAsInt);
                         currentCharAsInt = reader.Read();
                     } while (currentCharAsInt != '"');
                     builder.Append((char)currentCharAsInt);
+                    currentCharAsInt = reader.Read();
 
                     var stringLiteral = builder.ToString();
-                    Console.WriteLine(stringLiteral);
                     return new Lexeme(LexemeType.SYMBOL, stringLiteral);
 
                 default:

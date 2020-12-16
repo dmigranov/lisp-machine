@@ -57,6 +57,9 @@ namespace LispMachine
 
             //Атомарное S-выражение
             string text = currentLexeme.Text;
+            if(text[0] == '"' && text[text.Length - 1] == '"')
+                return new SExprString(text.Substring(1, text.Length - 2));
+
             int intRes;
             if (int.TryParse(text, out intRes))
                 return new SExprInt(intRes);
