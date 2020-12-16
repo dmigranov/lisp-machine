@@ -256,12 +256,14 @@ namespace LispMachine
                         {
                             foreach (var bodyExpr in body)
                                 ret = Evaluate(bodyExpr, env);
+                            return ret;
                         }
                         catch (Exception e)
                         {
-                            //тут мы итерируемся по всем catch'ам (или смотрим в словаре?) и проверяем
-                            //ничё нет - смотрим default и бросаем искоючение
+                            ret = null;
+                            
                             //если бросали из внешнего метода, то там System.Reflection.TargetInvocationException, но это решается в коде для вызова методов C#
+
                             var exceptionType = e.GetType();
                             
                             List<SExpr> bodyForExceptionType = exceptionDict[exceptionType];
@@ -274,18 +276,14 @@ namespace LispMachine
                                 catchEnvironment[exceptionSymbol.Value] = new SExprObject(e);
                             
                                 foreach (var bodyExpr in bodyForExceptionType)
-                                {
                                     ret = Evaluate(bodyExpr, catchEnvironment);
-                                }
 
                                 return ret; //goes to finally
                             }
                             else
                                 throw e;
 
-                            //(try (LispMachine.StandardLibrary\ThrowsException) (catch System.ApplicationException e (.ToUpper (.ToString e))))
-
-                        
+                            //(try (LispMachine.StandardLibrary\ThrowsException) (catch System.ApplicationException e (.ToUpper (.ToString e))))                        
                         }
                         finally
                         {
@@ -294,6 +292,11 @@ namespace LispMachine
                             //или как вариант можно все выше сделать, без finally,
                             //но тогда EvaluateException может выкинуться и finally не выполнится?
                             //это правильное поведение?
+
+                            foreach (var finallyExpr in finallyBody)
+                                Evaluate(finallyExpr, env);
+                            //оцениваются (вдруг сайд эффекты), но не возвращаются
+
                         }
 
                         return null;
