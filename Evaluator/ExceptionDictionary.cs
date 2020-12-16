@@ -16,19 +16,23 @@ namespace LispMachine
         private OrderedDictionary Dict = new OrderedDictionary();
 
 
-        private List<SExpr> Get(Type type)
+        private List<SExpr> Get(Type thrownType)
         {            
             
             //todo: сначала обращаемся непосредственно к словарю, нашли - возвращаем
             //иначе проверка на наследование: итерируемся по всем и проверяем, не наследуется ли
 
-            List<SExpr> ret = (List<SExpr>)Dict[type];
+            List<SExpr> ret = (List<SExpr>)Dict[thrownType];
             if(ret != null)
                 return ret;
             foreach (DictionaryEntry pair in Dict)
             {
-                var key = (Type)pair.Key;
-                var value = (List<SExpr>)pair.Value;
+                var catchType = (Type)pair.Key;
+                var catchValue = (List<SExpr>)pair.Value;
+
+                if(thrownType.IsSubclassOf(catchType) /*|| thrownType == catchType*/)
+                    return catchValue;
+
             }
 
             //проверка наслеования

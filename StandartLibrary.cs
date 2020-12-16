@@ -111,7 +111,7 @@ namespace LispMachine
 
         public static void ThrowsException()
         {
-            throw new ApplicationException();
+            throw new SystemException();
         }
 
     }
