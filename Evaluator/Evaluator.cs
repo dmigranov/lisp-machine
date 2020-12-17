@@ -168,11 +168,6 @@ namespace LispMachine
                         //todo: check unquote?
                         return args[0];
                     }
-                    else if (value == "new")
-                    {
-                        //(new Classname args*)
-                        return null;
-                    }
                     else if (value == "throw")
                     {
                         //(throw expr), where expr should evaluate to Exception (analogue of Throwable in Java)
@@ -302,7 +297,15 @@ namespace LispMachine
                     }
                     else if (value == "new")
                     {
-                        //todo
+                        //(new Classname args*); classname should be full
+
+                        string className = null;
+                        if(args[0] is SExprSymbol classNameSymbol)
+                            className = classNameSymbol.Value;
+                        else
+                            throw new EvaluationException("First argument of new is not a symbol!");
+                        var type = Type.GetType(className);
+                        
                         return null;
                     }
                     else if (value[0] == '.')
