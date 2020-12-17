@@ -182,6 +182,8 @@ namespace LispMachine
 
                         var throwExpr = args[0];
                         var evaluatedThrowExpr = Evaluate(throwExpr, env);
+                        if(!(evaluatedThrowExpr is SExprAbstractValueAtom valueExpr && valueExpr.GetCommonValue() is Exception))
+                            throw new EvaluationException("Argument of throw is not an exception!");
  
                         return null;
                     }

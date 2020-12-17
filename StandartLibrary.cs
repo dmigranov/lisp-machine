@@ -114,5 +114,10 @@ namespace LispMachine
             throw new SystemException();
         }
 
+        public static Exception ReturnsException()
+        {
+            return new SystemException();
+        }
+
     }
 }
