@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -73,9 +74,6 @@ namespace LispMachine
                         ifList.AddSExprToList(new SExprBool(true));
                         ifList.AddSExprToList(ifFalse);
                         return Evaluate(ifList, env);
-
-
-
                     }
                     else if (value == "cond")
                     {
@@ -414,6 +412,8 @@ namespace LispMachine
                     ret.AddSExprToList(CreateSExprFromObject(elem));
                 return ret;
             }
+            if(obj is SExpr expr)
+                return expr;
             return new SExprObject(obj);
         }
 
@@ -425,6 +425,19 @@ namespace LispMachine
                 return value.GetCommonValue();
                 //дополнительно можно лоцировать встроенные типы типа int и приводить
             throw new EvaluationException("Wrong argument in native call");        
+        }
+
+
+        public static SExpr Evaluate(string str)
+        {
+            var parser = new SExprParser(new StringReader(str));
+            SExpr expr, evald = null;
+
+            while ((expr = parser.GetSExpression()) != null) {
+                evald = Evaluate(expr);
+            };
+
+            return evald;
         }
     }
 

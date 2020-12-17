@@ -1,3 +1,7 @@
+(+ 5 5)
+(LispMachine.Evaluator\Evaluate (.ReadLine (new System.IO.StreamReader "test.txt")))
+(LispMachine.Evaluator\Evaluate "(define text-func (lambda (x) (println (* x x))))") 
+
 (define myfunc (
     lambda (x) 
         (println x)

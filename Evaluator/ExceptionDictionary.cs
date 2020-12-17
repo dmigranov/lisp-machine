@@ -51,7 +51,4 @@ namespace LispMachine
             set => Set(index, value);
         }
     }
-
-
-    
 }
