@@ -309,8 +309,14 @@ namespace LispMachine
                             throw new EvaluationException("No such class found, maybe you should use the full name with namespace?");
                         
                         var arguments = new List<object>();
-
-                        //todo: заполнение списка аргументов
+                        args.RemoveAt(0);
+                        foreach(var arg in args)
+                        {
+                            var evaluatedArg = Evaluate(arg, env);
+                            if(evaluatedArg is SExprLambda)
+                                throw new EvaluationException("Wrong parameter in native call, lambdas can't be passed");
+                            arguments.Add(CreateObjectFromSExpr(evaluatedArg));
+                        } 
 
                         var constructor = type.GetConstructor(arguments.Select (x => x.GetType()).ToArray());
                         if(constructor == null)

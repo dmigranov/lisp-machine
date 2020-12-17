@@ -22,6 +22,8 @@
 (println "Please enter a number:")
 (println (+ 45.2 (System.Double\Parse (readln))))
 
+(.Next (new System.Random) 90 100)
+
 (try (LispMachine.StandardLibrary\ThrowsException) (catch System.Exception e (println "catch message!") (System.String\Concat "Caught exception: " (.ToString e))) (finally (println "finally message!"))) 
 
 
