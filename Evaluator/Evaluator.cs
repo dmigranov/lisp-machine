@@ -182,11 +182,10 @@ namespace LispMachine
 
                         var throwExpr = args[0];
                         var evaluatedThrowExpr = Evaluate(throwExpr, env);
-                        if(!(evaluatedThrowExpr is SExprAbstractValueAtom valueExpr && valueExpr.GetCommonValue() is Exception))
-                            throw new EvaluationException("Argument of throw is not an exception!");
- 
-                        return null;
-                    }
+                        if(evaluatedThrowExpr is SExprAbstractValueAtom valueExpr && valueExpr.GetCommonValue() is Exception e)
+                            throw e;
+                        throw new EvaluationException("Argument of throw is not an exception!");
+                     }
                     else if (value == "try")
                     {
                         // (try expr* catches* finally?)
