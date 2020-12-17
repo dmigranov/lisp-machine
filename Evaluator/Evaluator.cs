@@ -305,8 +305,24 @@ namespace LispMachine
                         else
                             throw new EvaluationException("First argument of new is not a symbol!");
                         var type = Type.GetType(className);
+                        if (type == null)
+                            throw new EvaluationException("No such class found, maybe you should use the full name with namespace?");
                         
-                        return null;
+                        var arguments = new List<object>();
+
+                        //todo: заполнение списка аргументов
+
+                        var constructor = type.GetConstructor(arguments.Select (x => x.GetType()).ToArray());
+                        if(constructor == null)
+                            throw new EvaluationException("No constructor with such arguments found");
+
+                        try {
+                            var instance = constructor.Invoke(arguments.ToArray()); 
+                            return CreateSExprFromObject(instance);  
+                        }
+                        catch (System.Reflection.TargetInvocationException e) {
+                            throw e.InnerException;
+                        }
                     }
                     else if (value[0] == '.')
                     {
