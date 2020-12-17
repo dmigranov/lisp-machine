@@ -24,8 +24,9 @@
 
 (.Next (new System.Random) 90 100)
 
-(try (LispMachine.StandardLibrary\ThrowsException) (catch System.Exception e (println "catch message!") (System.String\Concat "Caught exception: " (.ToString e))) (finally (println "finally message!"))) 
+(try (throw (new System.ApplicationException "MY MESSAGE!!!")) (catch System.Exception e (println "Exception caught") -1))
 
+(try (LispMachine.StandardLibrary\ThrowsException) (catch System.Exception e (println "catch message!") (System.String\Concat "Caught exception: " (.ToString e))) (finally (println "finally message!"))) 
 
 
 

@@ -59,13 +59,23 @@ namespace LispMachine
                         var ifTrue = list[2];
                         var ifFalse = list[3];
 
-                        SExpr condTrue = Evaluate(cond, env);
+                        /*SExpr condTrue = Evaluate(cond, env);
                         //всё, что не ложь - правда
                         if(condTrue is SExprAbstractValueAtom atom && atom.GetCommonValue() is bool condTrueBool && !condTrueBool)
                         {
                             return Evaluate(ifFalse, env);
                         }
-                        return Evaluate(ifTrue, env);
+                        return Evaluate(ifTrue, env);*/
+                        var ifList = new SExprList();
+                        ifList.AddSExprToList(new SExprSymbol("cond"));
+                        ifList.AddSExprToList(cond);
+                        ifList.AddSExprToList(ifTrue);
+                        ifList.AddSExprToList(new SExprBool(true));
+                        ifList.AddSExprToList(ifFalse);
+                        return Evaluate(ifList, env);
+
+
+
                     }
                     else if (value == "cond")
                     {
