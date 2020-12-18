@@ -55,7 +55,9 @@ namespace LispMachine
                     var value = listHeadSymbol.Value;
                     if (value == "if")
                     {
-                        //todo: проверка на правильное число аргументов
+                        if(args.Count != 3)
+                            throw new EvaluationException("There should be three arguments in if statement");
+
                         var cond = list[1];
                         var ifTrue = list[2];
                         var ifFalse = list[3];
