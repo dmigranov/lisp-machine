@@ -15,7 +15,7 @@ namespace LispMachine
 
         private static bool GlobalEnvInitialized = false;
 
-        private static Dictionary<string, List<SExpr>> MacroTable = new Dictionary<string, List<SExpr>>();
+        private static MacroExpander Expander = new MacroExpander();
 
         static public SExpr Evaluate(SExpr expr)
         {
@@ -190,11 +190,25 @@ namespace LispMachine
                                 //сюда мы пришли с некоторым окружением, возможно неглобальным. Но мы ничего с ним не делаем, мы его теряем
                                 var body = args;
 
-                                MacroTable[defmacroSymbol.Value] = body.Select(x => Evaluate(x, env)).ToList();
+                                //MacroTable[defmacroSymbol.Value] = body.Select(x => Evaluate(x, env)).ToList();
+                                Expander[defmacroSymbol.Value] = body.Select(x => Evaluate(x, env)).ToList();
+                                return new SExprString($"Macro {defmacroSymbol.Value} evaluated");
                             }
                             else
                                 throw new EvaluationException("Lambda definition should have a list of symbol parameters");
                             
+                        }
+                        else if (value == "macroexpand")
+                        {
+                            //(macroexpand form)
+                            //form is, for example, (quote (defined-macro arg))
+                            if(args.Count != 1)
+                                throw new EvaluationException($"Wrong parameter count in macroexpand, should be 1 instead of {args.Count}");
+                            var form = args[0];
+                            var evaluatedForm = Evaluate(form, env);
+
+                            return null;
+
                         }
                         else if (value == "lambda")
                         {
