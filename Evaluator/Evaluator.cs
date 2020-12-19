@@ -249,7 +249,7 @@ namespace LispMachine
                             // (try expr* catches* finally?)
                             // catch is (catch Exception e exprs*)
                             int i;
-                            List<SExpr> body = new List<SExpr>();
+                            List<SExpr> tryBody = new List<SExpr>();
                             for (i = 0; i < args.Count; i++)
                             {
                                 var tryExpr = args[i];
@@ -257,7 +257,7 @@ namespace LispMachine
                                     && trySymbol.Value == "catch")
                                     break;
                                 else
-                                    body.Add(tryExpr);
+                                    tryBody.Add(tryExpr);
                             }
                             //после этого должны быть только catch (может, 0?) и, опционально, finally  
                             //словарь для типов Exception, здесь список имеет особый вид: первый элемент - SExprSymbol - имя переменной (для нее создадим контекст внутренний)
@@ -313,7 +313,7 @@ namespace LispMachine
                             SExpr ret = null;
                             try
                             {
-                                foreach (var bodyExpr in body)
+                                foreach (var bodyExpr in tryBody)
                                     ret = Evaluate(bodyExpr, env);
                                 return ret;
                             }
@@ -334,10 +334,18 @@ namespace LispMachine
                                     var catchEnvironment = new EvaluationEnvironment(env); 
                                     catchEnvironment[exceptionSymbol.Value] = new SExprObject(e);
                                 
-                                    foreach (var bodyExpr in bodyForExceptionType)
+                                    //foreach (var bodyExpr in bodyForExceptionType)
+                                    for (i = 0; i < bodyForExceptionType.Count - 1; i++)
+                                    {
+                                        var bodyExpr = bodyForExceptionType[i];
                                         ret = Evaluate(bodyExpr, catchEnvironment);
+                                    }
 
-                                    return ret; //goes to finally
+                                    expr = bodyForExceptionType[bodyForExceptionType.Count - 1];
+                                    env = catchEnvironment;
+                                    continue;
+
+                                    //return ret; //goes to finally
                                 }
                                 else
                                     throw e;
