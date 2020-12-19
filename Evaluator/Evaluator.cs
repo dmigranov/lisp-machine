@@ -433,11 +433,45 @@ namespace LispMachine
                         }
                     }
 
-                    var call = new FunctionCall(head, args); 
-                    return call.Evaluate(env);
+                    //var call = new FunctionCall(head, args); 
+                    //return call.Evaluate(env);
+
+                    var Function = head;
+                    var Arguments = args;
+
+                    Arguments = Arguments.Select(x => Evaluator.Evaluate(x, env)).ToList();
+                    var evaluatedHead = Evaluator.Evaluate(Function, env);
+            
+                    if(evaluatedHead is SExprLambda lambda)
+                    {
+                        var lambdaSymbolArguments = lambda.LambdaArguments;
+
+                        if(lambdaSymbolArguments.Count != Arguments.Count)
+                            throw new EvaluationException("Wrong argument count passed");
+
+                        //EvaluationEnvironment lambdaEnv = new EvaluationEnvironment(env);
+                        EvaluationEnvironment lambdaEnv = new EvaluationEnvironment(lambda.Environment);    //для замыканий
+
+                        for (int i = 0; i < Arguments.Count; i++)
+                        {
+                            lambdaEnv[lambdaSymbolArguments[i].Value] = Arguments[i];
+                        }
+
+                        SExpr ret = null;
+                        foreach (var bodyExpr in lambda.Body)
+                        {
+                            ret = Evaluator.Evaluate(bodyExpr, lambdaEnv);
+                        }
+
+                        return ret;
+                    }
+
+                    throw new EvaluationException("Not built-in function or lambda");
+
                 }
             }
-            return null;
+
+            return null; //unreachable
         }
 
         private static SExpr CreateSExprFromObject(object obj)
