@@ -58,6 +58,10 @@
     (println (sgn -64)) 
 )
 
+(defmacro print2 (x) (quote (let (str1 x str2 x) (println str1) (println str2)))) 
+(print2 (.Next (new System.Random) 0 100))  
+
+
 (println "Please enter a number:")
 (println (+ 45.2 (System.Double\Parse (readln))))
 
@@ -66,6 +70,5 @@
 (try (throw (new System.ApplicationException "MY MESSAGE!!!")) (catch System.Exception e (println "Exception caught") -1))
 
 (try (LispMachine.StandardLibrary\ThrowsException) (catch System.Exception e (println "catch message!") (System.String\Concat "Caught exception: " (.ToString e))) (finally (println "finally message!"))) 
-
 
 

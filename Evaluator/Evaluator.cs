@@ -528,6 +528,12 @@ namespace LispMachine
                     //return call.Evaluate(env);
 
                     var Arguments = args.Select(x => Evaluator.Evaluate(x, env)).ToList();
+                    if (head is SExprSymbol headSymbol && Expander[headSymbol.Value] != null)
+                    {
+                        var ret = Evaluate(Expander.Expand(expr), env);
+                        return ret;
+                    }
+                    
                     var evaluatedHead = Evaluator.Evaluate(head, env);
             
                     if(evaluatedHead is SExprLambda lambda)
