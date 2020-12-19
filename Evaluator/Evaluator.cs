@@ -188,10 +188,9 @@ namespace LispMachine
                                 args.RemoveAt(0);
                                 args.RemoveAt(0);
                                 //сюда мы пришли с некоторым окружением, возможно неглобальным. Но мы ничего с ним не делаем, мы его теряем
-                                var body = args;
-
-                                //MacroTable[defmacroSymbol.Value] = body.Select(x => Evaluate(x, env)).ToList();
-                                Expander[defmacroSymbol.Value] = new Macro(symbolArguments, body.Select(x => Evaluate(x, env)).ToList());
+                                //var body = args;
+                                //Expander[defmacroSymbol.Value] = new Macro(symbolArguments, body.Select(x => Evaluate(x, env)).ToList());
+                                Expander[defmacroSymbol.Value] = new Macro(symbolArguments, Evaluate(args[0], env));
                                 return new SExprString($"Macro {defmacroSymbol.Value} evaluated");
                             }
                             else
@@ -527,13 +526,14 @@ namespace LispMachine
                     //var call = new FunctionCall(head, args); 
                     //return call.Evaluate(env);
 
-                    var Arguments = args.Select(x => Evaluator.Evaluate(x, env)).ToList();
+
                     if (head is SExprSymbol headSymbol && Expander[headSymbol.Value] != null)
                     {
                         var ret = Evaluate(Expander.Expand(expr), env);
                         return ret;
                     }
-                    
+
+                    var Arguments = args.Select(x => Evaluator.Evaluate(x, env)).ToList();                   
                     var evaluatedHead = Evaluator.Evaluate(head, env);
             
                     if(evaluatedHead is SExprLambda lambda)

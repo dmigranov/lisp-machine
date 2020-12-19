@@ -36,6 +36,8 @@ namespace LispMachine
 
         public override string GetText()
         {
+            if (Elements == null)
+                return "nullptr/void";
             string ret = "( " + String.Join(' ', Elements.Select(x => x.GetText())) + " )";
             return ret;
         }

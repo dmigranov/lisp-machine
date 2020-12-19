@@ -6,14 +6,19 @@ namespace LispMachine
 {
     public class Macro   //от кого он должен наслеоваться?
     {
-        public List<SExprSymbol> MacroArguments { get; }
-        public List<SExpr> Body { get; } //тело может состоять из нескольких выражений, возвращаем последнее
+        private List<SExprSymbol> macroArguments;
+        public List<SExprSymbol> MacroArguments { 
+            get {
+                return new List<SExprSymbol>(macroArguments);
+            }
+        }
+        public SExpr Body { get; } //тело может состоять из нескольких выражений, возвращаем последнее
         
         
-        public Macro(List<SExprSymbol> args, List<SExpr> body)
+        public Macro(List<SExprSymbol> args, SExpr body)
         {
             Body = body;
-            MacroArguments = args;
+            macroArguments = args;
         }
     }
  }

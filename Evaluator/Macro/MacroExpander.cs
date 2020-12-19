@@ -32,26 +32,17 @@ namespace LispMachine
             if (expr is SExprList list)     
             {
                 var args = list.GetArgs();
-
                 var head = list[0];
-
                 if (head is SExprSymbol listHeadSymbol)
                 {
                     var value = listHeadSymbol.Value;
 
-                    
-
                     Macro macro;
                     if((macro = MacroTable[value]) != null)
-                    {
-                        Console.WriteLine("Here!");
                         return ExpandMacro(macro, args);
-
-                        //но это неправильноЁ надо рекурсивно...
-                    }
                 }       
 
-                return null;
+                return expr;
             }
             else
             {
@@ -61,11 +52,8 @@ namespace LispMachine
 
         public SExpr ExpandMacro(Macro macro, List<SExpr> args)
         {
-            var exprs = macro.Body;
-            //exprs.Select();
-            //todo: все
-
-            var expanded = ExpandExprRec(exprs[0], macro.MacroArguments, args);
+            var expr = macro.Body;
+            var expanded = ExpandExprRec(expr, macro.MacroArguments, args);
             return expanded;
         }
 
@@ -84,43 +72,42 @@ namespace LispMachine
                     if(value == "let")
                     {
                         if (args[0] is SExprList letBindings)
+                        {
+                            var letBindingsList = letBindings.GetElements();
+                            if(letBindingsList.Count % 2 != 0)
+                                throw new EvaluationException("There should be an even number of elements in list of bindings");
+
+                            for (int i = 0; i < letBindingsList.Count; i+=2)
                             {
-                                var letBindingsList = letBindings.GetElements();
-                                if(letBindingsList.Count % 2 != 0)
-                                    throw new EvaluationException("There should be an even number of elements in list of bindings");
-
-                                for (int i = 0; i < letBindingsList.Count; i+=2)
-                                {
-                                    var symbolIndex = i;
-                                    var valueIndex = i + 1;
+                                var symbolIndex = i;
+                                var valueIndex = i + 1;
                                     
-                                    letBindings[valueIndex] = ExpandExprRec(letBindingsList[valueIndex], argNames, macroArgs);
+                                letBindings[valueIndex] = ExpandExprRec(letBindingsList[valueIndex], argNames, macroArgs);
                                     
-                                }
-
-                                //args.RemoveAt(0);
-                                //var body = args;
-                                SExpr ret = null;
-
-                                if(args.Count == 1)
-                                    return new SExprObject(null);
-
-                                for (int i = 2; i < list.GetElements().Count; i++)
-                                {
-                                    var bodyExpr = list[i];
-                                    var expanded = ExpandExprRec(bodyExpr, argNames, macroArgs);
-                                    list[i] = expanded;
-                                }
-
-                                return list;
-
                             }
-                            else
-                                throw new EvaluationException("Second argument of let should be a list of bindings");
+
+                            SExpr ret = null;
+
+                            if(args.Count == 1)
+                                return new SExprObject(null);
+
+                            for (int i = 2; i < list.GetElements().Count; i++)
+                            {
+                                var bodyExpr = list[i];
+                                var expanded = ExpandExprRec(bodyExpr, argNames, macroArgs);
+                                list[i] = expanded;
+                            }
+
+                            return list;
+                        }
+                        else
+                            throw new EvaluationException("Second argument of let should be a list of bindings");
                     }
+                    //todo
 
 
-                    else {
+                    else 
+                    {
                         for (int i = 1; i < list.GetElements().Count; i++)
                         {
                             var bodyExpr = list[i];
