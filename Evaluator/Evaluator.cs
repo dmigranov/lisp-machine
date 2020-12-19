@@ -191,7 +191,7 @@ namespace LispMachine
                                 var body = args;
 
                                 //MacroTable[defmacroSymbol.Value] = body.Select(x => Evaluate(x, env)).ToList();
-                                Expander[defmacroSymbol.Value] = body.Select(x => Evaluate(x, env)).ToList();
+                                Expander[defmacroSymbol.Value] = new Macro(symbolArguments, body.Select(x => Evaluate(x, env)).ToList());
                                 return new SExprString($"Macro {defmacroSymbol.Value} evaluated");
                             }
                             else
@@ -207,7 +207,7 @@ namespace LispMachine
                             var form = args[0];
                             var evaluatedForm = Evaluate(form, env);
 
-                            return null;
+                            return Expander.Expand(evaluatedForm);
 
                         }
                         else if (value == "lambda")
