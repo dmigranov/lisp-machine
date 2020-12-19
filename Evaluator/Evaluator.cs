@@ -209,6 +209,9 @@ namespace LispMachine
                                 var body = args;
                                 SExpr ret = null;
 
+                                if(body.Count == 0)
+                                    return new SExprObject(null);
+
                                 for (int i = 0; i < body.Count - 1; i++)
                                 {
                                     var bodyExpr = body[i];
