@@ -314,7 +314,11 @@ namespace LispMachine
                             try
                             {
                                 foreach (var bodyExpr in tryBody)
+                                //for (i = 0; i < tryBody.Count - 1; i++)
+                                {
                                     ret = Evaluate(bodyExpr, env);
+
+                                }
                                 return ret;
                             }
                             catch (Exception e)
@@ -335,6 +339,9 @@ namespace LispMachine
                                     catchEnvironment[exceptionSymbol.Value] = new SExprObject(e);
                                 
                                     //foreach (var bodyExpr in bodyForExceptionType)
+                                    if(bodyForExceptionType.Count == 0)
+                                        return new SExprObject(null);
+
                                     for (i = 0; i < bodyForExceptionType.Count - 1; i++)
                                     {
                                         var bodyExpr = bodyForExceptionType[i];
