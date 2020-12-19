@@ -340,7 +340,7 @@ namespace LispMachine
                                 
                                     //foreach (var bodyExpr in bodyForExceptionType)
                                     if(bodyForExceptionType.Count == 0)
-                                        return new SExprObject(null);
+                                        return new SExprObject(e);
 
                                     for (i = 0; i < bodyForExceptionType.Count - 1; i++)
                                     {
