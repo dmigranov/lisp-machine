@@ -61,8 +61,8 @@ namespace LispMachine
         {
             if (expr is SExprList list)     
             {
+                list = new SExprList(list.GetElements());
                 var args = list.GetArgs();
-
                 var head = list[0];
 
                 if (head is SExprSymbol listHeadSymbol)
@@ -83,9 +83,7 @@ namespace LispMachine
                                 var valueIndex = i + 1;
                                     
                                 letBindings[valueIndex] = ExpandExprRec(letBindingsList[valueIndex], argNames, macroArgs);
-                                    
                             }
-
                             SExpr ret = null;
 
                             if(args.Count == 1)
