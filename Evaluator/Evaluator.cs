@@ -466,23 +466,16 @@ namespace LispMachine
                             lambdaEnv[lambdaSymbolArguments[i].Value] = Arguments[i];
                         }
 
-                        SExpr ret = null;
-                        //foreach (var bodyExpr in lambda.Body)
                         for (int i = 0; i < lambda.Body.Count - 1; i++)
                         {
                             var bodyExpr = lambda.Body[i];
-                            /*ret = */Evaluator.Evaluate(bodyExpr, lambdaEnv);
+                            Evaluator.Evaluate(bodyExpr, lambdaEnv);
                         }
 
                         var lastExpr = lambda.Body[lambda.Body.Count - 1];
-                        //ret = Evaluator.Evaluate(lastExpr, lambdaEnv);
-                        //return ret;
-
                         expr = lastExpr;
                         env = lambdaEnv;
                         continue;
-
-
                     }
 
                     throw new EvaluationException("Not built-in function or lambda");

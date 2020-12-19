@@ -35,6 +35,16 @@ namespace LispMachine
                 (define arithm-t
                     (lambda (x) (arithm-tail x 0)))
 
+                (define arithm-tail-let
+                    (lambda (x acc) (let (add (+ acc x))
+                    (if (> x 0) 
+                                (arithm-tail-let (- x 1) add) 
+                                acc)
+                    )
+                    ))
+                (define arithm-tl
+                    (lambda (x) (arithm-tail-let x 0)))
+
                 (define addA (lambda (a) (lambda (y) (+ a y))))
                 (define dec (addA -1)) 
 
