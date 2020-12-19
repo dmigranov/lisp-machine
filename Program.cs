@@ -12,47 +12,12 @@ namespace LispMachine
     {
         static void Main(string[] args)
         {
+            /*
             string testString = @"  
 
-                (+ (+ -10 20) (+ 10 23))
-                (if true 10 100)
-                (define x 5)
-                ((lambda (a) (+ a a)) 3)
-                (let (y 4 z (+ y 1)) (+ x z))
-                (let (y 1) (let (z (+ y 1)) (+ z 1)))
+                              
+            ";
 
-                (let (y 1) (define z (+ y x)))
-                (LispMachine.StandardLibrary\And false true)
-
-                (define apply (lambda (fn x y) (fn x y)))
-                (apply * 5 (apply * 2 2))
-                (define arithm (lambda (x) (if (> x 0) (+ x (arithm (- x 1))) 0)))
-
-                (define arithm-tail 
-                    (lambda (x acc) (if (> x 0) 
-                                (arithm-tail (- x 1) (+ acc x)) 
-                                acc)))
-                (define arithm-t
-                    (lambda (x) (arithm-tail x 0)))
-
-                (define arithm-tail-let
-                    (lambda (x acc) (let (add (+ acc x))
-                    (if (> x 0) 
-                                (arithm-tail-let (- x 1) add) 
-                                acc)
-                    )
-                    ))
-                (define arithm-tl
-                    (lambda (x) (arithm-tail-let x 0)))
-
-                (define addA (lambda (a) (lambda (y) (+ a y))))
-                (define dec (addA -1)) 
-
-                (.CompareTo 55 67)
-
-                
-                
-";
             Console.WriteLine("-----PARSER TEST-----");
             SExprParser parser = new SExprParser(new StringReader(testString));
             SExpr expr;
@@ -65,6 +30,7 @@ namespace LispMachine
                         Console.WriteLine("Evaluated: " + evald.GetText());
                 }
             };
+            */
 
 
 

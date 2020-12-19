@@ -52,12 +52,12 @@ namespace LispMachine
             SExpr expr;
 
             while ((expr = parser.GetSExpression()) != null) {
-                expr.PrintSExpr();
+                //expr.PrintSExpr();
                 var evald = Evaluator.Evaluate(expr, this);
-                if(evald != null)
+                /*if(evald != null)
                 {
                     evald.PrintSExpr();
-                }
+                }*/
             };
         }
     }

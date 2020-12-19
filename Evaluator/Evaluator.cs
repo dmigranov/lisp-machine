@@ -318,17 +318,14 @@ namespace LispMachine
                                 if(tryBody.Count == 0)
                                     return new SExprObject(null);
 
-                                //foreach (var bodyExpr in tryBody)
-                                for (i = 0; i < tryBody.Count - 1; i++)
+                                SExpr ret = null;
+                                //for (i = 0; i < tryBody.Count - 1; i++)
+                                foreach (var bodyExpr in tryBody)
                                 {
-                                    var bodyExpr = tryBody[i];
-                                    Evaluate(bodyExpr, env);
+                                    ret = Evaluate(bodyExpr, env);
                                 }
 
-                                //return ret;
-
-                                expr = tryBody[tryBody.Count - 1];
-                                continue;
+                                return ret;
                             }
                             catch (Exception e)
                             {                                
