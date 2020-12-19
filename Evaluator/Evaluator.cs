@@ -345,18 +345,19 @@ namespace LispMachine
                                     //foreach (var bodyExpr in bodyForExceptionType)
                                     if(bodyForExceptionType.Count == 0)
                                         return new SExprObject(e);
-
-                                    for (i = 0; i < bodyForExceptionType.Count - 1; i++)
+                                    
+                                    SExpr ret = null;
+                                    for (i = 0; i < bodyForExceptionType.Count; i++)
                                     {
                                         var bodyExpr = bodyForExceptionType[i];
-                                        Evaluate(bodyExpr, catchEnvironment);
+                                        ret = Evaluate(bodyExpr, catchEnvironment);
                                     }
 
-                                    expr = bodyForExceptionType[bodyForExceptionType.Count - 1];
+                                    /*expr = bodyForExceptionType[bodyForExceptionType.Count - 1];
                                     env = catchEnvironment;
-                                    continue;
+                                    continue;*/
 
-                                    //return ret; //goes to finally
+                                    return ret; //goes to finally
                                 }
                                 else
                                     throw e;
