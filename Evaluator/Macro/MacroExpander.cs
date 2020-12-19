@@ -81,9 +81,10 @@ namespace LispMachine
                             {
                                 var symbolIndex = i;
                                 var valueIndex = i + 1;
-                                    
-                                letBindings[valueIndex] = ExpandExprRec(letBindingsList[valueIndex], argNames, macroArgs);
+                                letBindingsList[valueIndex] = ExpandExprRec(letBindingsList[valueIndex], argNames, macroArgs);
                             }
+                            list[1] = new SExprList(letBindingsList);
+
                             SExpr ret = null;
 
                             if(args.Count == 1)
@@ -130,7 +131,7 @@ namespace LispMachine
                 return expr;
             }
 
-            return null;
+            return expr;
         }
     }
 }
