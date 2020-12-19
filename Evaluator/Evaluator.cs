@@ -57,10 +57,6 @@ namespace LispMachine
             мы не создаём новый стек фрейм
         */
 
-        static private SExpr currentExpr = null;
-        static private EvaluationEnvironment currentEnv = null;
-
-
         static public SExpr Evaluate(SExpr expr, EvaluationEnvironment env)
         {
             while(true)
@@ -114,7 +110,10 @@ namespace LispMachine
                             ifList.AddSExprToList(ifTrue);
                             ifList.AddSExprToList(new SExprBool(true));
                             ifList.AddSExprToList(ifFalse);
-                            return Evaluate(ifList, env);
+                            
+                            //return Evaluate(ifList, env);
+                            expr = ifList;
+                            continue;
                         }
                         else if (value == "cond")
                         {
