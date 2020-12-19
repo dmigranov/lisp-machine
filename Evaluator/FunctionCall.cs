@@ -18,7 +18,7 @@ namespace LispMachine
 
         public SExpr Evaluate(EvaluationEnvironment env)
         {
-            Arguments = Arguments.Select(x => Evaluator.Evaluate(x, env)).ToList();
+            /*Arguments = Arguments.Select(x => Evaluator.Evaluate(x, env)).ToList();
 
             if (Function is SExprSymbol symbol)
             {
@@ -26,14 +26,14 @@ namespace LispMachine
                 switch (operation)
                 {
                     //изначально операции были релизованы тут, но такой способ на давал им быть объектами первого класса
-                    /*case "+":
-                        return Sum();   */
+                    //case "+":
+                    //    return Sum();   
                     default:
                         break;
                 }
 
             }
-
+            */
 
 
             //если же ничего во встроенных функциях не нашли (default), или это вообще сразу лямбда?
@@ -44,7 +44,7 @@ namespace LispMachine
             //вызов функции реализуется через замыкание - добавляем все параметры в контекст
             //если мы хотим реализовать переопределение встроенных функций, надо переместить код в начало
             
-            var evaluatedHead = Evaluator.Evaluate(Function, env);
+            /*var evaluatedHead = Evaluator.Evaluate(Function, env);
             
             if(evaluatedHead is SExprLambda lambda)
             {
@@ -74,6 +74,8 @@ namespace LispMachine
             }
 
             throw new EvaluationException("Not built-in function or lambda");
+            */ 
+            return null;
         }
 
 

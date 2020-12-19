@@ -3,6 +3,9 @@ using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
+
+
 
 namespace LispMachine
 {
@@ -11,6 +14,8 @@ namespace LispMachine
         private static StandardEvaluationEnvironment GlobalEnv = new StandardEvaluationEnvironment();
 
         private static bool GlobalEnvInitialized = false;
+
+        private static Dictionary<string, List<SExpr>> MacroTable = new Dictionary<string, List<SExpr>>();
 
         static public SExpr Evaluate(SExpr expr)
         {
@@ -156,6 +161,37 @@ namespace LispMachine
                             }
                             else 
                                 throw new EvaluationException("First argument in definition should be a symbol!");
+                        }
+                        else if (value == "defmacro")
+                        {
+                            //синтаксис: defmacro name (vars) list
+                            if(args.Count < 2)
+                                throw new EvaluationException($"Wrong parameter count in definition, should be 2 instead of {args.Count}");
+                            
+
+                            if (args[0] is SExprList lambdaArguments)
+                            {
+                                List<SExprSymbol> symbolArguments = new List<SExprSymbol>();
+                                foreach (var arg in lambdaArguments.GetElements())
+                                {
+                                    if(arg is SExprSymbol symbolArg) 
+                                        symbolArguments.Add(symbolArg);
+                                    else
+                                        throw new EvaluationException("Parameter in lambda definition is not symbolic");
+                                } 
+
+
+                                args.RemoveAt(0);
+                                //сюда мы пришли с некоторым окружением, возможно неглобальным. Но мы ничего с ним не делаем, мы его теряем
+                                var body = args;
+
+                                MacroTable[];
+
+                            }
+                            else
+                                throw new EvaluationException("Lambda definition should have a list of symbol parameters");
+                            
+                            
                         }
                         else if (value == "lambda")
                         {
