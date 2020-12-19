@@ -14,6 +14,11 @@ namespace LispMachine
             Elements = new List<SExpr>();
         }
 
+        public SExprList(List<SExpr> list)
+        {
+            Elements = list;
+        }
+
         public void AddSExprToList(SExpr elem)
         {
             Elements.Add(elem);
@@ -39,7 +44,7 @@ namespace LispMachine
         public SExpr this[int index]
         {
             get { return Elements[index]; }
-            //set { elements[index] = value }
+            set { Elements[index] = value; }
         }
 
         public List<SExpr> GetArgs()
