@@ -316,13 +316,20 @@ namespace LispMachine
                             SExpr ret = null;
                             try
                             {
-                                foreach (var bodyExpr in tryBody)
-                                //for (i = 0; i < tryBody.Count - 1; i++)
-                                {
-                                    ret = Evaluate(bodyExpr, env);
+                                if(tryBody.Count == 0)
+                                    return new SExprObject(null);
 
+                                //foreach (var bodyExpr in tryBody)
+                                for (i = 0; i < tryBody.Count - 1; i++)
+                                {
+                                    var bodyExpr = tryBody[i];
+                                    Evaluate(bodyExpr, env);
                                 }
-                                return ret;
+
+                                //return ret;
+
+                                expr = tryBody[tryBody.Count - 1];
+                                continue;
                             }
                             catch (Exception e)
                             {
@@ -348,7 +355,7 @@ namespace LispMachine
                                     for (i = 0; i < bodyForExceptionType.Count - 1; i++)
                                     {
                                         var bodyExpr = bodyForExceptionType[i];
-                                        ret = Evaluate(bodyExpr, catchEnvironment);
+                                        Evaluate(bodyExpr, catchEnvironment);
                                     }
 
                                     expr = bodyForExceptionType[bodyForExceptionType.Count - 1];
