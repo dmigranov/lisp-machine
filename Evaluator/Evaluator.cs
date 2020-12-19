@@ -59,382 +59,384 @@ namespace LispMachine
 
         static public SExpr Evaluate(SExpr expr, EvaluationEnvironment env)
         {
-            if (expr is SExprSymbol symbol)
+            while(true)
             {
-                string symbolValue = symbol.Value;
-
-                var ret = env[symbolValue]; 
-                if(ret == null)
-                    throw new EvaluationException($"Symbol {symbolValue} not found");
-                return ret;
-            }
-            else if (expr is SExprAbstractValueAtom)
-            {
-                return expr;
-            }
-            else if (expr is SExprList list)
-            {
-                var args = list.GetArgs();
-
-                // тут мы рассматриваем различные специальные формы (!),
-                // которые НЕ являются функциями, так как 
-                // параметры в них оцениваются по другому, нежели в случае функций
-                // (простейший пример - if)
-                var head = list[0];
-
-                if (head is SExprSymbol listHeadSymbol)
+                if (expr is SExprSymbol symbol)
                 {
+                    string symbolValue = symbol.Value;
 
-                    var value = listHeadSymbol.Value;
-                    if (value == "if")
+                    var ret = env[symbolValue]; 
+                    if(ret == null)
+                        throw new EvaluationException($"Symbol {symbolValue} not found");
+                    return ret;
+                }
+                else if (expr is SExprAbstractValueAtom)
+                {
+                    return expr;
+                }
+                else if (expr is SExprList list)
+                {
+                    var args = list.GetArgs();
+
+                    // тут мы рассматриваем различные специальные формы (!),
+                    // которые НЕ являются функциями, так как 
+                    // параметры в них оцениваются по другому, нежели в случае функций
+                    // (простейший пример - if)
+                    var head = list[0];
+
+                    if (head is SExprSymbol listHeadSymbol)
                     {
-                        if(args.Count != 3)
-                            throw new EvaluationException("There should be three arguments in if statement");
 
-                        var cond = list[1];
-                        var ifTrue = list[2];
-                        var ifFalse = list[3];
-
-                        /*SExpr condTrue = Evaluate(cond, env);
-                        //всё, что не ложь - правда
-                        if(condTrue is SExprAbstractValueAtom atom && atom.GetCommonValue() is bool condTrueBool && !condTrueBool)
+                        var value = listHeadSymbol.Value;
+                        if (value == "if")
                         {
-                            return Evaluate(ifFalse, env);
-                        }
-                        return Evaluate(ifTrue, env);*/
-                        var ifList = new SExprList();
-                        ifList.AddSExprToList(new SExprSymbol("cond"));
-                        ifList.AddSExprToList(cond);
-                        ifList.AddSExprToList(ifTrue);
-                        ifList.AddSExprToList(new SExprBool(true));
-                        ifList.AddSExprToList(ifFalse);
-                        return Evaluate(ifList, env);
-                    }
-                    else if (value == "cond")
-                    {
-                        //(cond (cond expr)*)
-                        if(args.Count % 2 != 0)
-                            throw new EvaluationException("There should be an even number of arguments in cond statement");
-                        for (int i = 0; i < args.Count; i += 2)
-                        {
-                            var cond = args[i];
-                            var condexpr = args[i + 1];
+                            if(args.Count != 3)
+                                throw new EvaluationException("There should be three arguments in if statement");
 
-                            SExpr evaluatedCond = Evaluate(cond, env);
+                            var cond = list[1];
+                            var ifTrue = list[2];
+                            var ifFalse = list[3];
 
-                            if(evaluatedCond is SExprAbstractValueAtom atom && atom.GetCommonValue() is bool condBool && !condBool)
-                                continue;
-                            return Evaluate(condexpr, env); 
-                        }
-
-                        return new SExprObject(null);
-                    }
-                    else if (value == "define")
-                    {
-                        //синтаксис: define symbol exp
-                        if(args.Count != 2)
-                            throw new EvaluationException($"Wrong parameter count in definintion, should be 2 instead of {args.Count}");
-                        if(args[0] is SExprSymbol defineSymbol)
-                        {
-                            var ret = Evaluate(args[1], env);
-                            GlobalEnv[defineSymbol.Value] = ret;
-                            return ret;
-                        }
-                        else 
-                            throw new EvaluationException("First argument in definition should be a symbol!");
-                    }
-                    else if (value == "lambda")
-                    {
-                        //синтаксис: (lambda (symbol...) exp)
-                        //пример (lambda (r) (* r (* r r)))
-                        if (args[0] is SExprList lambdaArguments)
-                        {
-                            List<SExprSymbol> symbolArguments = new List<SExprSymbol>();
-                            foreach (var arg in lambdaArguments.GetElements())
+                            /*SExpr condTrue = Evaluate(cond, env);
+                            //всё, что не ложь - правда
+                            if(condTrue is SExprAbstractValueAtom atom && atom.GetCommonValue() is bool condTrueBool && !condTrueBool)
                             {
-                                if(arg is SExprSymbol symbolArg) 
-                                    symbolArguments.Add(symbolArg);
-                                else
-                                    throw new EvaluationException("Parameter in lambda definition is not symbolic");
-                            } 
-
-
-                            args.RemoveAt(0);
-                            //сюда мы пришли с некоторым окружением, возможно неглобальным. Но мы ничего с ним не делаем, мы его теряем
-                            var body = args;
-
-                            return new SExprLambda(symbolArguments, body, env);
-
-                        }
-                        else
-                            throw new EvaluationException("Lambda definition should have a list of symbol parameters");
-                    }
-                    else if (value == "let")
-                    {
-                        //(let (bindings)* exprs*); //exprs* - это body
-                        if (args[0] is SExprList letBindings)
-                        {
-                            var letBindingsList = letBindings.GetElements();
-                            if(letBindingsList.Count % 2 != 0)
-                                throw new EvaluationException("There should be an even number of elements in list of bindings");
-
-                            var letEnvironment = new EvaluationEnvironment(env); 
-                            for (int i = 0; i < letBindingsList.Count; i+=2)
-                            {
-                                var symbolIndex = i;
-                                var valueIndex = i + 1;
-                                if(letBindingsList[symbolIndex] is SExprSymbol symbolArg) 
-                                {
-                                    letEnvironment[symbolArg.Value] = Evaluate(letBindingsList[valueIndex], letEnvironment);
-                                }
-                                else
-                                    throw new EvaluationException($"Parameter №{i} in let is not a symbol");
+                                return Evaluate(ifFalse, env);
                             }
-
-                            args.RemoveAt(0);
-                            var body = args;
-                            SExpr ret = null;
-                            foreach (var bodyExpr in body)
-                            {
-                                ret = Evaluate(bodyExpr, letEnvironment);
-                            }
-                            return ret;
+                            return Evaluate(ifTrue, env);*/
+                            var ifList = new SExprList();
+                            ifList.AddSExprToList(new SExprSymbol("cond"));
+                            ifList.AddSExprToList(cond);
+                            ifList.AddSExprToList(ifTrue);
+                            ifList.AddSExprToList(new SExprBool(true));
+                            ifList.AddSExprToList(ifFalse);
+                            return Evaluate(ifList, env);
                         }
-                        else
-                            throw new EvaluationException("Second argument of let should be a list of bindings");
-                    }
-                    else if (value == "quote")
-                    {
-                        //(quote exp)
-                        if(args.Count != 1)
-                            throw new EvaluationException($"Wrong parameter count in quotation, should be 1 instead of {args.Count}");
-                        //todo: check unquote?
-                        return args[0];
-                    }
-                    else if (value == "throw")
-                    {
-                        //(throw expr), where expr should evaluate to Exception (analogue of Throwable in Java)
-
-                        if(args.Count != 1)
-                            throw new EvaluationException($"Throw should only have one argument, not {args.Count}");
-
-                        var throwExpr = args[0];
-                        var evaluatedThrowExpr = Evaluate(throwExpr, env);
-                        if(evaluatedThrowExpr is SExprAbstractValueAtom valueExpr && valueExpr.GetCommonValue() is Exception e)
-                            throw e;
-                        throw new EvaluationException("Argument of throw is not an exception!");
-                     }
-                    else if (value == "try")
-                    {
-                        // (try expr* catches* finally?)
-                        // catch is (catch Exception e exprs*)
-                        int i;
-                        List<SExpr> body = new List<SExpr>();
-                        for (i = 0; i < args.Count; i++)
+                        else if (value == "cond")
                         {
-                            var tryExpr = args[i];
-                            if (tryExpr is SExprList tryList && tryList[0] is SExprSymbol trySymbol
-                                 && trySymbol.Value == "catch")
-                                break;
-                            else
-                                body.Add(tryExpr);
-                        }
-                        //после этого должны быть только catch (может, 0?) и, опционально, finally  
-                        //словарь для типов Exception, здесь список имеет особый вид: первый элемент - SExprSymbol - имя переменной (для нее создадим контекст внутренний)
-                        //Dictionary<Type, List<SExpr>> exceptionDict = new Dictionary<Type, List<SExpr>>();
-                        ExceptionDictionary exceptionDict = new ExceptionDictionary();
-                        List<SExpr> finallyBody = new List<SExpr>();
-                        for (; i < args.Count; i++)
-                        {
-                            var tryExpr = args[i];
-                            if (tryExpr is SExprList tryList && tryList[0] is SExprSymbol trySymbol)
+                            //(cond (cond expr)*)
+                            if(args.Count % 2 != 0)
+                                throw new EvaluationException("There should be an even number of arguments in cond statement");
+                            for (int i = 0; i < args.Count; i += 2)
                             {
-                                if (trySymbol.Value == "catch")
-                                {
-                                    //(catch ExceptionType e expr * )
+                                var cond = args[i];
+                                var condexpr = args[i + 1];
 
-                                    var catchArgs = tryList.GetArgs();
-                                    if (catchArgs.Count < 2)
-                                        throw new EvaluationException("Not enough elements in catch clause");
-                                    
-                                    var exceptionClassName = catchArgs[0].GetText();
-                                    var exceptionType = Type.GetType(exceptionClassName);
-                                    if (exceptionType == null)
-                                        throw new EvaluationException("Exception type not found. Perhaps you should specify the namespace.");
+                                SExpr evaluatedCond = Evaluate(cond, env);
 
-                                    bool isExceptionType = exceptionType.IsSubclassOf(typeof(Exception)) || exceptionType == typeof(Exception);
-
-                                    if(!isExceptionType)
-                                        throw new EvaluationException($"{exceptionClassName} is not an exception type!");
-
-                                    if(!(catchArgs[1] is SExprSymbol))
-                                        throw new EvaluationException("Exception name in catch clause is not a symbol");
-
-                                    catchArgs.RemoveAt(0);
-                                    var catchBody = catchArgs;
-                                    exceptionDict[exceptionType] = catchBody;
+                                if(evaluatedCond is SExprAbstractValueAtom atom && atom.GetCommonValue() is bool condBool && !condBool)
                                     continue;
-                                }
-                                else if (trySymbol.Value == "finally")
+                                return Evaluate(condexpr, env); 
+                            }
+
+                            return new SExprObject(null);
+                        }
+                        else if (value == "define")
+                        {
+                            //синтаксис: define symbol exp
+                            if(args.Count != 2)
+                                throw new EvaluationException($"Wrong parameter count in definintion, should be 2 instead of {args.Count}");
+                            if(args[0] is SExprSymbol defineSymbol)
+                            {
+                                var ret = Evaluate(args[1], env);
+                                GlobalEnv[defineSymbol.Value] = ret;
+                                return ret;
+                            }
+                            else 
+                                throw new EvaluationException("First argument in definition should be a symbol!");
+                        }
+                        else if (value == "lambda")
+                        {
+                            //синтаксис: (lambda (symbol...) exp)
+                            //пример (lambda (r) (* r (* r r)))
+                            if (args[0] is SExprList lambdaArguments)
+                            {
+                                List<SExprSymbol> symbolArguments = new List<SExprSymbol>();
+                                foreach (var arg in lambdaArguments.GetElements())
                                 {
-                                    //(finally expr*); expr* is body
-                                    finallyBody = tryList.GetArgs();
-                                    if(i != args.Count - 1)
-                                        throw new EvaluationException("There shouldn't be any other clauses after finally in try-catch");
-                                    break; //после finally ничего нет
+                                    if(arg is SExprSymbol symbolArg) 
+                                        symbolArguments.Add(symbolArg);
+                                    else
+                                        throw new EvaluationException("Parameter in lambda definition is not symbolic");
+                                } 
+
+
+                                args.RemoveAt(0);
+                                //сюда мы пришли с некоторым окружением, возможно неглобальным. Но мы ничего с ним не делаем, мы его теряем
+                                var body = args;
+
+                                return new SExprLambda(symbolArguments, body, env);
+
+                            }
+                            else
+                                throw new EvaluationException("Lambda definition should have a list of symbol parameters");
+                        }
+                        else if (value == "let")
+                        {
+                            //(let (bindings)* exprs*); //exprs* - это body
+                            if (args[0] is SExprList letBindings)
+                            {
+                                var letBindingsList = letBindings.GetElements();
+                                if(letBindingsList.Count % 2 != 0)
+                                    throw new EvaluationException("There should be an even number of elements in list of bindings");
+
+                                var letEnvironment = new EvaluationEnvironment(env); 
+                                for (int i = 0; i < letBindingsList.Count; i+=2)
+                                {
+                                    var symbolIndex = i;
+                                    var valueIndex = i + 1;
+                                    if(letBindingsList[symbolIndex] is SExprSymbol symbolArg) 
+                                    {
+                                        letEnvironment[symbolArg.Value] = Evaluate(letBindingsList[valueIndex], letEnvironment);
+                                    }
+                                    else
+                                        throw new EvaluationException($"Parameter №{i} in let is not a symbol");
+                                }
+
+                                args.RemoveAt(0);
+                                var body = args;
+                                SExpr ret = null;
+                                foreach (var bodyExpr in body)
+                                {
+                                    ret = Evaluate(bodyExpr, letEnvironment);
+                                }
+                                return ret;
+                            }
+                            else
+                                throw new EvaluationException("Second argument of let should be a list of bindings");
+                        }
+                        else if (value == "quote")
+                        {
+                            //(quote exp)
+                            if(args.Count != 1)
+                                throw new EvaluationException($"Wrong parameter count in quotation, should be 1 instead of {args.Count}");
+                            //todo: check unquote?
+                            return args[0];
+                        }
+                        else if (value == "throw")
+                        {
+                            //(throw expr), where expr should evaluate to Exception (analogue of Throwable in Java)
+
+                            if(args.Count != 1)
+                                throw new EvaluationException($"Throw should only have one argument, not {args.Count}");
+
+                            var throwExpr = args[0];
+                            var evaluatedThrowExpr = Evaluate(throwExpr, env);
+                            if(evaluatedThrowExpr is SExprAbstractValueAtom valueExpr && valueExpr.GetCommonValue() is Exception e)
+                                throw e;
+                            throw new EvaluationException("Argument of throw is not an exception!");
+                        }
+                        else if (value == "try")
+                        {
+                            // (try expr* catches* finally?)
+                            // catch is (catch Exception e exprs*)
+                            int i;
+                            List<SExpr> body = new List<SExpr>();
+                            for (i = 0; i < args.Count; i++)
+                            {
+                                var tryExpr = args[i];
+                                if (tryExpr is SExprList tryList && tryList[0] is SExprSymbol trySymbol
+                                    && trySymbol.Value == "catch")
+                                    break;
+                                else
+                                    body.Add(tryExpr);
+                            }
+                            //после этого должны быть только catch (может, 0?) и, опционально, finally  
+                            //словарь для типов Exception, здесь список имеет особый вид: первый элемент - SExprSymbol - имя переменной (для нее создадим контекст внутренний)
+                            //Dictionary<Type, List<SExpr>> exceptionDict = new Dictionary<Type, List<SExpr>>();
+                            ExceptionDictionary exceptionDict = new ExceptionDictionary();
+                            List<SExpr> finallyBody = new List<SExpr>();
+                            for (; i < args.Count; i++)
+                            {
+                                var tryExpr = args[i];
+                                if (tryExpr is SExprList tryList && tryList[0] is SExprSymbol trySymbol)
+                                {
+                                    if (trySymbol.Value == "catch")
+                                    {
+                                        //(catch ExceptionType e expr * )
+
+                                        var catchArgs = tryList.GetArgs();
+                                        if (catchArgs.Count < 2)
+                                            throw new EvaluationException("Not enough elements in catch clause");
+                                        
+                                        var exceptionClassName = catchArgs[0].GetText();
+                                        var exceptionType = Type.GetType(exceptionClassName);
+                                        if (exceptionType == null)
+                                            throw new EvaluationException("Exception type not found. Perhaps you should specify the namespace.");
+
+                                        bool isExceptionType = exceptionType.IsSubclassOf(typeof(Exception)) || exceptionType == typeof(Exception);
+
+                                        if(!isExceptionType)
+                                            throw new EvaluationException($"{exceptionClassName} is not an exception type!");
+
+                                        if(!(catchArgs[1] is SExprSymbol))
+                                            throw new EvaluationException("Exception name in catch clause is not a symbol");
+
+                                        catchArgs.RemoveAt(0);
+                                        var catchBody = catchArgs;
+                                        exceptionDict[exceptionType] = catchBody;
+                                        continue;
+                                    }
+                                    else if (trySymbol.Value == "finally")
+                                    {
+                                        //(finally expr*); expr* is body
+                                        finallyBody = tryList.GetArgs();
+                                        if(i != args.Count - 1)
+                                            throw new EvaluationException("There shouldn't be any other clauses after finally in try-catch");
+                                        break; //после finally ничего нет
+                                    }
+                                    else
+                                        throw new EvaluationException("After first catch, only catch and finally clauses are allowed in try-catch");
                                 }
                                 else
                                     throw new EvaluationException("After first catch, only catch and finally clauses are allowed in try-catch");
                             }
-                            else
-                                throw new EvaluationException("After first catch, only catch and finally clauses are allowed in try-catch");
-                        }
 
-                        SExpr ret = null;
-                        try
-                        {
-                            foreach (var bodyExpr in body)
-                                ret = Evaluate(bodyExpr, env);
-                            return ret;
-                        }
-                        catch (Exception e)
-                        {
-                            ret = null;
-                            
-                            //если бросали из внешнего метода, то там System.Reflection.TargetInvocationException, но это решается в коде для вызова методов C#
-
-                            var exceptionType = e.GetType();
-                            
-                            List<SExpr> bodyForExceptionType = exceptionDict[exceptionType];
-                            if(bodyForExceptionType != null)
+                            SExpr ret = null;
+                            try
                             {
-                                var exceptionSymbol = (SExprSymbol)bodyForExceptionType[0];
-                                bodyForExceptionType.RemoveAt(0);
-
-                                var catchEnvironment = new EvaluationEnvironment(env); 
-                                catchEnvironment[exceptionSymbol.Value] = new SExprObject(e);
-                            
-                                foreach (var bodyExpr in bodyForExceptionType)
-                                    ret = Evaluate(bodyExpr, catchEnvironment);
-
-                                return ret; //goes to finally
+                                foreach (var bodyExpr in body)
+                                    ret = Evaluate(bodyExpr, env);
+                                return ret;
                             }
+                            catch (Exception e)
+                            {
+                                ret = null;
+                                
+                                //если бросали из внешнего метода, то там System.Reflection.TargetInvocationException, но это решается в коде для вызова методов C#
+
+                                var exceptionType = e.GetType();
+                                
+                                List<SExpr> bodyForExceptionType = exceptionDict[exceptionType];
+                                if(bodyForExceptionType != null)
+                                {
+                                    var exceptionSymbol = (SExprSymbol)bodyForExceptionType[0];
+                                    bodyForExceptionType.RemoveAt(0);
+
+                                    var catchEnvironment = new EvaluationEnvironment(env); 
+                                    catchEnvironment[exceptionSymbol.Value] = new SExprObject(e);
+                                
+                                    foreach (var bodyExpr in bodyForExceptionType)
+                                        ret = Evaluate(bodyExpr, catchEnvironment);
+
+                                    return ret; //goes to finally
+                                }
+                                else
+                                    throw e;
+
+                                //(try (LispMachine.StandardLibrary\ThrowsException) (catch System.ApplicationException e (.ToUpper (.ToString e))))                        
+                            }
+                            finally
+                            {
+                                //тут плохо тем, что после "внутренних" исключений (EvaluationException) тоже выполнится
+                                //todo: проверять на EvaluationException И если это оно, то ничего не делать
+                                //или как вариант можно все выше сделать, без finally,
+                                //но тогда EvaluateException может выкинуться и finally не выполнится?
+                                //это правильное поведение?
+
+                                foreach (var finallyExpr in finallyBody)
+                                    Evaluate(finallyExpr, env);
+                                //оцениваются (вдруг сайд эффекты), но не возвращаются
+
+                            }
+                        }
+                        else if (value == "new")
+                        {
+                            //(new Classname args*); classname should be full
+
+                            string className = null;
+                            if(args[0] is SExprSymbol classNameSymbol)
+                                className = classNameSymbol.Value;
                             else
-                                throw e;
+                                throw new EvaluationException("First argument of new is not a symbol!");
+                            var type = Type.GetType(className);
+                            if (type == null)
+                                throw new EvaluationException("No such class found, maybe you should use the full name with namespace?");
+                            
+                            var arguments = new List<object>();
+                            args.RemoveAt(0);
+                            foreach(var arg in args)
+                            {
+                                var evaluatedArg = Evaluate(arg, env);
+                                if(evaluatedArg is SExprLambda)
+                                    throw new EvaluationException("Wrong parameter in native call, lambdas can't be passed");
+                                arguments.Add(CreateObjectFromSExpr(evaluatedArg));
+                            } 
 
-                            //(try (LispMachine.StandardLibrary\ThrowsException) (catch System.ApplicationException e (.ToUpper (.ToString e))))                        
+                            var constructor = type.GetConstructor(arguments.Select (x => x.GetType()).ToArray());
+                            if(constructor == null)
+                                throw new EvaluationException("No constructor with such arguments found");
+
+                            try {
+                                var instance = constructor.Invoke(arguments.ToArray()); 
+                                return CreateSExprFromObject(instance);  
+                            }
+                            catch (System.Reflection.TargetInvocationException e) {
+                                throw e.InnerException;
+                            }
                         }
-                        finally
+                        else if (value[0] == '.')
                         {
-                            //тут плохо тем, что после "внутренних" исключений (EvaluationException) тоже выполнится
-                            //todo: проверять на EvaluationException И если это оно, то ничего не делать
-                            //или как вариант можно все выше сделать, без finally,
-                            //но тогда EvaluateException может выкинуться и finally не выполнится?
-                            //это правильное поведение?
+                            //(.methodName instance parameters*)
+                            if(args.Count < 1)
+                                throw new EvaluationException($"Wrong parameter count in native method call: an instance should be provided after method name");
+                            var methodName = value.Substring(1);
+                            var instance = args[0]; //todo: надо Evaluate
+                            var evaluatedInstance = Evaluate(instance, env);
 
-                            foreach (var finallyExpr in finallyBody)
-                                Evaluate(finallyExpr, env);
-                            //оцениваются (вдруг сайд эффекты), но не возвращаются
+                            args.RemoveAt(0);
+                            var arguments = new List<object>();
+                            foreach(var arg in args)
+                            {
+                                var evaluatedArg = Evaluate(arg, env);
+                                if(evaluatedArg is SExprLambda)
+                                    throw new EvaluationException("Wrong parameter in native call, lambdas can't be passed");
+                                arguments.Add(CreateObjectFromSExpr(evaluatedArg));
+                            }
 
-                        }
-                    }
-                    else if (value == "new")
-                    {
-                        //(new Classname args*); classname should be full
-
-                        string className = null;
-                        if(args[0] is SExprSymbol classNameSymbol)
-                            className = classNameSymbol.Value;
-                        else
-                            throw new EvaluationException("First argument of new is not a symbol!");
-                        var type = Type.GetType(className);
-                        if (type == null)
-                            throw new EvaluationException("No such class found, maybe you should use the full name with namespace?");
-                        
-                        var arguments = new List<object>();
-                        args.RemoveAt(0);
-                        foreach(var arg in args)
-                        {
-                            var evaluatedArg = Evaluate(arg, env);
-                            if(evaluatedArg is SExprLambda)
-                                throw new EvaluationException("Wrong parameter in native call, lambdas can't be passed");
-                            arguments.Add(CreateObjectFromSExpr(evaluatedArg));
-                        } 
-
-                        var constructor = type.GetConstructor(arguments.Select (x => x.GetType()).ToArray());
-                        if(constructor == null)
-                            throw new EvaluationException("No constructor with such arguments found");
-
-                        try {
-                            var instance = constructor.Invoke(arguments.ToArray()); 
-                            return CreateSExprFromObject(instance);  
-                        }
-                        catch (System.Reflection.TargetInvocationException e) {
-                            throw e.InnerException;
-                        }
-                    }
-                    else if (value[0] == '.')
-                    {
-                        //(.methodName instance parameters*)
-                        if(args.Count < 1)
-                            throw new EvaluationException($"Wrong parameter count in native method call: an instance should be provided after method name");
-                        var methodName = value.Substring(1);
-                        var instance = args[0]; //todo: надо Evaluate
-                        var evaluatedInstance = Evaluate(instance, env);
-
-                        args.RemoveAt(0);
-                        var arguments = new List<object>();
-                        foreach(var arg in args)
-                        {
-                            var evaluatedArg = Evaluate(arg, env);
-                            if(evaluatedArg is SExprLambda)
-                                throw new EvaluationException("Wrong parameter in native call, lambdas can't be passed");
-                            arguments.Add(CreateObjectFromSExpr(evaluatedArg));
-                        }
-
-                        var evaluatedInstanceObject = CreateObjectFromSExpr(evaluatedInstance);
-                        var type = evaluatedInstanceObject.GetType();
-                        var method = type.GetMethod(methodName, arguments.Select (x => x.GetType()).ToArray());
-                        try {
-                            var returnedObj = method.Invoke(evaluatedInstanceObject, arguments.ToArray()); 
-                            return CreateSExprFromObject(returnedObj);     
-                        }
-                        catch (System.Reflection.TargetInvocationException e) {
-                            throw e.InnerException;
-                        }
-                 
-                    }
-                    else if (value.Contains('\\'))
-                    {
-                        var splat = value.Split('\\');
-                        var className = splat[0];
-                        var methodName = splat[1];
-
-                        var arguments = new List<object>();
-                        foreach(var arg in args)
-                        {
-                            var evaluatedArg = Evaluate(arg, env);
-                            if(evaluatedArg is SExprLambda)
-                                throw new EvaluationException("Wrong parameter in native call, lambdas can't be passed");
-                            arguments.Add(CreateObjectFromSExpr(evaluatedArg));
-                        } 
-
-                        var method = Type.GetType(className).GetMethod(methodName, arguments.Select(x => x.GetType()).ToArray());
-                        try {
-                            var returnedObj = method.Invoke(null, arguments.ToArray());
-                            return CreateSExprFromObject(returnedObj);  
-                        }
-                        catch (System.Reflection.TargetInvocationException e) {
-                            throw e.InnerException;
-                        }
+                            var evaluatedInstanceObject = CreateObjectFromSExpr(evaluatedInstance);
+                            var type = evaluatedInstanceObject.GetType();
+                            var method = type.GetMethod(methodName, arguments.Select (x => x.GetType()).ToArray());
+                            try {
+                                var returnedObj = method.Invoke(evaluatedInstanceObject, arguments.ToArray()); 
+                                return CreateSExprFromObject(returnedObj);     
+                            }
+                            catch (System.Reflection.TargetInvocationException e) {
+                                throw e.InnerException;
+                            }
                     
+                        }
+                        else if (value.Contains('\\'))
+                        {
+                            var splat = value.Split('\\');
+                            var className = splat[0];
+                            var methodName = splat[1];
+
+                            var arguments = new List<object>();
+                            foreach(var arg in args)
+                            {
+                                var evaluatedArg = Evaluate(arg, env);
+                                if(evaluatedArg is SExprLambda)
+                                    throw new EvaluationException("Wrong parameter in native call, lambdas can't be passed");
+                                arguments.Add(CreateObjectFromSExpr(evaluatedArg));
+                            } 
+
+                            var method = Type.GetType(className).GetMethod(methodName, arguments.Select(x => x.GetType()).ToArray());
+                            try {
+                                var returnedObj = method.Invoke(null, arguments.ToArray());
+                                return CreateSExprFromObject(returnedObj);  
+                            }
+                            catch (System.Reflection.TargetInvocationException e) {
+                                throw e.InnerException;
+                            }
+                        
+                        }
                     }
+
+                    var call = new FunctionCall(head, args); 
+                    return call.Evaluate(env);
                 }
-
-                var call = new FunctionCall(head, args); 
-                return call.Evaluate(env);
             }
-
             return null;
         }
 
