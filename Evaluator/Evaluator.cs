@@ -208,15 +208,14 @@ namespace LispMachine
                                 args.RemoveAt(0);
                                 var body = args;
                                 SExpr ret = null;
-                                //foreach (var bodyExpr in body)
+
                                 for (int i = 0; i < body.Count - 1; i++)
                                 {
                                     var bodyExpr = body[i];
                                     ret = Evaluate(bodyExpr, letEnvironment);
                                 }
-                                //return ret;
-                                var lastBodyExpr = body[body.Count - 1];
-                                expr = lastBodyExpr;
+
+                                expr = body[body.Count - 1];
                                 env = letEnvironment;
                                 continue;
 
