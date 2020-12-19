@@ -120,19 +120,28 @@ namespace LispMachine
                             //(cond (cond expr)*)
                             if(args.Count % 2 != 0)
                                 throw new EvaluationException("There should be an even number of arguments in cond statement");
+                            
+                            SExpr trueExpr = null;
                             for (int i = 0; i < args.Count; i += 2)
                             {
                                 var cond = args[i];
-                                var condexpr = args[i + 1];
+                                var condExpr = args[i + 1];
 
                                 SExpr evaluatedCond = Evaluate(cond, env);
 
-                                if(evaluatedCond is SExprAbstractValueAtom atom && atom.GetCommonValue() is bool condBool && !condBool)
+                                if(evaluatedCond is SExprAbstractValueAtom atom && (atom.GetCommonValue() == null || (atom.GetCommonValue() is bool condBool && !condBool)))
                                     continue;
-                                return Evaluate(condexpr, env); 
+                                //return Evaluate(condExpr, env); 
+                                trueExpr = condExpr;
+                                break;
                             }
 
-                            return new SExprObject(null);
+                            if(trueExpr == null)
+                                return new SExprObject(null);
+                            else {
+                                expr = trueExpr;
+                                continue;
+                            }
                         }
                         else if (value == "define")
                         {
