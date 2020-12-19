@@ -487,6 +487,9 @@ namespace LispMachine
                             lambdaEnv[lambdaSymbolArguments[i].Value] = Arguments[i];
                         }
 
+                        if(lambda.Body.Count == 0)
+                            return new SExprObject(null);
+
                         for (int i = 0; i < lambda.Body.Count - 1; i++)
                         {
                             var bodyExpr = lambda.Body[i];
