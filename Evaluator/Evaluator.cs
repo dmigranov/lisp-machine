@@ -168,8 +168,13 @@ namespace LispMachine
                             if(args.Count < 2)
                                 throw new EvaluationException($"Wrong parameter count in definition, should be 2 instead of {args.Count}");
                             
+                            SExprSymbol defmacroSymbol = null;
+                            if(args[0] is SExprSymbol defineSymbol)
+                                defmacroSymbol = defineSymbol;
+                            else
+                                throw new EvaluationException("First argument in defmacro is not a symbol!");
 
-                            if (args[0] is SExprList lambdaArguments)
+                            if (args[1] is SExprList lambdaArguments)
                             {
                                 List<SExprSymbol> symbolArguments = new List<SExprSymbol>();
                                 foreach (var arg in lambdaArguments.GetElements())
@@ -180,17 +185,15 @@ namespace LispMachine
                                         throw new EvaluationException("Parameter in lambda definition is not symbolic");
                                 } 
 
-
+                                args.RemoveAt(0);
                                 args.RemoveAt(0);
                                 //сюда мы пришли с некоторым окружением, возможно неглобальным. Но мы ничего с ним не делаем, мы его теряем
                                 var body = args;
 
-                                MacroTable[];
-
+                                MacroTable[defmacroSymbol.Value] = body.Select(x => Evaluate(x, env)).ToList();
                             }
                             else
                                 throw new EvaluationException("Lambda definition should have a list of symbol parameters");
-                            
                             
                         }
                         else if (value == "lambda")
