@@ -57,6 +57,10 @@ namespace LispMachine
             мы не создаём новый стек фрейм
         */
 
+        static private SExpr currentExpr = null;
+        static private EvaluationEnvironment currentEnv = null;
+
+
         static public SExpr Evaluate(SExpr expr, EvaluationEnvironment env)
         {
             while(true)
