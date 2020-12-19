@@ -436,11 +436,8 @@ namespace LispMachine
                     //var call = new FunctionCall(head, args); 
                     //return call.Evaluate(env);
 
-                    var Function = head;
-                    var Arguments = args;
-
-                    Arguments = Arguments.Select(x => Evaluator.Evaluate(x, env)).ToList();
-                    var evaluatedHead = Evaluator.Evaluate(Function, env);
+                    var Arguments = args.Select(x => Evaluator.Evaluate(x, env)).ToList();
+                    var evaluatedHead = Evaluator.Evaluate(head, env);
             
                     if(evaluatedHead is SExprLambda lambda)
                     {
