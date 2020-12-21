@@ -18,7 +18,6 @@
                 (let (y 1) (let (z (+ y 1)) (+ z 1)))
 
                 (let (y 1) (define z (+ y x)))
-                (LispMachine.StandardLibrary\And false true)
 
                 (define apply (lambda (fn x y) (fn x y)))
                 (apply * 5 (apply * 2 2))
@@ -60,7 +59,8 @@
 
 (defmacro print2 (x) (quote (let (str1 x str2 x) (println str1) (println str2)))) 
 (print2 (.Next (new System.Random) 0 100))  
-
+(macroexpand (quote (print2 "hello")))
+(macroexpand (quote (print2 (.Next (new System.Random) 0 100)))) 
 
 (println "Please enter a number:")
 (println (+ 45.2 (System.Double\Parse (readln))))
