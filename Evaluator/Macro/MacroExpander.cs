@@ -59,6 +59,9 @@ namespace LispMachine
 
         private SExpr ExpandExprRec(SExpr expr, List<SExprSymbol> argNames, List<SExpr> macroArgs)
         {
+            if(argNames.Count != macroArgs.Count)
+                throw new MacroException($"Wrong parameter count: {macroArgs.Count} instead of {argNames.Count}");
+
             if (expr is SExprList list)     
             {
                 list = new SExprList(list.GetElements());

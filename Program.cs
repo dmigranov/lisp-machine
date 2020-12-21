@@ -158,6 +158,10 @@ namespace LispMachine
             {
                 Console.WriteLine($"Can't parse: {e.Message}");
             }
+            catch (MacroException e)
+            {
+                Console.WriteLine($"Macro expansion error: {e.Message}");
+            }
             catch (EvaluationException e)
             {
                 Console.WriteLine($"Can't evaluate: {e.Message}");
