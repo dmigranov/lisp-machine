@@ -28,6 +28,7 @@ namespace LispMachine
 
             (define & (lambda (x y) (LispMachine.StandardLibrary\And x y)))
             (define | (lambda (x y) (LispMachine.StandardLibrary\Or x y)))
+            (define ! (lambda (x) (LispMachine.StandardLibrary\Not x)))
 
             (define println (lambda (x) (LispMachine.StandardLibrary\Println x)))
             (define readln (lambda () (LispMachine.StandardLibrary\Readln)))

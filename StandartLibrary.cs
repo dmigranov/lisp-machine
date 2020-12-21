@@ -52,11 +52,16 @@ namespace LispMachine
             return xBool || yBool;
         }
 
-        public static bool And(bool x, bool y)
+        public static bool And(object x, object y)
         {
             var xBool = !((x == null) || (x is bool xTempBool && !xTempBool));
             var yBool = !((y == null) || (y is bool yTempBool && !yTempBool));
             return xBool && yBool;
+        }
+
+        public static bool Not(object obj)
+        {
+            return ((obj == null) || (obj is bool objTempBool && !objTempBool));
         }
 
         public static string Println(object x)
