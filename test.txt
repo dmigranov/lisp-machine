@@ -74,3 +74,4 @@
 
 (defmacro printIf (cond x) (quote (if cond (println (System.String\Concat "true " x)) (println (System.String\Concat "false " x)))))
 
+(defmacro rec-fact (num) (quote (if (> num 0) (* num (rec-fact (- num 1))) 1)))

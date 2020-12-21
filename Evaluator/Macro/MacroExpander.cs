@@ -38,7 +38,7 @@ namespace LispMachine
                     var value = listHeadSymbol.Value;
 
                     Macro macro;
-                    if((macro = MacroTable[value]) != null)
+                    if((macro = this[value]) != null)
                         return ExpandMacro(macro, args);
                 }       
 
@@ -53,14 +53,17 @@ namespace LispMachine
         public SExpr ExpandMacro(Macro macro, List<SExpr> args)
         {
             var expr = macro.Body;
+            if(args.Count != macro.MacroArguments.Count)
+                throw new MacroException($"Wrong parameter count: {args.Count} instead of {macro.MacroArguments.Count}");
+            
+            
             var expanded = ExpandExprRec(expr, macro.MacroArguments, args);
             return expanded;
         }
 
         private SExpr ExpandExprRec(SExpr expr, List<SExprSymbol> argNames, List<SExpr> macroArgs)
         {
-            if(argNames.Count != macroArgs.Count)
-                throw new MacroException($"Wrong parameter count: {macroArgs.Count} instead of {argNames.Count}");
+            
 
             if (expr is SExprList list)     
             {
@@ -71,6 +74,15 @@ namespace LispMachine
                 if (head is SExprSymbol listHeadSymbol)
                 {
                     var value = listHeadSymbol.Value;
+
+                    if(value == "tilde")
+                    {
+                        if(args.Count != 1)
+                           throw new MacroException($"Wrong parameter count after tilde: {args.Count} instead of 1"); 
+                        var arg = args[0];
+
+                    }
+
                     for (int i = 1; i < list.GetElements().Count; i++)
                     {
                         var bodyExpr = list[i];

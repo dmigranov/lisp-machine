@@ -102,13 +102,6 @@ namespace LispMachine
                             var ifTrue = list[2];
                             var ifFalse = list[3];
 
-                            /*SExpr condTrue = Evaluate(cond, env);
-                            //всё, что не ложь - правда
-                            if(condTrue is SExprAbstractValueAtom atom && atom.GetCommonValue() is bool condTrueBool && !condTrueBool)
-                            {
-                                return Evaluate(ifFalse, env);
-                            }
-                            return Evaluate(ifTrue, env);*/
                             var ifList = new SExprList();
                             ifList.AddSExprToList(new SExprSymbol("cond"));
                             ifList.AddSExprToList(cond);
@@ -197,14 +190,15 @@ namespace LispMachine
                                 throw new EvaluationException("Lambda definition should have a list of symbol parameters");
                             
                         }
-                        else if (value == "macroexpand")
+                        else if (value == "macroexpand") //раскрывает только верхний уровень - вроде так канонически
                         {
-                            //(macroexpand form)
+                            //(macroexpand form args*)
                             //form is, for example, (quote (defined-macro arg))
                             if(args.Count != 1)
                                 throw new EvaluationException($"Wrong parameter count in macroexpand, should be 1 instead of {args.Count}");
                             var form = args[0];
                             var evaluatedForm = Evaluate(form, env);
+            
 
                             return Expander.Expand(evaluatedForm);
 
@@ -529,6 +523,7 @@ namespace LispMachine
 
                     if (head is SExprSymbol headSymbol && Expander[headSymbol.Value] != null)
                     {
+                        //Console.WriteLine("here");
                         var ret = Evaluate(Expander.Expand(expr), env);
                         return ret;
                     }
