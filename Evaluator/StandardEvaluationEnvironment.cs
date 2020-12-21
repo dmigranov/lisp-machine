@@ -39,6 +39,8 @@ namespace LispMachine
             (define second (lambda (seq) (LispMachine.StandardLibrary\Second seq)))
 
             
+            (defmacro if (x y z) (quote (cond x y true z)))
+
             ";
 
         public StandardEvaluationEnvironment() : base()

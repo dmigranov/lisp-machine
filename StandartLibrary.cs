@@ -41,14 +41,22 @@ namespace LispMachine
             return x == y;
         }
 
-        public static bool Or(bool x, bool y)
+        /*public static bool Or(bool x, bool y)
         {
             return x || y;
+        }*/
+        public static bool Or (object x, object y)
+        {
+            var xBool = !((x == null) || (x is bool xTempBool && !xTempBool));
+            var yBool = !((y == null) || (y is bool yTempBool && !yTempBool));
+            return xBool || yBool;
         }
 
         public static bool And(bool x, bool y)
         {
-            return x && y;
+            var xBool = !((x == null) || (x is bool xTempBool && !xTempBool));
+            var yBool = !((y == null) || (y is bool yTempBool && !yTempBool));
+            return xBool && yBool;
         }
 
         public static string Println(object x)

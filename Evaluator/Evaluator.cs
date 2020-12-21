@@ -93,7 +93,7 @@ namespace LispMachine
                     {
 
                         var value = listHeadSymbol.Value;
-                        if (value == "if")
+                        /*if (value == "if")
                         {
                             if(args.Count != 3)
                                 throw new EvaluationException("There should be three arguments in if statement");
@@ -113,7 +113,8 @@ namespace LispMachine
                             expr = ifList;
                             continue;
                         }
-                        else if (value == "cond")
+                        else */
+                        if (value == "cond")
                         {
                             //(cond (cond expr)*)
                             if(args.Count % 2 != 0)
