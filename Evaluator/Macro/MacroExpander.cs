@@ -68,14 +68,22 @@ namespace LispMachine
                 if (head is SExprSymbol listHeadSymbol)
                 {
                     var value = listHeadSymbol.Value;
+                    for (int i = 1; i < list.GetElements().Count; i++)
+                    {
+                        var bodyExpr = list[i];
+                        var expanded = ExpandExprRec(bodyExpr, argNames, macroArgs);
+                        list[i] = expanded;
+                    }
+                    return list;
 
-                    if(value == "let")
+
+                    /*if(value == "let") //нужно обработать особенно 
                     {
                         if (args[0] is SExprList letBindings)
                         {
                             var letBindingsList = letBindings.GetElements();
                             if(letBindingsList.Count % 2 != 0)
-                                throw new EvaluationException("There should be an even number of elements in list of bindings");
+                                throw new MacroException("There should be an even number of elements in list of bindings");
 
                             for (int i = 0; i < letBindingsList.Count; i+=2)
                             {
@@ -100,10 +108,9 @@ namespace LispMachine
                             return list;
                         }
                         else
-                            throw new EvaluationException("Second argument of let should be a list of bindings");
+                            throw new MacroException("Second argument of let should be a list of bindings");
                     }
                     //todo
-
 
                     else 
                     {
@@ -115,6 +122,7 @@ namespace LispMachine
                         }
                         return list;
                     }
+                    */
                 }       
 
                 return expr;
@@ -134,4 +142,14 @@ namespace LispMachine
             return expr;
         }
     }
+
+    public class MacroException : Exception
+    {
+        public MacroException() { }
+
+        public MacroException(string message) : base(message) { }
+
+        public MacroException(string message, Exception innerException) : base(message, innerException) { }
+    }
+
 }

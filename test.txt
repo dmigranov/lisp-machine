@@ -72,3 +72,5 @@
 (try (LispMachine.StandardLibrary\ThrowsException) (catch System.Exception e (println "catch message!") (System.String\Concat "Caught exception: " (.ToString e))) (finally (println "finally message!"))) 
 
 
+(defmacro printIf (cond x) (quote (if cond (println (System.String\Concat "true " x)) (println (System.String\Concat "false " x)))))
+
