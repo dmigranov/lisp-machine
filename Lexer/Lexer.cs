@@ -47,7 +47,10 @@ namespace LispMachine
                     {
                         builder.Append((char)currentCharAsInt);
                         currentCharAsInt = reader.Read();
-                    } while (currentCharAsInt != '"');
+                    } while (currentCharAsInt != '"' && currentCharAsInt != -1);
+                    if(currentCharAsInt == -1)
+                        throw new LexerException("Can't tokenize string: no second \" presented");
+
                     builder.Append((char)currentCharAsInt);
                     currentCharAsInt = reader.Read();
 

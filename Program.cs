@@ -154,6 +154,10 @@ namespace LispMachine
                     Console.WriteLine("null");
 
             }
+            catch (LexerException e)
+            {
+                Console.WriteLine($"Lexer error: {e.Message}");
+            }
             catch (ParserException e)
             {
                 Console.WriteLine($"Can't parse: {e.Message}");
