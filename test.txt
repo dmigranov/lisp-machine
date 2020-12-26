@@ -20,7 +20,7 @@
                 (let (y 1) (define z (+ y x)))
 
                 (define apply-2 (lambda (fn x y) (fn x y)))
-                (apply-2 * 5 (apply * 2 2))
+                (apply-2 * 5 (apply-2 * 2 2))
                 (define arithm (lambda (x) (if (> x 0) (+ x (arithm (- x 1))) 0)))
 
                 (define arithm-tail 
@@ -75,3 +75,5 @@
 (defmacro printIf (cond x) (quote (if cond (println (System.String\Concat "true " x)) (println (System.String\Concat "false " x)))))
 
 (defmacro rec-fact (num) (quote (if (> num 0) (* num (rec-fact (- num 1))) 1)))
+
+(let (x 100) (define func (lambda (y) (+ x y)))) 

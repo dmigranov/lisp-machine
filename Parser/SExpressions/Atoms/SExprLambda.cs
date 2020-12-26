@@ -6,9 +6,9 @@ namespace LispMachine
 {
     public class SExprLambda : SExprAtom   //от кого он должен наслеоваться?
     {
-        public List<SExprSymbol> LambdaArguments { get; }
-        public List<SExpr> Body { get; } //тело может состоять из нескольких выражений, возвращаем последнее
-        public EvaluationEnvironment Environment { get; }
+        public List<SExprSymbol> LambdaArguments { get; protected set; }
+        public List<SExpr> Body { get; protected set; } //тело может состоять из нескольких выражений, возвращаем последнее
+        public EvaluationEnvironment Environment { get; protected set; }
         //но исполнить надо все (вдруг там принтлны или дефайны)
 
         public SExprLambda(List<SExprSymbol> lambdaArgs, List<SExpr> body, EvaluationEnvironment env)

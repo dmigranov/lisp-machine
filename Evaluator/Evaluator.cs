@@ -168,15 +168,15 @@ namespace LispMachine
                             else
                                 throw new EvaluationException("First argument in defmacro is not a symbol!");
 
-                            if (args[1] is SExprList lambdaArguments)
+                            if (args[1] is SExprList macroArguments)
                             {
                                 List<SExprSymbol> symbolArguments = new List<SExprSymbol>();
-                                foreach (var arg in lambdaArguments.GetElements())
+                                foreach (var arg in macroArguments.GetElements())
                                 {
                                     if(arg is SExprSymbol symbolArg) 
                                         symbolArguments.Add(symbolArg);
                                     else
-                                        throw new EvaluationException("Parameter in lambda definition is not symbolic");
+                                        throw new EvaluationException("Parameter in macro definition is not symbolic");
                                 } 
 
                                 args.RemoveAt(0);
@@ -188,7 +188,7 @@ namespace LispMachine
                                 return new SExprString($"Macro {defmacroSymbol.Value} evaluated");
                             }
                             else
-                                throw new EvaluationException("Lambda definition should have a list of symbol parameters");
+                                throw new EvaluationException("Macro definition should have a list of symbol parameters");
                             
                         }
                         else if (value == "macroexpand") //раскрывает только верхний уровень - вроде так канонически
@@ -206,8 +206,12 @@ namespace LispMachine
                         }
                         else if (value == "lambda")
                         {
-                            //синтаксис: (lambda (symbol...) exp)
+                            //синтаксис: (lambda (symbol...) body)
                             //пример (lambda (r) (* r (* r r)))
+
+                            if (args.Count < 1)
+                                throw new EvaluationException("No arg list in lambda!");
+
                             if (args[0] is SExprList lambdaArguments)
                             {
                                 List<SExprSymbol> symbolArguments = new List<SExprSymbol>();
@@ -218,7 +222,6 @@ namespace LispMachine
                                     else
                                         throw new EvaluationException("Parameter in lambda definition is not symbolic");
                                 } 
-
 
                                 args.RemoveAt(0);
                                 //сюда мы пришли с некоторым окружением, возможно неглобальным. Но мы ничего с ним не делаем, мы его теряем
@@ -233,11 +236,11 @@ namespace LispMachine
                                 args.RemoveAt(0);
                                 var body = args;
 
-                                return new SExprLambda(symbolForList, body, env);
+                                return new SExprVariadicLambda(symbolForList, body, env);
                             }
 
                             else
-                                throw new EvaluationException("Lambda definition should have a list of symbol parameters");
+                                throw new EvaluationException("Lambda definition should have a list of symbol parameters or a symbol (for variadic lambdas)");
                         }
                         else if (value == "let")
                         {
@@ -543,18 +546,27 @@ namespace LispMachine
             
                     if(evaluatedHead is SExprLambda lambda)
                     {
-                        var lambdaSymbolArguments = lambda.LambdaArguments;
-
-                        if(lambdaSymbolArguments.Count != Arguments.Count)
-                            throw new EvaluationException("Wrong argument count passed");
-
                         //EvaluationEnvironment lambdaEnv = new EvaluationEnvironment(env);
                         EvaluationEnvironment lambdaEnv = new EvaluationEnvironment(lambda.Environment);    //для замыканий
 
-                        for (int i = 0; i < Arguments.Count; i++)
+                        if(lambda is SExprVariadicLambda variadicLambda)
                         {
-                            lambdaEnv[lambdaSymbolArguments[i].Value] = Arguments[i];
+                            var listSymbol = variadicLambda.ArgListSymbol;
                         }
+                        else
+                        {
+                            var lambdaSymbolArguments = lambda.LambdaArguments;
+
+                            if(lambdaSymbolArguments.Count != Arguments.Count)
+                                throw new EvaluationException("Wrong argument count passed");
+
+                            for (int i = 0; i < Arguments.Count; i++)
+                            {
+                                lambdaEnv[lambdaSymbolArguments[i].Value] = Arguments[i];
+                            }
+                        }
+
+                        
 
                         if(lambda.Body.Count == 0)
                             return new SExprObject(null);
