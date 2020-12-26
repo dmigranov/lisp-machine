@@ -15,7 +15,7 @@ namespace LispMachine
 
         public override string GetText()
         {
-            return $"Variadic lambda of argument {ArgListSymbol.Value}" ;
+            return $"Variadic lambda of list of arguments {ArgListSymbol.Value}" ;
         }
 
 

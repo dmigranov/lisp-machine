@@ -16,7 +16,7 @@ namespace LispMachine
 
         public SExprList(List<SExpr> list)
         {
-            Elements = list;
+            Elements = new List<SExpr>(list);
         }
 
         public void AddSExprToList(SExpr elem)

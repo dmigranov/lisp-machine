@@ -541,7 +541,8 @@ namespace LispMachine
                         return ret;
                     }
 
-                    var Arguments = args.Select(x => Evaluator.Evaluate(x, env)).ToList();                   
+                    var Arguments = args.Select(x => Evaluator.Evaluate(x, env)).ToList(); 
+                                      
                     var evaluatedHead = Evaluator.Evaluate(head, env);
             
                     if(evaluatedHead is SExprLambda lambda)
@@ -552,6 +553,7 @@ namespace LispMachine
                         if(lambda is SExprVariadicLambda variadicLambda)
                         {
                             var listSymbol = variadicLambda.ArgListSymbol;
+                            lambdaEnv[listSymbol.Value] = new SExprList(Arguments);
                         }
                         else
                         {
@@ -565,8 +567,6 @@ namespace LispMachine
                                 lambdaEnv[lambdaSymbolArguments[i].Value] = Arguments[i];
                             }
                         }
-
-                        
 
                         if(lambda.Body.Count == 0)
                             return new SExprObject(null);
