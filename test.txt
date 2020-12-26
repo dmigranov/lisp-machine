@@ -19,8 +19,8 @@
 
                 (let (y 1) (define z (+ y x)))
 
-                (define apply (lambda (fn x y) (fn x y)))
-                (apply * 5 (apply * 2 2))
+                (define apply-2 (lambda (fn x y) (fn x y)))
+                (apply-2 * 5 (apply * 2 2))
                 (define arithm (lambda (x) (if (> x 0) (+ x (arithm (- x 1))) 0)))
 
                 (define arithm-tail 

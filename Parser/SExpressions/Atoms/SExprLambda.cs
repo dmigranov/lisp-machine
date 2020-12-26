@@ -16,9 +16,6 @@ namespace LispMachine
             LambdaArguments = lambdaArgs;
             Body = body;
             Environment = env;
-            /*Console.WriteLine("Lambda body:");
-            foreach (var elem in Body)
-                elem.PrintSExpr();*/
         }
 
         public override string GetText()

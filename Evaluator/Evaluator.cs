@@ -227,6 +227,15 @@ namespace LispMachine
                                 return new SExprLambda(symbolArguments, body, env);
 
                             }
+                            else if (args[0] is SExprSymbol symbolForList)
+                            {
+                                //подается на вход произваольное число аргументов, и все они помещаются в список
+                                args.RemoveAt(0);
+                                var body = args;
+
+                                return new SExprLambda(symbolForList, body, env);
+                            }
+
                             else
                                 throw new EvaluationException("Lambda definition should have a list of symbol parameters");
                         }
