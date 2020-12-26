@@ -108,6 +108,51 @@ namespace LispMachine
             return list[1];
         }
 
+        public List<object> Rest(List<object> list)
+        {
+            if(list.Count == 0)
+                return list;
+            var temp = new List<object>(list);
+            temp.RemoveAt(0);
+            return temp;
+        }
+
+        public static object Apply(SExprLambda lambda, List<object> list)
+        {
+            EvaluationEnvironment lambdaEnv = new EvaluationEnvironment(lambda.Environment);    //для замыканий
+
+            var Arguments = list.Select(x => Evaluator.CreateSExprFromObject(x)).ToList();
+
+            if(lambda is SExprVariadicLambda variadicLambda)
+            {
+                var listSymbol = variadicLambda.ArgListSymbol;
+                lambdaEnv[listSymbol.Value] = new SExprList(Arguments);
+            }
+            else
+            {
+                var lambdaSymbolArguments = lambda.LambdaArguments;
+
+                if(lambdaSymbolArguments.Count != Arguments.Count)
+                    throw new EvaluationException($"Wrong argument count passed, should be {lambdaSymbolArguments.Count} instead of {Arguments.Count} ");
+
+                for (int i = 0; i < Arguments.Count; i++)
+                {
+                    lambdaEnv[lambdaSymbolArguments[i].Value] = Arguments[i];
+                }
+            }
+
+            if(lambda.Body.Count == 0)
+                return new SExprObject(null);
+
+            SExpr ret = null;
+            for (int i = 0; i < lambda.Body.Count; i++)
+            {
+                var bodyExpr = lambda.Body[i];
+                ret = Evaluator.Evaluate(bodyExpr, lambdaEnv);
+            }
+
+            return ret;
+        }
 
 
 

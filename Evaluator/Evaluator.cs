@@ -513,8 +513,8 @@ namespace LispMachine
                             foreach(var arg in args)
                             {
                                 var evaluatedArg = Evaluate(arg, env);
-                                if(evaluatedArg is SExprLambda)
-                                    throw new EvaluationException("Wrong parameter in native call, lambdas can't be passed");
+                                /*if(evaluatedArg is SExprLambda)
+                                    throw new EvaluationException("Wrong parameter in native call, lambdas can't be passed");*/
                                 arguments.Add(CreateObjectFromSExpr(evaluatedArg));
                             } 
 
@@ -560,7 +560,7 @@ namespace LispMachine
                             var lambdaSymbolArguments = lambda.LambdaArguments;
 
                             if(lambdaSymbolArguments.Count != Arguments.Count)
-                                throw new EvaluationException("Wrong argument count passed");
+                                throw new EvaluationException($"Wrong argument count passed, should be {lambdaSymbolArguments.Count} instead of {Arguments.Count} ");
 
                             for (int i = 0; i < Arguments.Count; i++)
                             {
@@ -591,7 +591,7 @@ namespace LispMachine
             return null; //unreachable
         }
 
-        private static SExpr CreateSExprFromObject(object obj)
+        public static SExpr CreateSExprFromObject(object obj)
         {
             if (!(obj is string) && obj is IEnumerable enumerable)
             {
@@ -612,6 +612,8 @@ namespace LispMachine
             if (expr is SExprAbstractValueAtom value)
                 return value.GetCommonValue();
                 //дополнительно можно лоцировать встроенные типы типа int и приводить
+            if(expr is SExprLambda lambda)
+                return lambda;
             throw new EvaluationException("Wrong argument in native call");        
         }
 

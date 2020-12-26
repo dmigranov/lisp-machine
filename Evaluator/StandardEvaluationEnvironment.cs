@@ -38,8 +38,12 @@ namespace LispMachine
             (define conj (lambda (seq x) (LispMachine.StandardLibrary\Conj seq x)))
             (define first (lambda (seq) (LispMachine.StandardLibrary\First seq)))
             (define second (lambda (seq) (LispMachine.StandardLibrary\Second seq)))
+            (define rest (lambda (seq) (LispMachine.StandardLibrary\Rest seq)))
+            (define list (lambda args args))
+            (define apply (lambda (fn seq) (LispMachine.StandardLibrary\Apply fn seq)))
 
-            
+
+
             (defmacro if (x y z) (quote (cond x y true z)))
 
             ";
