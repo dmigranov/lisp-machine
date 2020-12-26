@@ -81,3 +81,5 @@
 (define arg-count (lambda args (count args)))
 
 (list x x (+ x 1))
+
+(apply ++ (list 1 2 3 4 5))
