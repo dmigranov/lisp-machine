@@ -81,5 +81,3 @@
 (define arg-count (lambda args (count args)))
 
 (list x x (+ x 1))
-
-(define apply (lambda (fn arg-list) (let (l (cons fn arg-list)) l)))
