@@ -9,7 +9,15 @@ namespace LispMachine
         private string predefined = @"
 
             (define + (lambda (x y) (LispMachine.StandardLibrary\Plus x y)))
-
+            (define ++ (lambda args (let (++inner (lambda (arglist)
+                (
+                    if
+                    (> (count arglist) 0)
+                    (+ (first arglist) (++inner (rest arglist)))
+                    0
+                )))
+                (++inner args)
+            )))
 
             (define - (lambda (x y) (LispMachine.StandardLibrary\Minus x y)))
 

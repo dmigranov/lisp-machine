@@ -108,7 +108,7 @@ namespace LispMachine
             return list[1];
         }
 
-        public List<object> Rest(List<object> list)
+        public static List<object> Rest(List<object> list)
         {
             if(list.Count == 0)
                 return list;
