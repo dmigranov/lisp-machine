@@ -9,6 +9,9 @@ using System.Runtime.CompilerServices;
 
 namespace LispMachine
 {
+    /// <summary>
+    /// Evaluator if S-Expressions.
+    /// </summary>
     public class Evaluator
     {
         private static StandardEvaluationEnvironment GlobalEnv = new StandardEvaluationEnvironment();
@@ -17,6 +20,10 @@ namespace LispMachine
 
         private static MacroExpander Expander = new MacroExpander();
 
+        /// <summary>
+        /// Evaluate SExpr
+        /// </summary>
+        /// <returns>Evaluated SExpr</returns>
         static public SExpr Evaluate(SExpr expr)
         {
             if(!GlobalEnvInitialized)

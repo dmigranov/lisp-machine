@@ -5,7 +5,9 @@ using System.Text;
 namespace LispMachine
 {
 
-    // Lexer === Tokenizer
+    /// <summary>
+    /// The lexer (tokenizer) class.
+    /// </summary>
     public class Lexer
     {
         private TextReader reader;
@@ -22,6 +24,10 @@ namespace LispMachine
             currentCharAsInt = temp;
         }
 
+        /// <summary>
+        /// Get next lexeme from reader
+        /// </summary>
+        /// <returns>Lexeme - next SExpression</returns>
         public Lexeme GetLexeme()
         {
             while (Char.IsWhiteSpace((char)currentCharAsInt))   //пропускаем все пробелы, табуляции, переводы строк

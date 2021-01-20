@@ -4,6 +4,10 @@ using System.Linq;
 
 namespace LispMachine
 {
+    /// <summary>
+    /// Standard library. Some simple methods.
+    /// </summary>
+
     public class StandardLibrary
     {
         public static double Plus(double x, double y)

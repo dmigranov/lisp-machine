@@ -3,6 +3,9 @@ using System.IO;
 
 namespace LispMachine
 {
+    /// <summary>
+    /// The S-Expression parser class.
+    /// </summary>
     public class SExprParser
     {
         //todo: построения синтаксического дерева

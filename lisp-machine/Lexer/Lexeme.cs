@@ -3,6 +3,10 @@ using System.Collections.Generic;
 
 namespace LispMachine
 {
+    /// <summary>
+    /// The lexeme (token) class.
+    /// Contains lexeme type and, optionally, text
+    /// </summary>
     public class Lexeme
     {
         public LexemeType Type { get; }
