@@ -19,9 +19,9 @@ namespace lisp_tests
             sexpr = parser.GetSExpression();
             Assert.IsNull(sexpr);
 
-            parser = new SExprParser(new StringReader(" 4 5 "));
+            parser = new SExprParser(new StringReader(" \"fdf\" 5 "));
             sexpr = parser.GetSExpression();
-            Assert.IsTrue(sexpr is SExprAbstractValueAtom);
+            Assert.IsTrue(sexpr is SExprString);
 
             sexpr = parser.GetSExpression();
             Assert.IsTrue(sexpr is SExprInt);
@@ -29,6 +29,21 @@ namespace lisp_tests
             if(sexpr is SExprInt atom)
                 Assert.AreEqual(5, atom.Value);
         }
+
+        [TestMethod]
+        public void ListTest()
+        {
+            var reader = new StringReader("( 5 )");
+            var parser = new SExprParser(reader);
+
+            var sexpr = parser.GetSExpression();
+            Assert.IsTrue(sexpr is SExprList);
+
+            sexpr = parser.GetSExpression();
+            Assert.IsNull(sexpr);
+
+        }
+
     }
 
 }

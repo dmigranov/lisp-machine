@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace LispMachine
 {
-    class SExprList : SExpr
+    public class SExprList : SExpr
     {
         private List<SExpr> Elements { get; }
 
