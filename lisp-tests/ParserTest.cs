@@ -4,11 +4,9 @@ using LispMachine;
 namespace lisp_tests
 {
     [TestClass]
-    public class UnitTest1
+    public class ParserTest
     {
-        [TestMethod]
-        public void TestMethod1()
-        {
-        }
+
     }
+
 }
