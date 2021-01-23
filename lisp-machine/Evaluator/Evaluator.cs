@@ -191,7 +191,20 @@ namespace LispMachine
                                 //сюда мы пришли с некоторым окружением, возможно неглобальным. Но мы ничего с ним не делаем, мы его теряем
                                 //var body = args;
                                 //Expander[defmacroSymbol.Value] = new Macro(symbolArguments, body.Select(x => Evaluate(x, env)).ToList());
-                                Expander[defmacroSymbol.Value] = new Macro(symbolArguments, Evaluate(args[0], env));
+                                
+                                //added for symbol (example list) - start                          
+                                var macroEnv = new EvaluationEnvironment(env);
+                                foreach (var symbolArg in symbolArguments)
+                                {
+                                    var envList = new SExprList();
+                                    envList.AddSExprToList(new SExprSymbol("quote"));
+                                    envList.AddSExprToList(symbolArg);
+                                    macroEnv[symbolArg.Value] = envList;
+                                }
+                                //added for symbol (example list) - end
+
+
+                                Expander[defmacroSymbol.Value] = new Macro(symbolArguments, Evaluate(args[0], macroEnv));
                                 return new SExprString($"Macro {defmacroSymbol.Value} evaluated");
                             }
                             else
