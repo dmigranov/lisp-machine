@@ -83,7 +83,7 @@ namespace LispMachine
 
                     }
 
-                    for (int i = 1; i < list.GetElements().Count; i++)
+                    for (int i = 0; i < list.GetElements().Count; i++)
                     {
                         var bodyExpr = list[i];
                         var expanded = ExpandExprRec(bodyExpr, argNames, macroArgs);

@@ -83,3 +83,6 @@
 (list x x (+ x 1))
 
 (apply ++ (list 1 2 3 4 5))
+
+
+(defmacro test (n) (list (quote +) n 100))

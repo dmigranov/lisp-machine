@@ -196,10 +196,7 @@ namespace LispMachine
                                 var macroEnv = new EvaluationEnvironment(env);
                                 foreach (var symbolArg in symbolArguments)
                                 {
-                                    var envList = new SExprList();
-                                    envList.AddSExprToList(new SExprSymbol("quote"));
-                                    envList.AddSExprToList(symbolArg);
-                                    macroEnv[symbolArg.Value] = envList;
+                                    macroEnv[symbolArg.Value] = symbolArg;
                                 }
                                 //added for symbol (example list) - end
 
@@ -218,6 +215,7 @@ namespace LispMachine
                             if(args.Count != 1)
                                 throw new EvaluationException($"Wrong parameter count in macroexpand, should be 1 instead of {args.Count}");
                             var form = args[0];
+
                             var evaluatedForm = Evaluate(form, env);
             
 
